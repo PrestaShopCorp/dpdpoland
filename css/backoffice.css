@@ -1,0 +1,143 @@
+.process-icon-help
+{
+    background-image: url("../img/toolbar/help.png") !important;
+}
+
+.process-icon-settings
+{
+    background-image: url("../img/toolbar/setting_tools.png") !important;
+}
+
+.process-icon-csv
+{
+	background-image: url("../img/toolbar/csv_tools.png") !important;
+}
+
+.process-icon-arrange_pickup
+{
+	background-image: url("../img/toolbar/arrange_pickup.png");
+}
+
+.process-icon-packages_list
+{
+	background-image: url("../img/toolbar/packages_list.png") !important;
+}
+
+.process-icon-manifest_list
+{
+	background-image: url("../img/toolbar/manifest_list.png") !important;
+}
+
+.process-icon-parcel_history_list
+{
+	background-image: url("../img/toolbar/parcels_history.png") !important;
+}
+
+.process-icon-country_list
+{
+	background-image: url("../img/toolbar/shipment_countries.png") !important;
+}
+
+/* hides prestashop help button */
+li.help-context-AdminModules, li.help-context-adminmodules
+{
+    display: none !important;
+}
+
+#ajax_running {
+    background-color: #FFF1A8;
+    border: 1px solid #FFD96F;
+    border-radius: 0 0 3px 3px;
+    color: #000000;
+    display: none;
+    font-size: 14px;
+    font-weight: bold;
+    left: 40%;
+    padding: 5px 20px;
+    position: fixed;
+    top: 0;
+    width: 300px;
+    z-index: 10000;
+}
+
+fieldset .optionsDescription, fieldset p.description, .info {
+    background: url("../img/icon-info.png") no-repeat scroll 6px 6px #BDE5F8;
+    border: 1px solid #00529B;
+    border-radius: 3px 3px 3px 3px;
+    color: #00529B;
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    font-size: 12px;
+    margin-bottom: 15px;
+    min-height: 32px;
+    padding: 10px 5px 5px 40px;
+}
+
+#custom_web_service_container
+{
+	display: none;
+}
+
+p.connection_message
+{
+	display: none;
+}
+
+.csv_information_block
+{
+	margin-left: 100px;
+}
+
+img.pagination_image
+{
+	margin-bottom: 4px;
+}
+
+table#packages_list tr.nodrag.nodrop a,
+table#packages_list tr.nodrag.nodrop a:hover,
+table#manifests_list tr.nodrag.nodrop a,
+table#manifests_list tr.nodrag.nodrop a:hover,
+table#parcel_history_list tr.nodrag.nodrop a,
+table#parcel_history_list tr.nodrag.nodrop a:hover,
+table#country_list tr.nodrag.nodrop a,
+table#country_list tr.nodrag.nodrop a:hover
+{
+	text-decoration: none;
+}
+
+.payment_modules_container
+{
+	border: 1px solid #CCCCCC;
+	width: auto;
+	float: left;
+	padding: 10px;
+}
+
+.payment_modules_container label
+{
+	width: auto !important;
+	float: none;
+}
+
+form table#country_list,
+form table#manifests_list
+{
+	width: 100%;
+}
+
+.separation {
+    background-color: #CCCCCC;
+    border-bottom: 1px solid #FFFFFF;
+    height: 1px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+#help_container a
+{
+	text-decoration: underline;
+}
+
+#help_container a:hover
+{
+	text-decoration: none;
+}

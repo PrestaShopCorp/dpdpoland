@@ -1,0 +1,186 @@
+#dpdpoland
+{
+	position: relative;
+	width: 400px;
+	z-index: 100;
+}
+
+#dpdpoland legend a
+{
+	padding-left:5px;
+}
+
+#dpdpoland #dpdpoland_shipment_creation
+{
+	width: 880px;
+	display:none;
+}
+
+#dpdpoland_shipment_creation #add_parcel
+{
+	float: right;
+}
+
+#dpdpoland_shipment_creation #save_and_print_labels,
+	#dpdpoland_shipment_creation #print_labels
+{
+	float:right;
+	margin-top: 15px;
+}
+
+#dpdpoland_shipment_creation .infoContainer
+{
+	float:left;
+	margin-right:10px; 
+}
+
+#dpdpoland_sender_address_container,
+	#dpdpoland_recipient_address_container,
+		#dpdpoland_cod_amount_container,
+			#dpdpoland_additional_info_container,
+				#dpdpoland_shipment_references_container,
+					#dpdpoland_declared_value_amount_container {
+	width: 420px;
+}
+
+#dpdpoland_sender_address_container
+{
+	float: left;
+	padding-right: 10px;
+	margin-right: 20px;
+	border-right: 1px solid #CCCCCC;
+}
+
+#dpdpoland_recipient_address_container
+{
+	float: right;
+}
+
+#dpdpoland_sender_address_container h3,
+	#dpdpoland_recipient_address_container h3{
+	margin: 0 0 5px 0;
+}
+
+#dpdpoland_sender_address_container label,
+	#dpdpoland_recipient_address_container label,
+		#dpdpoland_cod_amount_container label,
+			#dpdpoland_declared_value_amount_container label,
+				#dpdpoland_additional_info_container label,
+					#dpdpoland_shipment_references_container label {
+	width: 155px;
+}
+
+#dpdpoland_sender_address_container .margin-form,
+	#dpdpoland_recipient_address_container .margin-form
+{
+	font-size: 1em;
+	padding: 3px 0 3px 170px;
+	height: 15px;
+	width: 260px;
+}
+
+#dpdpoland_cod_amount_container,
+	#dpdpoland_additional_info_container {
+	float: left;
+}
+
+#dpdpoland_declared_value_amount_container,
+	#dpdpoland_shipment_references_container {
+	float: right;
+}
+
+#dpdpoland_cod_amount_container .margin-form,
+	#dpdpoland_declared_value_amount_container .margin-form,
+		#dpdpoland_additional_info_container .margin-form,
+			#dpdpoland_shipment_references_container .margin-form {
+    padding: 3px 0 3px 170px;
+	width: 260px;
+}
+
+#dpdpoland_cod_amount_container span,
+	#dpdpoland_declared_value_amount_container span {
+	font-weight: bold;
+}
+
+#dpdpoland_cod_amount_container p,
+	#dpdpoland_declared_value_amount_container p,
+		#dpdpoland_additional_info_container p,
+			#dpdpoland_shipment_references_container p {
+	margin: 0;
+}
+
+#dpdpoland #dpdpoland_shipment_creation .dpdpoland_address
+{
+	padding-top: 5px;
+	height: 168px;
+}
+
+#dpdpoland_recipient_address_selection_container
+{
+	margin-top: 10px;
+	margin-bottom: 22px;
+}
+
+#dpdpoland_recipient_address_selection
+{
+	width: 250px;
+}
+
+#dpdpoland_shipment_parcels .delete_parcel,
+	#dpdpoland_shipment_products .delete_product {
+	cursor: pointer;
+}
+
+#dpdpoland_add_product_container p
+{
+	font-size: 0.85em;
+	margin-top: 3px;
+}
+
+#dpdpoland_add_product
+{
+	margin-left: 8px;
+}
+
+div.ac_results
+{
+	z-index: 200;
+}
+
+div.ac_results ul
+{
+	margin: 0;
+}
+
+.separation {
+    background-color: #CCCCCC;
+    border-bottom: 1px solid #FFFFFF;
+    height: 1px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+select.client_number_select
+{
+	width: 120px;
+}
+
+fieldset.extended
+{
+	width: 880px !important;
+}
+
+div#printout_format_container
+{
+	display: block;
+	float: right;
+	margin-top: 15px;
+	margin-right: 15px;
+}
+
+label.printout_format_label
+{
+	float: right;
+	width: auto;
+	margin-top: 15px;
+}
