@@ -59,7 +59,7 @@ class DpdPoland extends Module
 	{
 		$this->name = 'dpdpoland';
 		$this->tab = 'shipping_logistics';
-		$this->version = '0.5';
+		$this->version = '0.6';
 		$this->author = 'DPD Polska Sp. z o.o.';
 
 		parent::__construct();
