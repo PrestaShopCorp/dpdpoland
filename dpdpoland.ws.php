@@ -21,7 +21,8 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-require_once dirname(__FILE__).'/nusoap/nusoap.php';
+if (!class_exists('nusoap_base'))
+	require_once(_DPDPOLAND_LIBRARIES_DIR_.'nusoap/nusoap.php');
 require_once dirname(__FILE__).'/dpdpoland.lang.php';
 
 class DpdPolandWS extends DpdPolandController

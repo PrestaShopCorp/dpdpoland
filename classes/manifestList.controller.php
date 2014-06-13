@@ -70,7 +70,7 @@ class DpdPolandManifestListController extends DpdPolandController
 					return $this->module_instance->outputHTML($this->module_instance->displayError(reset(DpdPolandManifest::$errors)));
 			}
 			
-			include_once(_PS_MODULE_DIR_.'dpdpoland/PDFMerger/PDFMerger.php');
+			include_once(_PS_MODULE_DIR_.'dpdpoland/libraries/PDFMerger/PDFMerger.php');
 			$pdf = new PDFMerger;
 			
 			foreach ($id_manifest as $id)
@@ -101,7 +101,7 @@ class DpdPolandManifestListController extends DpdPolandController
 			fwrite($fp, $pdf_file_contents);
 			fclose($fp);
 			
-			include_once(_PS_MODULE_DIR_.'dpdpoland/PDFMerger/PDFMerger.php');
+			include_once(_PS_MODULE_DIR_.'dpdpoland/libraries/PDFMerger/PDFMerger.php');
 			$pdf = new PDFMerger;
 			$pdf->addPDF(_PS_MODULE_DIR_.'dpdpoland/manifest.pdf', 'all');
 			$pdf->addPDF(_PS_MODULE_DIR_.'dpdpoland/manifest.pdf', 'all');

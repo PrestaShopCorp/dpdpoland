@@ -143,7 +143,7 @@ class DpdPolandPackageListController extends DpdPolandController
 				fclose($domestic_pdf);
 			}
 
-			include_once(_PS_MODULE_DIR_.'dpdpoland/PDFMerger/PDFMerger.php');
+			include_once(_PS_MODULE_DIR_.'dpdpoland/libraries/PDFMerger/PDFMerger.php');
 			$pdf = new PDFMerger;
 
 			if ($international_packages && $domestic_packages)

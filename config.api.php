@@ -26,6 +26,9 @@ if (!defined('_PS_VERSION_'))
 if (!defined('_DPDPOLAND_MODULE_URI_'))
 	define('_DPDPOLAND_MODULE_URI_', _MODULE_DIR_.'dpdpoland/');
 
+if (!defined('_DPDPOLAND_LIBRARIES_DIR_'))
+	define('_DPDPOLAND_LIBRARIES_DIR_', _PS_MODULE_DIR_.'dpdpoland/libraries/');
+
 if (!defined('_DPDPOLAND_CSS_URI_'))
 	define('_DPDPOLAND_CSS_URI_', _DPDPOLAND_MODULE_URI_.'css/');
 
