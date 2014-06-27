@@ -25,23 +25,24 @@ require_once dirname(__FILE__).'/dpdpoland.lang.php';
 
 class DpdPolandWS extends DpdPolandController
 {
-	private		$client; // instance of SoapClient class
+	/* instance of SoapClient class */
+	private $client;
 
-	private 	$params = array();
+	private $params = array();
 
-	private 	$lastCalledFunctionPayload;
+	private $lastCalledFunctionPayload;
 
-	private 	$lastCalledFunctionName;
+	private $lastCalledFunctionName;
 
-	private 	$lastCalledFunctionArgs = array();
+	private $lastCalledFunctionArgs = array();
 
 	const 	FILENAME 				= 'dpdpoland.ws';
-	const 	DEBUG_FILENAME			= 'DPDPOLAND_DEBUG_FILENAME'; // @TODO prepend config_
+	const 	DEBUG_FILENAME			= 'DPDPOLAND_DEBUG_FILENAME';
 	const 	DEBUG_POPUP				= false;
-	const 	DEBUG_FILENAME_LENGTH 	= 16; // @TODO prepend config_
+	const 	DEBUG_FILENAME_LENGTH 	= 16;
 
-    public function __construct($wsdl = null)
-    {
+	public function __construct()
+	{
 		$settings = new DpdPolandConfiguration;
 
 		$this->params = array(
@@ -52,19 +53,18 @@ class DpdPolandWS extends DpdPolandController
 			)
 		);
 
-        try
+		try
 		{
-			$timeout = 0; // @TODO value has to be taken from settings
-			$this->client = new SoapClient($settings->ws_url, array('connection_timeout' => (int)$timeout, 'trace' => true));
+			$this->client = new SoapClient($settings->ws_url, array('trace' => true));
 			return $this->client;
-        }
-        catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
-            self::$errors[] = $e->getMessage();
-        }
+			self::$errors[] = $e->getMessage();
+		}
 
 		return false;
-    }
+	}
 
 	public function __call($function_name, $arguments)
 	{
@@ -105,7 +105,7 @@ class DpdPolandWS extends DpdPolandController
 	/* we want to have response as array */
 	private function objectToArray($response)
 	{
-		if(!is_object($response) && !is_array($response))
+		if (!is_object($response) && !is_array($response))
 			return $response;
 
 		return array_map(array($this, 'objectToArray'), (array)$response);
@@ -147,12 +147,12 @@ class DpdPolandWS extends DpdPolandController
 		}
 
 		if ($this->lastCalledFunctionPayload = (string)$this->client->__getLastRequest())
-			$debug_html .= '<h2>Request</h2><pre>' . $this->displayPayload() . '</pre>';
+			$debug_html .= '<h2>Request</h2><pre>'.$this->displayPayload().'</pre>';
 
 		if ($result)
 		{
 			if ($err = $this->getError())
-				$debug_html .= '<h2>Error</h2><pre>' . $err . '</pre>';
+				$debug_html .= '<h2>Error</h2><pre>'.$err.'</pre>';
 			else
 			{
 				$debug_html .= '<h2>Response</h2><pre>';
@@ -161,9 +161,7 @@ class DpdPolandWS extends DpdPolandController
 			}
 		}
 		else
-		{
-			$debug_html .= '<h2>Errors</h2><pre>' . print_r(self::$errors, true) . '</pre>';
-		}
+			$debug_html .= '<h2>Errors</h2><pre>'.print_r(self::$errors, true).'</pre>';
 
 		if ($debug_html)
 		{
@@ -198,22 +196,25 @@ class DpdPolandWS extends DpdPolandController
 		$result     = '';
 		$pad        = 0;
 		$matches    = array();
-		while ($token !== false) :
-			if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) :
-			  $indent=0;
-			elseif (preg_match('/^<\/\w/', $token, $matches)) :
-			  $pad-=4;
-			  $indent = 0;
-			elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
-			  $indent = 4;
-			else :
-			  $indent = 0;
-			endif;
-			$line    = str_pad($token, Tools::strlen($token)+$pad, ' ', STR_PAD_LEFT);
-			$result .= $line . "\n";
+		while ($token !== false)
+		{
+			if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches))
+				$indent = 0;
+			elseif (preg_match('/^<\/\w/', $token, $matches))
+			{
+				$pad -= 4;
+				$indent = 0;
+			}
+			elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches))
+				$indent = 4;
+			else
+				$indent = 0;
+
+			$line    = str_pad($token, Tools::strlen($token) + $pad, ' ', STR_PAD_LEFT);
+			$result .= $line."\n";
 			$token   = strtok("\n");
 			$pad    += $indent;
-		endwhile;
+		}
 
 		return htmlentities($result);
 	}

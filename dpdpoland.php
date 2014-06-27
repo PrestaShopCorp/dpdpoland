@@ -227,7 +227,7 @@ class DpdPoland extends Module
 			if (!Db::getInstance()->execute($sql)) return false;
 		}
 
-		if (!$this->addMenu())
+		if (!$this->installTab())
 			return false;
 
 		if (!parent::install() || !$this->registerHook('adminOrder'))
@@ -254,7 +254,7 @@ class DpdPoland extends Module
 
 	public function uninstall()
 	{
-		if (!$this->removeMenu())
+		if (!$this->uninstallTab())
 			return false;
 
 		require_once(_DPDPOLAND_CLASSES_DIR_.'service.php');
@@ -287,7 +287,7 @@ class DpdPoland extends Module
 		');
 	}
 
-	private function addMenu()
+	private function installTab()
 	{
 		$max_position = DB::getInstance()->getValue('
 			SELECT MAX(`position`)
@@ -415,6 +415,27 @@ class DpdPoland extends Module
 		return true;
 	}
 
+	private function uninstallTab()
+	{
+		$tabs = DB::getInstance()->executeS('
+			SELECT `id_tab`
+			FROM `'._DB_PREFIX_.'tab`
+			WHERE `module` = "'.pSQL($this->name).'"
+		');
+
+		if (!$tabs)
+			return true;
+
+		foreach ($tabs as $tab)
+		{
+			$tab_obj = new Tab($tab['id_tab']);
+			if (!$tab_obj->delete())
+				return false;
+		}
+
+		return true;
+	}
+
 	private function setMenuPermissionsForAdministrators($profiles, $id_tab)
 	{
 		foreach ($profiles as $profile)
@@ -436,27 +457,6 @@ class DpdPoland extends Module
 		return true;
 	}
 
-	private function removeMenu()
-	{
-		$tabs = DB::getInstance()->executeS('
-			SELECT `id_tab`
-			FROM `'._DB_PREFIX_.'tab`
-			WHERE `module` = "'.pSQL($this->name).'"
-		');
-
-		if (!$tabs)
-			return true;
-
-		foreach ($tabs as $tab)
-		{
-			$tab_obj = new Tab($tab['id_tab']);
-			if (!$tab_obj->delete())
-				return false;
-		}
-
-		return true;
-	}
-
 	private function soapClientExists()
 	{
 		return (bool)class_exists('SoapClient');
@@ -468,19 +468,7 @@ class DpdPoland extends Module
 			return $this->adminDisplayWarning($this->l('SoapClient class is missing'));
 
 		if (_DPDPOLAND_DEBUG_MODE_)
-		{
-			$warning_message = $this->l('Module is in DEBUG mode');
-			if (Configuration::get(DpdPolandWS::DEBUG_FILENAME))
-				if (version_compare(_PS_VERSION_, '1.5', '<'))
-					$warning_message .= $this->l(', file:').' '._DPDPOLAND_MODULE_URI_.Configuration::get(DpdPolandWS::DEBUG_FILENAME);
-				else
-					$warning_message .= '<br />
-					<a target="_blank" href="'._DPDPOLAND_MODULE_URI_.Configuration::get(DpdPolandWS::DEBUG_FILENAME).'">
-						'.$this->l('View debug file').'
-					</a>';
-			version_compare(_PS_VERSION_, '1.5', '<') ? $this->html .= $this->displayWarnings(array($warning_message)):
-				$this->adminDisplayWarning($warning_message);
-		}
+			$this->displayDebugInfo();
 
 		$this->displayFlashMessagesIfIsset();
 
@@ -660,6 +648,27 @@ class DpdPoland extends Module
 		}
 
 		return $this->html;
+	}
+
+	private function displayDebugInfo()
+	{
+		$warning_message = $this->l('Module is in DEBUG mode');
+
+		if (Configuration::get(DpdPolandWS::DEBUG_FILENAME))
+		{
+			if (version_compare(_PS_VERSION_, '1.5', '<'))
+				$warning_message .= $this->l(', file:').' '._DPDPOLAND_MODULE_URI_.Configuration::get(DpdPolandWS::DEBUG_FILENAME);
+			else
+				$warning_message .= '<br />
+				<a target="_blank" href="'._DPDPOLAND_MODULE_URI_.Configuration::get(DpdPolandWS::DEBUG_FILENAME).'">
+					'.$this->l('View debug file').'
+				</a>';
+		}
+
+		if (version_compare(_PS_VERSION_, '1.5', '<'))
+			$this->html .= $this->displayWarnings(array($warning_message));
+		else
+			$this->adminDisplayWarning($warning_message);
 	}
 
 	private function displayHelp()
@@ -1524,11 +1533,11 @@ class DpdPoland extends Module
 			if (!$payment_method_compatible)
 			{
 				$error_message = $this->l('Your payment method and Shipping method is not compatible.').'<br />';
-			$error_message .= ' '.$this->l('If delivery address is not Poland, then COD payment method is not supported.').'<br />';
-			$error_message .= ' '.$this->l('If delivery address is not Poland, then COD payment method is not supported.').'<br />';
-			$error_message .= ' '.$this->l('If delivery address is Poland and payment method is COD please use shipping method DPD Domestic + COD.').
-				'<br />';
-			$error_message .= ' '.$this->l('If delivery address is Poland and no COD payment is used please select DPD Domestic shipping method.');
+				$error_message .= ' '.$this->l('If delivery address is not Poland, then COD payment method is not supported.').'<br />';
+				$error_message .= ' '.$this->l('If delivery address is not Poland, then COD payment method is not supported.').'<br />';
+				$error_message .= ' '.$this->l('If delivery address is Poland and payment method is COD please use shipping method DPD Domestic + COD.').
+					'<br />';
+				$error_message .= ' '.$this->l('If delivery address is Poland and no COD payment is used please select DPD Domestic shipping method.');
 				$this->context->smarty->assign('compatibility_warning_message', $error_message);
 			}
 

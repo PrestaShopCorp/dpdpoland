@@ -187,7 +187,9 @@ class DpdPolandPackage extends DpdPolandWS
 					require_once(_PS_MODULE_DIR_.'dpdpoland/dpdpoland.lang.php');
 
 					$language = new DpdPolandLanguage();
-	$error_message = $language->getTranslation($result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']);
+					$error_message = $language->getTranslation(
+						$result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']
+					);
 
 					if ($error_message && Tools::strtolower($this->context->language->iso_code) != 'pl')
 						$errors = $error_message;
