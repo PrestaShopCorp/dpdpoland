@@ -28,12 +28,12 @@ if (!Tools::isSubmit('token') || (Tools::isSubmit('token')) && Tools::getValue('
 if (Tools::isSubmit('printLabels'))
 {
 	$cookie = new Cookie(_DPDPOLAND_COOKIE_);
-	if (isset($cookie->DPDPOLAND_PACKAGE_ID))
+	if (isset($cookie->dpdpoland_package_id))
 	{
-		$package_id = $cookie->DPDPOLAND_PACKAGE_ID;
-		$printout_format = $cookie->DPDPOLAND_PRINTOUT_FORMAT;
-		unset($cookie->DPDPOLAND_PACKAGE_ID);
-		unset($cookie->DPDPOLAND_PRINTOUT_FORMAT);
+		$package_id = $cookie->dpdpoland_package_id;
+		$printout_format = $cookie->dpdpoland_printout_format;
+		unset($cookie->dpdpoland_package_id);
+		unset($cookie->dpdpoland_printout_format);
 		$cookie->write();
 		$package = new DpdPolandPackage((int)$package_id);
 		$pdf_file_contents = $package->generateLabels('PDF', $printout_format);
@@ -45,17 +45,17 @@ if (Tools::isSubmit('printLabels'))
 		exit;
 	}
 
-    $package = new DpdPolandPackage((int)Tools::getValue('id_package'));
+	$package = new DpdPolandPackage((int)Tools::getValue('id_package'));
 
 	if ($pdf_file_contents = $package->generateLabels())
 	{
-		$cookie->DPDPOLAND_PACKAGE_ID = (int)Tools::getValue('id_package');
+		$cookie->dpdpoland_package_id = (int)Tools::getValue('id_package');
 
 		$printout_format = Tools::getValue('printout_format');
 		if (!in_array($printout_format, array(DpdPolandConfiguration::PRINTOUT_FORMAT_A4, DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL)))
 			$printout_format = DpdPolandConfiguration::PRINTOUT_FORMAT_A4;
 
-		$cookie->DPDPOLAND_PRINTOUT_FORMAT = $printout_format;
+		$cookie->dpdpoland_printout_format = $printout_format;
 		Tools::redirectAdmin(Tools::getValue('returnOnErrorTo').'&scrollToShipment');
 		exit;
 	}

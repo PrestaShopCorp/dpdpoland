@@ -25,6 +25,7 @@ class Manifestlist extends AdminTab
 {
 	public function __construct()
 	{
-		Tools::redirectAdmin('index.php?tab=AdminModules&token='.Tools::getAdminTokenLite('AdminModules').'&configure=dpdpoland&menu=manifest_list&tab_module=dpdpoland&module_name=dpdpoland');
+		Tools::redirectAdmin('index.php?tab=AdminModules&token='.Tools::getAdminTokenLite('AdminModules').
+			'&configure=dpdpoland&menu=manifest_list&tab_module=dpdpoland&module_name=dpdpoland');
 	}
 }

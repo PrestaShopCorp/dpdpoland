@@ -26,7 +26,7 @@ class DpdPolandService
 {
 	const IMG_DIR = 'DPD_services';
 	const IMG_EXTENTION = 'jpg';
-	
+
 	const CONTINENT_EUROPE = 1;
 	const CONTINENT_NORTH_AMERICA = 0;
 	const CONTINENT_ASIA = 0;
@@ -35,10 +35,10 @@ class DpdPolandService
 	const CONTINENT_SOUTH_AMERICA = 0;
 	const CONTINENT_EUROPE_EU = 1;
 	const CONTINENT_CENTRAL_AMERICA = 0;
-	
+
 	protected $module_instance;
 	protected $continents;
-	
+
 	public function __construct()
 	{
 		$this->module_instance = Module::getInstanceByName('dpdpoland');
@@ -53,7 +53,7 @@ class DpdPolandService
 			'8' => self::CONTINENT_CENTRAL_AMERICA,
 		);
 	}
-	
+
 	/**
 	 * Delete existing carrier
 	 *
@@ -64,7 +64,7 @@ class DpdPolandService
 	{
 		if (!$id_carrier)
 			return true;
-		
+
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 		{
 			$id_carrier = (int)DpdPolandCarrier::getIdCarrierByReference((int)$id_carrier);
@@ -72,17 +72,17 @@ class DpdPolandService
 		}
 		else
 			$carrier = Carrier::getCarrierByReference($id_carrier);
-		
+
 		if (!Validate::isLoadedObject($carrier))
 			return true;
-		
+
 		if ($carrier->deleted)
 			return true;
-		
+
 		$carrier->deleted = 1;
 		return (bool)$carrier->save();
 	}
-	
+
 	protected static function setGroups14($id_carrier, $groups)
 	{
 		foreach ($groups as $id_group)

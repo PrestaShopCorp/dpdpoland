@@ -20,32 +20,31 @@
 
 if (!defined('_PS_VERSION_'))
 	exit;
-	
+
 class DpdPolandParcel extends DpdPolandObjectModel
 {
 	public $id_parcel;
-	
+
 	public $id_package;
-	
+
 	public $waybill;
-	
+
 	public $content;
-	
+
 	public $weight;
-	
+
 	public $height;
-	
+
 	public $length;
-	
+
 	public $width;
-	
+
 	public $number; /* parcel number */
-	
+
 	public $date_add;
-	
+
 	public $date_upd;
-	
-	
+
 	public static $definition = array(
 		'table' => _DPDPOLAND_PARCEL_DB_,
 		'primary' => 'id_parcel',
@@ -65,7 +64,7 @@ class DpdPolandParcel extends DpdPolandObjectModel
 			'date_upd'		=>	array('type' => self::TYPE_DATE, 	'validate' => 'isDate')
 		)
 	);
-	
+
 	public static function getParcels($id_order, $id_package = null)
 	{
 		if ($id_package)
@@ -77,15 +76,15 @@ class DpdPolandParcel extends DpdPolandObjectModel
 			);
 			return $parcels;
 		}
-		
+
 		$products = DpdPolandParcelProduct::getShippedProducts($id_order);
-		
+
 		$parcels = array();
 		$content = '';
 		$weight = $height = $length = $width = 0;
-		
+
 		$products_count = count($products);
-		
+
 		if ($products_count == 1)
 		{
 			$product = reset($products);
@@ -97,28 +96,30 @@ class DpdPolandParcel extends DpdPolandObjectModel
 		foreach ($products as $product)
 		{
 			$content .= $product['id_product'].'_'.$product['id_product_attribute'];
+
 			if (--$products_count)
-				$content .=', ';
+				$content .= ', ';
+
 			$weight += DpdPoland::convertWeight($product['weight']);
 		}
-		
+
 		$parcels[] = array(
 			'number' => 1,
 			'content' => $content,
 			'weight' => $weight,
-			'height' => sprintf('%.6f',$height),
-			'length' => sprintf('%.6f',$length),
-			'width' => sprintf('%.6f',$width)
+			'height' => sprintf('%.6f', $height),
+			'length' => sprintf('%.6f', $length),
+			'width' => sprintf('%.6f', $width)
 		);
-		
+
 		return $parcels;
 	}
-	
+
 	public function getList($order_by, $order_way, $filter, $start, $pagination)
 	{
 		$id_shop = (int)Context::getContext()->shop->id;
 		$id_lang = (int)Context::getContext()->language->id;
-		
+
 		$list = DB::getInstance()->executeS('
 			SELECT
 				p.`id_order` 								AS `id_order`,
@@ -139,10 +140,10 @@ class DpdPolandParcel extends DpdPolandObjectModel
 			($order_by && $order_way ? ' ORDER BY '.pSQL($order_by).' '.pSQL($order_way) : '').
 			($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 		);
-		
+
 		if (!$list)
 			$list = array();
-		
+
 		return $list;
 	}
 }

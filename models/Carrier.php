@@ -24,20 +24,15 @@ if (!defined('_PS_VERSION_'))
 class DpdPolandCarrier extends DpdPolandObjectModel
 {
 	public $id_dpdpoland_carrier;
-	
+
 	public $id_carrier;
-	
+
 	public $id_reference;
-	
+
 	public $date_add;
-	
+
 	public $date_upd;
-	
-	public function __construct($id_dpdpoland_carrier = null)
-	{
-		parent::__construct($id_dpdpoland_carrier);
-	}
-	
+
 	public static $definition = array(
 		'table' => _DPDPOLAND_CARRIER_DB_,
 		'primary' => 'id_dpdpoland_carrier',
@@ -51,7 +46,7 @@ class DpdPolandCarrier extends DpdPolandObjectModel
 			'date_upd' 				=> 	array('type' => self::TYPE_DATE, 'validate' => 'isDate')
 		)
 	);
-	
+
 	public static function getReferenceByIdCarrier($id_carrier)
 	{
 		return DB::getInstance()->getValue('
@@ -60,7 +55,7 @@ class DpdPolandCarrier extends DpdPolandObjectModel
 			WHERE `id_carrier` = "'.(int)$id_carrier.'"
 		');
 	}
-	
+
 	public static function getIdCarrierByReference($id_reference)
 	{
 		return DB::getInstance()->getValue('

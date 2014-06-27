@@ -20,25 +20,25 @@
 
 if (!defined('_PS_VERSION_'))
 	exit;
-	
+
 class DpdPolandParcelProduct extends DpdPolandObjectModel
 {
 	public $id_parcel_product;
-	
+
 	public $id_parcel;
-	
+
 	public $id_product;
-	
+
 	public $id_product_attribute;
-	
+
 	public $name;
-	
+
 	public $weight;
-	
+
 	public $date_add;
-	
+
 	public $date_upd;
-	
+
 	public static $definition = array(
 		'table' => _DPDPOLAND_PARCEL_PRODUCT_DB_,
 		'primary' => 'id_parcel_product',
@@ -54,11 +54,11 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 			'date_upd'				=>	array('type' => self::TYPE_DATE, 'validate' => 'isDate')
 		)
 	);
-	
+
 	public static function getProductDetailsByParcels($parcels)
 	{
 		$products = array();
-		
+
 		foreach ($parcels as $parcel)
 		{
 			if (isset($parcel['id_parcel']))
@@ -69,7 +69,8 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 					{
 						if (self::isLabelPrinted($parcel['id_parcel']))
 						{
-							$product_data = self::getProductNameAndWeight($parcel['id_parcel'], $product['id_product'], $product['id_product_attribute']);
+							$product_data = self::getProductNameAndWeight($parcel['id_parcel'], $product['id_product'],
+								$product['id_product_attribute']);
 							$products[] = array_merge($product, array(
 								'name' => pSQL($product_data['name']),
 								'weight' => (float)$product_data['weight'],
@@ -78,13 +79,14 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 						}
 						else
 						{
-							$productObj = new Product($product['id_product']);
+							$product_obj = new Product($product['id_product']);
 							$combination = new Combination($product['id_product_attribute']);
-							
+
 							$products[] = array_merge($product, array(
-								'name' => (version_compare(_PS_VERSION_, '1.5', '<') ? pSQL($productObj->name[(int)Context::getContext()->language->id]) :
+								'name' => (version_compare(_PS_VERSION_, '1.5', '<') ?
+									pSQL($product_obj->name[(int)Context::getContext()->language->id]) :
 									pSQL(Product::getProductName($product['id_product'], $product['id_product_attribute']))),
-								'weight' => (float)$combination->weight+(float)$productObj->weight,
+								'weight' => (float)$combination->weight + (float)$product_obj->weight,
 								'id_parcel' => (int)$parcel['id_parcel']
 							));
 						}
@@ -92,10 +94,10 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 				}
 			}
 		}
-		
+
 		return $products;
 	}
-	
+
 	private static function getProductByIdParcel($id_parcel)
 	{
 		return Db::getInstance()->executeS('
@@ -108,40 +110,41 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 	public static function getShippedProducts($id_order, $products = array())
 	{
 		$order = is_object($id_order) ? $id_order : new Order((int)$id_order);
-		
+
 		if (!$products)
 			$products = $order->getProductsDetail();
-		
+
 		$shipped_products = array();
-		
+
 		foreach ($products as $product)
 		{
-			if(isset($product['product_quantity']))
+			if (isset($product['product_quantity']))
 				$quantity = (int)$product['product_quantity'];
-			elseif(isset($product['quantity']))
+			elseif (isset($product['quantity']))
 				$quantity = (int)$product['quantity'];
 			else
 				$quantity = 1;
-			
+
 			self::extractAndFormatProductData($product);
 
-			for($i = 0; $i < $quantity; $i++)
+			for ($i = 0; $i < $quantity; $i++)
 				$shipped_products[] = $product;
 		}
 
 		return $shipped_products;
 	}
-	
+
 	private static function extractAndFormatProductData(&$product)
 	{
 		$id_product = isset($product['product_id']) ? (int)$product['product_id'] : (int)$product['id_product'];
-		$id_product_attribute = isset($product['product_attribute_id']) ? (int)$product['product_attribute_id'] : (int)$product['id_product_attribute'];
+		$id_product_attribute = isset($product['product_attribute_id']) ? (int)$product['product_attribute_id'] :
+			(int)$product['id_product_attribute'];
 		$product_name = isset($product['product_name']) ? $product['product_name'] : $product['name'];
 		$product_weight = isset($product['product_weight']) ? $product['product_weight'] : $product['weight'];
-		
+
 		if (isset($product['id_parcel']))
 			$id_parcel = (int)$product['id_parcel'];
-		
+
 		$product = array(
 			'id_product' => $id_product,
 			'id_product_attribute' => $id_product_attribute,
@@ -151,11 +154,11 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 			'height' => isset($product['height']) ? DpdPoland::convertDimention($product['height']) : null,
 			'length' => isset($product['height']) ? DpdPoland::convertDimention($product['depth']) : null
 		);
-		
+
 		if (isset($id_parcel))
 			$product['id_parcel'] = $id_parcel;
 	}
-	
+
 	private static function isLabelPrinted($id_parcel)
 	{
 		return (bool)DB::getInstance()->getValue('
@@ -165,7 +168,7 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 			WHERE par.`id_parcel` = "'.(int)$id_parcel.'"
 		');
 	}
-	
+
 	private static function getProductNameAndWeight($id_parcel, $id_product, $id_product_attribute)
 	{
 		return DB::getInstance()->getRow('

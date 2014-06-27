@@ -16,7 +16,7 @@
  * International Registered Trademark & Property of DPD Polska Sp. z o.o.
  *}
 <script>
-	var DPDPOLAND_PACKAGE_IDS = "{Context::getContext()->cookie->DPDPOLAND_PACKAGE_IDS|escape:'htmlall':'UTF-8'}";
+	var dpdpoland_packages_ids = "{Context::getContext()->cookie->dpdpoland_packages_ids|escape:'htmlall':'UTF-8'}";
 	
 	$(document).ready(function(){
 		$("table.Packages .datepicker").datepicker({
@@ -29,7 +29,7 @@
 			formSubmit(event, 'submitFilterButtonPackages');
 		})
 		
-		if (DPDPOLAND_PACKAGE_IDS)
+		if (dpdpoland_packages_ids)
 		{
 			window.location = window.location + '&printManifest';
 		}

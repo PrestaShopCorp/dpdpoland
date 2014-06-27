@@ -22,9 +22,9 @@ class DpdPolandMessagesController extends DpdPolandController
 {
 	const DPD_POLAND_SUCCESS_MESSAGE 		= 'dpd_poland_success_message';
 	const DPD_POLAND_ERROR_MESSAGE 			= 'dpd_poland_error_message';
-	
+
 	private $cookie;
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -48,9 +48,9 @@ class DpdPolandMessagesController extends DpdPolandController
 				$old_message = Tools::unSerialize($old_message);
 			$message = array_merge($message, $old_message);
 		}
-		
+
 		if (is_array($message))
-			$this->context->cookie{self::DPD_POLAND_ERROR_MESSAGE} = serialize($message);
+			$this->context->cookie->{self::DPD_POLAND_ERROR_MESSAGE} = serialize($message);
 		else
 			$this->cookie->{self::DPD_POLAND_ERROR_MESSAGE} = $message;
 	}

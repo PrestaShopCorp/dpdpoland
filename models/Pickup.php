@@ -20,34 +20,34 @@
 
 if (!defined('_PS_VERSION_'))
 	exit;
-	
+
 class DpdPolandPickup extends DpdPolandWS
 {
 	public $id_pickup;
 	public $pickupDate;
-    public $pickupTime;
-    public $orderType;
-    public $dox = false; // envelope
-    public $doxCount;
-    public $parcels = false;
-    public $parcelsCount;
-    public $parcelsWeight;
-    public $parcelMaxWeight;
-    public $parcelMaxHeight;
-    public $parcelMaxDepth;
-    public $parcelMaxWidth;
-    public $pallet = false;
-    public $palletsCount;
-    public $palletsWeight;
-    public $palletMaxWeight;
-    public $palletMaxHeight;
-	
-	const standardParcel = true;
+	public $pickupTime;
+	public $orderType;
+	public $dox = false; /*envelope*/
+	public $doxCount;
+	public $parcels = false;
+	public $parcelsCount;
+	public $parcelsWeight;
+	public $parcelMaxWeight;
+	public $parcelMaxHeight;
+	public $parcelMaxDepth;
+	public $parcelMaxWidth;
+	public $pallet = false;
+	public $palletsCount;
+	public $palletsWeight;
+	public $palletMaxWeight;
+	public $palletMaxHeight;
+
+	const STANDARD_PARCEL = true;
 
 	public function arrange($operationType = 'INSERT', $waybillsReady = true)
 	{
 		list($pickupTimeFrom, $pickupTimeTo) = explode('-', $this->pickupTime);
-		
+
 		$settings = new DpdPolandConfiguration;
 
 		$params = array(
@@ -83,30 +83,31 @@ class DpdPolandPickup extends DpdPolandWS
 		);
 
 		$result = $this->packagesPickupCallV3($params);
-		
+
 		if (isset($result['statusInfo']) && isset($result['statusInfo']['errorDetails']))
 		{
 			$errors = $result['statusInfo']['errorDetails'];
 			$errors = (array_values($errors) === $errors) ? $errors : array($errors); // array must be multidimentional
 			foreach ($errors as $error)
 				self::$errors[] = sprintf($this->l('Error code: %s, fields: %s'), $error['code'], $error['fields']);
-			
+
 			return false;
 		}
-		
+
 		if (isset($result['orderNumber']))
 		{
 			$this->id_pickup = (int)$result['orderNumber'];
 			return true;
 		}
 		self::$errors[] = $this->l('Order number is undefined');
+
 		return false;
 	}
-	
+
 	private function getPackagesParams()
 	{
 		$parcels_count = $this->parcelsCount > 0 ? $this->parcelsCount : 1;
-		
+
 		$packagesParams = array(
 			'dox' => 1,//pSQL($this->dox),
 			'doxCount' => (int)$this->doxCount,
@@ -116,33 +117,33 @@ class DpdPolandPickup extends DpdPolandWS
 			'palletsCount' => (int)$this->palletsCount,
 			'palletsWeight' => pSQL($this->palletsWeight),
 			'parcelsCount' => (int)$parcels_count,
-			'standardParcel' => self::standardParcel,
+			'standardParcel' => self::STANDARD_PARCEL,
 			'parcelMaxDepth' => $this->parcelMaxDepth ? pSQL($this->parcelMaxDepth) : 1,
 			'parcelMaxHeight' => $this->parcelMaxHeight ? pSQL($this->parcelMaxHeight) : 1,
 			'parcelMaxWeight' => $this->parcelMaxWeight ? pSQL($this->parcelMaxWeight) : 1,
 			'parcelMaxWidth' => $this->parcelMaxWidth ? pSQL($this->parcelMaxWidth) : 1,
 			'parcelsWeight' => $this->parcelsWeight ? pSQL($this->parcelsWeight) : 1
 		);
-		
+
 		return $packagesParams;
 	}
-	
+
 	public function getCourierTimeframes()
 	{
 		$settings = new DpdPolandConfiguration;
-		
-        $params = array(
+
+		$params = array(
 			'senderPlaceV1' => array(
-			   'countryCode' => DpdPoland::POLAND_ISO_CODE,
-			   'zipCode' => pSQL(DpdPoland::convertPostcode($settings->postcode))
+				'countryCode' => DpdPoland::POLAND_ISO_CODE,
+				'zipCode' => pSQL(DpdPoland::convertPostcode($settings->postcode))
 			)
 		);
-		
+
 		$result = $this->getCourierOrderAvailabilityV1($params);
-		
+
 		if (!isset($result['ranges']) && !self::$errors)
 			self::$errors[] = $this->l('Cannot get TimeFrames from webservices. Please check if sender\'s postal code is typed in correctly');
-		
+
 		return (isset($result['ranges'])) ? $result['ranges'] : false;
 	}
 }

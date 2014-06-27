@@ -24,15 +24,14 @@ if (!defined('_PS_VERSION_'))
 class DpdPolandArrangePickUpController extends DpdPolandController
 {
 	const FILENAME = 'arrange_pickup.controller';
-	
+
 	private $data = array();
-	
 	private $rules = array();
-	
+
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->rules = array(
 			'pickupDate' => array(
 				'validate' => 'isDate',
@@ -137,32 +136,35 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 			)
 		);
 	}
-	
+
 	public function __get($name)
 	{
 		return isset($this->data[$name]) ? $this->data[$name] : null;
 	}
-	
+
 	public static function isWeekend($date)
 	{
 		return (date('N', strtotime($date)) >= 6);
 	}
-	
+
 	public function getPage()
 	{
 		$date = date('Y-m-d');
-		$pickupDate = (Tools::getValue('pickupDate') ? Tools::getValue('pickupDate') : ($this->isWeekend($date) ? date('Y-m-d', strtotime('next monday')) : $date));
+		$pickup_date = (Tools::getValue('pickupDate') ? Tools::getValue('pickupDate') :
+			($this->isWeekend($date) ? date('Y-m-d', strtotime('next monday')) : $date));
 
 		$this->context->smarty->assign(array(
 			'settings' => new DpdPolandConfiguration,
-			'pickupDate' => $pickupDate
+			'pickupDate' => $pickup_date
 		));
+
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/arrange_pickup.tpl');
 	}
-	
+
 	public static function validateTimeframes(&$timeframes, $poland_time_in_seconds, $is_today)
 	{
 		$count_timeframes = count($timeframes);
+
 		for ($i = 0; $i < $count_timeframes; $i++)
 		{
 			if (!isset($timeframes[$i]['range']))
@@ -170,109 +172,113 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 				unset($timeframes[$i]);
 				continue;
 			}
-			
+
 			$end_time = explode('-', $timeframes[$i]['range']);
 			$end_time = strtotime($end_time[1]);
+
 			if ($is_today && round(abs($end_time - $poland_time_in_seconds) / 60) < 120)
 				unset($timeframes[$i]);
 		}
 	}
-	
+
 	public static function createExtraTimeframe($pickup_timeframes)
 	{
 		if (!$pickup_timeframes || !isset($pickup_timeframes[0]['range']))
 			return false;
-		
-		$extraTimeFrom = null;
-		$extraTimeTo = null;
-		
+
+		$extra_time_from = null;
+		$extra_time_to = null;
+
 		foreach ($pickup_timeframes as $frame)
 		{
 			if (isset($frame['range']))
 			{
-				list($pickupTimeFrom, $pickupTimeTo) = explode('-', $frame['range']);
-				if (!$extraTimeFrom || $extraTimeFrom && (str_replace(':', '', $pickupTimeFrom) < str_replace(':', '', $extraTimeFrom)))
-					$extraTimeFrom = $pickupTimeFrom;
-				if (!$extraTimeTo || $pickupTimeTo && (str_replace(':', '', $pickupTimeTo) > str_replace(':', '', $extraTimeTo)))
-					$extraTimeTo = $pickupTimeTo;
+				list($pickup_time_from, $pickup_time_to) = explode('-', $frame['range']);
+				if (!$extra_time_from || $extra_time_from && (str_replace(':', '', $pickup_time_from) < str_replace(':', '', $extra_time_from)))
+					$extra_time_from = $pickup_time_from;
+				if (!$extra_time_to || $pickup_time_to && (str_replace(':', '', $pickup_time_to) > str_replace(':', '', $extra_time_to)))
+					$extra_time_to = $pickup_time_to;
 			}
 		}
-		
-		if (!$extraTimeFrom || !$extraTimeTo)
+
+		if (!$extra_time_from || !$extra_time_to)
 			return false;
-		
-		if ($extraTimeFrom.'-'.$extraTimeTo == $pickup_timeframes[0]['range'])
+
+		if ($extra_time_from.'-'.$extra_time_to == $pickup_timeframes[0]['range'])
 			return false;
-		
-		return $extraTimeFrom.'-'.$extraTimeTo;
+
+		return $extra_time_from.'-'.$extra_time_to;
 	}
-	
+
 	public static function init($module_instance)
 	{
 		if (Tools::isSubmit('requestPickup'))
 		{
 			$controller = new DpdPolandArrangePickUpController;
-			
+
 			$data = $controller->getData();
-			
+
 			if ($controller->validate())
 			{
 				$pickup = new DpdPolandPickup;
-				
-				foreach($data as $element => $value)
+
+				foreach ($data as $element => $value)
 					$pickup->$element = $value;
 
 				if (!$pickup->arrange())
 					$module_instance->outputHTML($module_instance->displayError(reset(DpdPolandPickup::$errors)));
 				else
 				{
-					DpdPoland::addFlashMessage(sprintf($module_instance->l('Pickup was successfully arranged. Number of order is: %d', self::FILENAME), $pickup->id_pickup));
-					Tools::redirectAdmin($module_instance->module_url.'&menu=arrange_pickup');
+					$error_message = sprintf($module_instance->l('Pickup was successfully arranged. Number of order is: %d', self::FILENAME),
+						$pickup->id_pickup);
+					DpdPoland::addFlashMessage($error_message);
+
+					$redirect_uri = $module_instance->module_url.'&menu=arrange_pickup';
+					die(Tools::redirectAdmin($redirect_uri));
 				}
 			}
 			else
 				$module_instance->outputHTML($module_instance->displayError(reset(self::$errors)));
 		}
 	}
-	
+
 	public function getData()
 	{
 		if (!$this->data)
 			foreach (array_keys($this->rules) as $element)
 				$this->data[$element] = Tools::getValue($element);
-		
+
 		return $this->data;
 	}
-	
+
 	public function validate()
 	{
 		$date = Tools::getValue('pickupDate');
-		
+
 		if (!Validate::isDateFormat($date))
 		{
 			self::$errors[] = $this->l('Wrong date format');
 			return false;
 		}
-		
+
 		if (strtotime($date) < strtotime(date('Y-m-d')))
 		{
 			self::$errors[] = $this->l('Date can not be earlier than').' '.date('Y-m-d');
 			return false;
 		}
-		
+
 		if ($this->isWeekend($date))
 		{
 			self::$errors[] = $this->l('Weekends can not be chosen');
 			return false;
 		}
-		
+
 		if (!$this->dox && !$this->parcels && !$this->pallet)
 		{
 			self::$errors[] = $this->l('At least one service must be selected');
 			return false;
 		}
 
-		
 		foreach ($this->rules as $element => $rules)
 		{
 			if (!isset($rules['dependency']) || (isset($rules['dependency']) && $this->{$rules['dependency']}))
@@ -282,14 +288,15 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 					self::$errors[] = sprintf($this->l('The "%s" field is required.'), $rules['fieldname']);
 					return false;
 				}
-				elseif($this->$element && method_exists('Validate', $rules['validate']) && !call_user_func(array('Validate', $rules['validate']), $this->$element))
+				elseif ($this->$element && method_exists('Validate', $rules['validate']) &&
+					!call_user_func(array('Validate', $rules['validate']), $this->$element))
 				{
 					self::$errors[] = sprintf($this->l('The "%s" field is invalid.'), $rules['fieldname']);
 					return false;
 				}
 			}
 		}
-		
+
 		return true;
 	}
 }

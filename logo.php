@@ -21,34 +21,29 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-class logo extends AdminTab
+class Logo extends AdminTab
 {
 	private $module_instance;
-	
+
 	const FILENAME = 'logo';
-	
+
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->module_instance = Module::getInstanceByName('dpdpoland');
 		$this->context = Context::getContext();
 	}
-	
-	public function postProcess()
-	{
-		parent::postProcess();
-	}
-	
+
 	public function display()
 	{
 		$this->module_instance->addCSS(_DPDPOLAND_CSS_URI_.'backoffice.css');
 		$this->module_instance->addCSS(_DPDPOLAND_CSS_URI_.'toolbar.css');
 		$this->context->smarty->assign(array(
 			'module_link' => $this->module_instance->module_url.'&token='.Tools::getAdminTokenLite('AdminModules'),
-			'breadcrumb' => array($this->module_instance->displayName),
-			
+			'breadcrumb' => array($this->module_instance->displayName)
 		));
+
 		echo $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/navigation.tpl');
 	}
 }

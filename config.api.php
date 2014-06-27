@@ -40,7 +40,7 @@ if (!defined('_DPDPOLAND_IMG_URI_'))
 
 if (!defined('_DPDPOLAND_AJAX_URI_'))
 	define('_DPDPOLAND_AJAX_URI_', _DPDPOLAND_MODULE_URI_.'dpdpoland.ajax.php');
-    
+
 if (!defined('_DPDPOLAND_PDF_URI_'))
 	define('_DPDPOLAND_PDF_URI_', _DPDPOLAND_MODULE_URI_.'dpdpoland.pdf.php');
 
@@ -51,7 +51,7 @@ if (!defined('_DPDPOLAND_CLASSES_DIR_'))
 
 if (!defined('_DPDPOLAND_TPL_DIR_'))
 	define('_DPDPOLAND_TPL_DIR_', dirname(__FILE__).'/views/templates/');
-	
+
 if (!defined('_DPDPOLAND_MODELS_DIR_'))
 	define('_DPDPOLAND_MODELS_DIR_', dirname(__FILE__).'/models/');
 
@@ -107,7 +107,7 @@ if (!defined('_DPDPOLAND_STANDARD_COD_ID_'))
 
 if (!defined('_DPDPOLAND_CLASSIC_ID_'))
 	define('_DPDPOLAND_CLASSIC_ID_', 3);
-	
+
 if (!defined('_DPDPOLAND_CURRENCY_ISO_'))
 	define('_DPDPOLAND_CURRENCY_ISO_', 'PLN');
 
@@ -116,12 +116,13 @@ if (!defined('_DPDPOLAND_DEFAULT_WEIGHT_UNIT_'))
 
 if (!defined('_DPDPOLAND_DEFAULT_DIMENSION_UNIT_'))
 	define('_DPDPOLAND_DEFAULT_DIMENSION_UNIT_', 'cm');
-	
+
 if (!defined('_DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_'))
 	define('_DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_', 6000);
 
 if (!defined('_DPDPOLAND_TRACKING_URL_'))
-	define('_DPDPOLAND_TRACKING_URL_', 'http://www.dpd.com.pl/tracking.asp?p1=@&przycisk.x=14&przycisk.y=6&przycisk=Wyszukaj&przycisk=Wyszukaj&ID_kat=3&ID=33&Mark=18');
+	define('_DPDPOLAND_TRACKING_URL_',
+		'http://www.dpd.com.pl/tracking.asp?p1=@&przycisk.x=14&przycisk.y=6&przycisk=Wyszukaj&przycisk=Wyszukaj&ID_kat=3&ID=33&Mark=18');
 
 if (!defined('_DPDPOLAND_REFERENCE3_'))
 	define('_DPDPOLAND_REFERENCE3_', 'PSMODUL#');

@@ -20,31 +20,32 @@
 
 if (!defined('_PS_VERSION_'))
 	exit;
-	
+
 class DpdPolandCountry extends DpdPolandObjectModel
 {
 	public $id_dpdpoland_country;
-	
+
 	public $id_country;
-	
+
 	public $id_shop;
-	
+
 	public $date_add;
-	
+
 	public $date_upd;
-	
+
 	public $enabled;
-	
+
 	public static $default_enabled_countries = array(
-		'AT', 'BE', 'BA', 'BG', 'HR', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GR', 'ES', 'IE', 'LT', 'LU', 'LV', 'DE', 'NO', 'PT', 'RO', 'RS', 'SK', 'SI', 'SZ', 'SE', 'HU', 'GB', 'IT', 'NL'
+		'AT', 'BE', 'BA', 'BG', 'HR', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GR', 'ES', 'IE', 'LT', 'LU',
+		'LV', 'DE', 'NO', 'PT', 'RO', 'RS', 'SK', 'SI', 'SZ', 'SE', 'HU', 'GB', 'IT', 'NL'
 	);
-	
+
 	public function __construct($id_dpdpoland_country = null)
 	{
 		parent::__construct($id_dpdpoland_country);
 		$this->id_shop = (int)Context::getContext()->shop->id;
 	}
-	
+
 	public static $definition = array(
 		'table' => _DPDPOLAND_COUNTRY_DB_,
 		'primary' => 'id_dpdpoland_country',
@@ -58,12 +59,12 @@ class DpdPolandCountry extends DpdPolandObjectModel
 			'date_upd' 				=> 	array('type' => self::TYPE_DATE, 'validate' => 'isDate')
 		)
 	);
-	
+
 	public function getList($order_by, $order_way, $filter, $start, $pagination)
 	{
 		$id_shop = (int)Context::getContext()->shop->id;
 		$id_lang = (int)Context::getContext()->language->id;
-		
+
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 			$countries = DB::getInstance()->executeS('
 				SELECT
@@ -95,17 +96,17 @@ class DpdPolandCountry extends DpdPolandObjectModel
 				($order_by && $order_way ? ' ORDER BY '.pSQL($order_by).' '.pSQL($order_way) : '').
 				($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 			);
-		
+
 		if (!$countries)
 			$countries = array();
-		
+
 		return $countries;
 	}
-	
+
 	public static function getIdByCountry($id_country)
 	{
 		$id_shop = (int)Context::getContext()->shop->id;
-		
+
 		return DB::getInstance()->getValue('
 			SELECT `id_dpdpoland_country`
 			FROM `'._DB_PREFIX_._DPDPOLAND_COUNTRY_DB_.'`
@@ -113,28 +114,29 @@ class DpdPolandCountry extends DpdPolandObjectModel
 				AND `id_country` = "'.(int)$id_country.'"
 		');
 	}
-	
+
 	public static function getDisabledCountriesIDs()
 	{
 		$id_shop = (int)Context::getContext()->shop->id;
-		
+
 		$countries = DB::getInstance()->executeS('
 			SELECT `id_country`
 			FROM `'._DB_PREFIX_._DPDPOLAND_COUNTRY_DB_.'`
 			WHERE `id_shop` = "'.(int)$id_shop.'"
 				AND `enabled` = "0"
 		');
-		
+
 		if (!$countries)
 			$countries = array();
-		
+
 		$countries_array = array();
+
 		foreach ($countries as $country)
 			$countries_array[] = $country['id_country'];
-		
+
 		return $countries_array;
 	}
-	
+
 	public static function addCountry($id_country, $id_shop, $enabled = 0)
 	{
 		return DB::getInstance()->Execute('

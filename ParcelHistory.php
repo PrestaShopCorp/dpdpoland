@@ -25,6 +25,7 @@ class ParcelHistory extends AdminTab
 {
 	public function __construct()
 	{
-		Tools::redirectAdmin('index.php?tab=AdminModules&token='.Tools::getAdminTokenLite('AdminModules').'&configure=dpdpoland&menu=parcel_history_list&tab_module=dpdpoland&module_name=dpdpoland');
+		Tools::redirectAdmin('index.php?tab=AdminModules&token='.Tools::getAdminTokenLite('AdminModules').
+			'&configure=dpdpoland&menu=parcel_history_list&tab_module=dpdpoland&module_name=dpdpoland');
 	}
 }

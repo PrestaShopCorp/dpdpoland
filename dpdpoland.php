@@ -44,16 +44,16 @@ if (version_compare(_PS_VERSION_, '1.5', '<'))
 
 class DpdPoland extends Module
 {
-	private $_html = '';
-	public  $module_url;
+	private $html = '';
+	public $module_url;
 	public static $errors = array();
 
-	public  $id_carrier; // mandatory field for carrier recognision in front office
-	private static $parcels = array(); // used to cache parcel setup for price calculation in front office
-	private static $carriers = array(); // DPD carriers prices cache, used in front office
+	public $id_carrier; /*mandatory field for carrier recognision in front office*/
+	private static $parcels = array(); /*used to cache parcel setup for price calculation in front office*/
+	private static $carriers = array(); /*DPD carriers prices cache, used in front office*/
 
-	const CURRENT_INDEX		= 'index.php?tab=AdminModules&token=';
-	const POLAND_ISO_CODE 	= 'PL';
+	const CURRENT_INDEX = 'index.php?tab=AdminModules&token=';
+	const POLAND_ISO_CODE = 'PL';
 
 	public function __construct()
 	{
@@ -75,7 +75,8 @@ class DpdPoland extends Module
 		}
 
 		if (defined('_PS_ADMIN_DIR_'))
-			$this->module_url = self::CURRENT_INDEX.Tools::getValue('token').'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+			$this->module_url = self::CURRENT_INDEX.Tools::getValue('token').'&configure='.$this->name.
+				'&tab_module='.$this->tab.'&module_name='.$this->name;
 	}
 
 	public function install()
@@ -209,15 +210,19 @@ class DpdPoland extends Module
 
 		foreach (array_keys($shops) as $id_shop)
 		{
-			$sql = "
-				INSERT INTO `"._DB_PREFIX_._DPDPOLAND_PRICE_RULE_DB_."`
+			$sql = '
+				INSERT INTO `'._DB_PREFIX_._DPDPOLAND_PRICE_RULE_DB_.'`
 					(`id_shop`, `date_add`, `date_upd`, `iso_country`, `weight_from`, `weight_to`, `parcel_price`, `cod_price`, `id_carrier`)
 				VALUES
-					('".(int)$id_shop."', '".pSQL($current_date)."', '".pSQL($current_date)."', 'PL', '0', '0.5', 0, '', '".(int)_DPDPOLAND_STANDARD_ID_."'),
-					('".(int)$id_shop."', '".pSQL($current_date)."', '".pSQL($current_date)."', 'PL', '0', '0.5', 0, '0', '".(int)_DPDPOLAND_STANDARD_COD_ID_."'),
-					('".(int)$id_shop."', '".pSQL($current_date)."', '".pSQL($current_date)."', 'GB', '0', '0.5', 0, '', '".(int)_DPDPOLAND_CLASSIC_ID_."'),
-					('".(int)$id_shop."', '".pSQL($current_date)."', '".pSQL($current_date)."', '*', '0', '0.5', 0, '', '".(int)_DPDPOLAND_CLASSIC_ID_."')
-				";
+					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "PL", "0", "0.5", "0", "", "'.
+						(int)_DPDPOLAND_STANDARD_ID_.'"),
+					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "PL", "0", "0.5", "0", "0", "'.
+						(int)_DPDPOLAND_STANDARD_COD_ID_.'"),
+					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "GB", "0", "0.5", "0", "", "'.
+						(int)_DPDPOLAND_CLASSIC_ID_.'"),
+					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "*", "0", "0.5", "0", "", "'.
+						(int)_DPDPOLAND_CLASSIC_ID_.'")
+				';
 
 			if (!Db::getInstance()->execute($sql)) return false;
 		}
@@ -299,7 +304,7 @@ class DpdPoland extends Module
 		$tab = new Tab();
 		foreach (Language::getLanguages(false) as $language)
 			$tab->name[$language['id_lang']] = 'DPD';
-		$tab->class_name = 'logo';
+		$tab->class_name = 'Logo';
 		$tab->module = $this->name;
 		$tab->id_parent = '0';
 		$tab->position = $max_position + 1;
@@ -452,8 +457,16 @@ class DpdPoland extends Module
 		return true;
 	}
 
+	private function soapClientExists()
+	{
+		return (bool)class_exists('SoapClient');
+	}
+
 	public function getContent()
 	{
+		if (!$this->soapClientExists())
+			return $this->adminDisplayWarning($this->l('SoapClient class is missing'));
+
 		if (_DPDPOLAND_DEBUG_MODE_)
 		{
 			$warning_message = $this->l('Module is in DEBUG mode');
@@ -465,7 +478,8 @@ class DpdPoland extends Module
 					<a target="_blank" href="'._DPDPOLAND_MODULE_URI_.Configuration::get(DpdPolandWS::DEBUG_FILENAME).'">
 						'.$this->l('View debug file').'
 					</a>';
-			version_compare(_PS_VERSION_, '1.5', '<') ? $this->_html .= $this->displayWarnings(array($warning_message)): $this->adminDisplayWarning($warning_message);
+			version_compare(_PS_VERSION_, '1.5', '<') ? $this->html .= $this->displayWarnings(array($warning_message)):
+				$this->adminDisplayWarning($warning_message);
 		}
 
 		$this->displayFlashMessagesIfIsset();
@@ -483,12 +497,12 @@ class DpdPoland extends Module
 		}
 
 		$this->setGlobalVariablesForAjax();
-		$this->_html .= $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/global_variables.tpl');
+		$this->html .= $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/global_variables.tpl');
 
 		$country_currency_warning_message_text = $this->l('PL country and PLN currency must be installed; CURL must be enabled');
 		$configuration_warning_message_text = $this->l('Module is not configured yet. Please check required settings');
 
-		switch(Tools::getValue('menu'))
+		switch (Tools::getValue('menu'))
 		{
 			case 'arrange_pickup':
 				$this->addDateTimePickerPlugins();
@@ -499,13 +513,13 @@ class DpdPoland extends Module
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->_html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->_html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
 
-				$pickUpController = new DpdPolandArrangePickUpController();
-				$this->_html .= $pickUpController->getPage();
+				$puckup_controller = new DpdPolandArrangePickUpController();
+				$this->html .= $puckup_controller->getPage();
 				break;
 			case 'configuration':
 				require_once(_DPDPOLAND_CLASSES_DIR_.'configuration.controller.php');
@@ -515,15 +529,15 @@ class DpdPoland extends Module
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->_html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					$this->_html .= $this->displayWarnings(array($configuration_warning_message_text));
+					$this->html .= $this->displayWarnings(array($configuration_warning_message_text));
 				if (!version_compare(_PS_VERSION_, '1.5', '<'))
 					$this->displayShopRestrictionWarning();
 
 				$configuration_controller = new DpdPolandConfigurationController();
-				$this->_html .= $configuration_controller->getSettingsPage();
+				$this->html .= $configuration_controller->getSettingsPage();
 				break;
 			case 'csv':
 				require_once(_DPDPOLAND_CLASSES_DIR_.'csv.controller.php');
@@ -533,86 +547,90 @@ class DpdPoland extends Module
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->_html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->_html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
-					$this->_html .= $this->displayWarnings(array($this->l('CSV management is disabled when all shops or group of shops are selected')));
+					$this->html .= $this->displayWarnings(array(
+						$this->l('CSV management is disabled when all shops or group of shops are selected')));
 					break;
 				}
 				$csv_controller = new DpdPolandCSVController();
-				$this->_html .= $csv_controller->getCSVPage();
+				$this->html .= $csv_controller->getCSVPage();
 				break;
 			case 'help':
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Help')));
 				$this->displayNavigation();
-				$this->_html .= $this->displayHelp();
+				$this->html .= $this->displayHelp();
 				break;
 			case 'manifest_list':
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Manifest list')));
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->_html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->_html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
-					$this->_html .= $this->displayWarnings(array($this->l('Manifests functionality is disabled when all shops or group of shops are chosen')));
+					$this->html .= $this->displayWarnings(array(
+						$this->l('Manifests functionality is disabled when all shops or group of shops are chosen')));
 					break;
 				}
 
 				$this->addDateTimePickerPlugins();
 				require_once(_DPDPOLAND_CLASSES_DIR_.'manifestList.controller.php');
 				$manifest_list_controller = new DpdPolandManifestListController();
-				$this->_html .= $manifest_list_controller->getListHTML();
+				$this->html .= $manifest_list_controller->getListHTML();
 				break;
 			case 'parcel_history_list':
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Parcels history')));
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->_html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->_html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
-					$this->_html .= $this->displayWarnings(array($this->l('Parcels functionality is disabled when all shops or group of shops are chosen')));
+					$this->html .= $this->displayWarnings(array(
+						$this->l('Parcels functionality is disabled when all shops or group of shops are chosen')));
 					break;
 				}
 
 				$this->addDateTimePickerPlugins();
 				require_once(_DPDPOLAND_CLASSES_DIR_.'parcelHistoryList.controller.php');
 				$parcel_history_list_controller = new DpdPolandParcelHistoryController();
-				$this->_html .= $parcel_history_list_controller->getList();
+				$this->html .= $parcel_history_list_controller->getList();
 				break;
 			case 'country_list':
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Shipment countries')));
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->_html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->_html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
-					$this->_html .= $this->displayWarnings(array($this->l('Countries functionality is disabled when all shops or group of shops are chosen')));
+					$this->html .= $this->displayWarnings(array(
+						$this->l('Countries functionality is disabled when all shops or group of shops are chosen')));
 					break;
 				}
 
 				$this->addDateTimePickerPlugins();
 				require_once(_DPDPOLAND_CLASSES_DIR_.'countryList.controller.php');
 				$country_list_controller = new DpdPolandCountryListController();
-				$this->_html .= $country_list_controller->getListHTML();
+				$this->html .= $country_list_controller->getListHTML();
 				break;
 			case 'packages_list':
 			default:
@@ -620,14 +638,15 @@ class DpdPoland extends Module
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->_html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->_html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
-					$this->_html .= $this->displayWarnings(array($this->l('Packages functionality is disabled when all shops or group of shops are chosen')));
+					$this->html .= $this->displayWarnings(array(
+						$this->l('Packages functionality is disabled when all shops or group of shops are chosen')));
 					break;
 				}
 
@@ -636,13 +655,13 @@ class DpdPoland extends Module
 
 				DpdPolandPackageListController::init($this);
 				$package_list_controller = new DpdPolandPackageListController();
-				$this->_html .= $package_list_controller->getList();
+				$this->html .= $package_list_controller->getList();
 				break;
 		}
 
-		return $this->_html;
+		return $this->html;
 	}
-	
+
 	private function displayHelp()
 	{
 		if (Tools::isSubmit('print_pdf'))
@@ -650,20 +669,21 @@ class DpdPoland extends Module
 			$filename = 'dpdpoland_eng.pdf';
 			if (Tools::isSubmit('polish'))
 				$filename = 'dpdpoland_pol.pdf';
-			
+
 			ob_end_clean();
 			header('Content-type: application/pdf');
 			header('Content-Disposition: attachment; filename="'.$this->l('manual').'.pdf"');
 			readfile(_PS_MODULE_DIR_.'dpdpoland/manual/'.$filename);
 			exit;
 		}
-		
+
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/help.tpl');
 	}
 
 	private function checkModuleAvailability()
 	{
-		return (bool)Country::getByIso(self::POLAND_ISO_CODE) && (bool)Currency::getIdByIsoCode(_DPDPOLAND_CURRENCY_ISO_) && (bool)function_exists('curl_init');
+		return (bool)Country::getByIso(self::POLAND_ISO_CODE) &&
+			(bool)Currency::getIdByIsoCode(_DPDPOLAND_CURRENCY_ISO_) && (bool)function_exists('curl_init');
 	}
 
 	/**
@@ -755,10 +775,12 @@ class DpdPoland extends Module
 			self::$errors = DpdPolandPackage::$errors;
 			return false;
 		}
-		elseif (!$this->saveParcelsIntoPackage($package->id_package, Tools::getValue('parcels'), $result['Parcels'], Tools::getValue('dpdpoland_products')))
+		elseif (!$this->saveParcelsIntoPackage($package->id_package,
+			Tools::getValue('parcels'), $result['Parcels'], Tools::getValue('dpdpoland_products')))
 			return false;
 
-		$waybill = isset($result['Parcels']['Parcel']['Waybill']) ? $result['Parcels']['Parcel']['Waybill'] : $result['Parcels']['Parcel'][0]['Waybill'];
+		$waybill = isset($result['Parcels']['Parcel']['Waybill']) ?
+			$result['Parcels']['Parcel']['Waybill'] : $result['Parcels']['Parcel'][0]['Waybill'];
 		if (!$this->addTrackingNumber($id_current_order, $waybill))
 			return false;
 
@@ -784,10 +806,10 @@ class DpdPoland extends Module
 	{
 		$address = new Address($id_address);
 		$poland_country = Country::getByIso(self::POLAND_ISO_CODE);
+
 		if ($address->id_country == $poland_country && $id_method == _DPDPOLAND_CLASSIC_ID_ ||
 			$address->id_country != $poland_country && $id_method == _DPDPOLAND_STANDARD_ID_ ||
-			$address->id_country != $poland_country && $id_method == _DPDPOLAND_STANDARD_COD_ID_
-		)
+			$address->id_country != $poland_country && $id_method == _DPDPOLAND_STANDARD_COD_ID_)
 			return false;
 
 		return true;
@@ -835,11 +857,10 @@ class DpdPoland extends Module
 					'{shipping_number}' => $order->shipping_number,
 					'{order_name}' => $order->getUniqReference()
 				);
-				
+
 				if (@Mail::Send((int)$order->id_lang, 'in_transit', Mail::l('Package in transit', (int)$order->id_lang), $templateVars,
 					$customer->email, $customer->firstname.' '.$customer->lastname, null, null, null, null,
-					_PS_MAIL_DIR_, true, (int)$order->id_shop)
-				)
+					_PS_MAIL_DIR_, true, (int)$order->id_shop))
 				{
 					Hook::exec('actionAdminOrdersTrackingNumberUpdate', array('order' => $order, 'customer' => $customer, 'carrier' => $carrier));
 					return true;
@@ -866,9 +887,9 @@ class DpdPoland extends Module
 		$order->update();
 		if ($shipping_number)
 		{
-			$customer = new Customer((int)($order->id_customer));
-			$carrier = new Carrier((int)($order->id_carrier));
-			if (!Validate::isLoadedObject($customer) OR !Validate::isLoadedObject($carrier))
+			$customer = new Customer((int)$order->id_customer);
+			$carrier = new Carrier((int)$order->id_carrier);
+			if (!Validate::isLoadedObject($customer) || !Validate::isLoadedObject($carrier))
 			{
 				self::$errors[] = $this->l('Customer / Carrier not found');
 				return false;
@@ -877,8 +898,8 @@ class DpdPoland extends Module
 				'{followup}' => str_replace('@', $order->shipping_number, $carrier->url),
 				'{firstname}' => $customer->firstname,
 				'{lastname}' => $customer->lastname,
-				'{order_name}' => sprintf("#%06d", (int)($order->id)),
-				'{id_order}' => (int)($order->id)
+				'{order_name}' => sprintf('#%06d', (int)$order->id),
+				'{id_order}' => (int)$order->id
 			);
 			@Mail::Send((int)$order->id_lang, 'in_transit', Mail::l('Package in transit', (int)$order->id_lang), $templateVars,
 				$customer->email, $customer->firstname.' '.$customer->lastname, null, null, null, null,
@@ -898,14 +919,14 @@ class DpdPoland extends Module
 	{
 		$parcels_ws = $parcels_ws['Parcel'];
 		$parcels_ws = isset($parcels_ws[0]) ? $parcels_ws : array($parcels_ws); // array must be multidimentional
-		
-		foreach($parcels_ws as $parcel_data)
+
+		foreach ($parcels_ws as $parcel_data)
 		{
 			list($order_reference, $parcel_number) = explode('_', $parcel_data['Reference']);
 
 			if (!isset($parcels[$parcel_number]))
 			{
-				// parcel number received from ws does not match with any that we have locally. Because of that we do not know what data should be saved
+				// parcel number received from ws does not match with any we have locally. Because of that we do not know what data should be saved
 				self::$errors[] = sprintf($this->l('Parcel #%d does not exists'), $parcel_number);
 				return false;
 			}
@@ -949,12 +970,13 @@ class DpdPoland extends Module
 				$productObj = new Product((int)$product['id_product']);
 				$combination = new Combination((int)$product['id_product_attribute']);
 				$parcelProduct->name = (version_compare(_PS_VERSION_, '1.5', '<') ? $productObj->name[(int)Context::getContext()->language->id] :
-								Product::getProductName($product['id_product'], $product['id_product_attribute']));
-				$parcelProduct->weight = (float)$combination->weight+(float)$productObj->weight;
+					Product::getProductName($product['id_product'], $product['id_product_attribute']));
+				$parcelProduct->weight = (float)$combination->weight + (float)$productObj->weight;
 
 				if (!$parcelProduct->add())
 				{
-					self::$errors[] = sprintf($this->l('Unable to save product #%s to parcel #%d'), $parcelProduct->id_product.'-'.$parcelProduct->id_product_attribute, $parcelProduct->id_parcel);
+					self::$errors[] = sprintf($this->l('Unable to save product #%s to parcel #%d'), $parcelProduct->id_product.'-'.
+						$parcelProduct->id_product_attribute, $parcelProduct->id_parcel);
 					return false;
 				}
 			}
@@ -984,15 +1006,16 @@ class DpdPoland extends Module
 	private function displayShopRestrictionWarning()
 	{
 		if (Shop::getContext() == Shop::CONTEXT_GROUP)
-			$this->_html .= $this->displayWarnings(array($this->l('You have chosen a group of shops, all the changes will be set for all shops in this group')));
+			$this->html .= $this->displayWarnings(array(
+				$this->l('You have chosen a group of shops, all the changes will be set for all shops in this group')));
 
 		if (Shop::getContext() == Shop::CONTEXT_ALL)
-			$this->_html .= $this->displayWarnings(array($this->l('You have chosen all shops, all the changes will be set for all shops')));
+			$this->html .= $this->displayWarnings(array($this->l('You have chosen all shops, all the changes will be set for all shops')));
 	}
 
 	public function outputHTML($html)
 	{
-		$this->_html .= $html;
+		$this->html .= $html;
 	}
 
 	public static function addCSS($css_uri)
@@ -1008,7 +1031,7 @@ class DpdPoland extends Module
 	private function displayNavigation()
 	{
 		$this->context->smarty->assign('module_link', $this->module_url);
-		$this->_html .= $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/navigation.tpl');
+		$this->html .= $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/navigation.tpl');
 	}
 
 	/* adds success message into session */
@@ -1037,10 +1060,10 @@ class DpdPoland extends Module
 		$messages_controller = new DpdPolandMessagesController();
 
 		if ($success_message = $messages_controller->getSuccessMessage())
-			$this->_html .= $this->displayConfirmation($success_message);
+			$this->html .= $this->displayConfirmation($success_message);
 
 		if ($error_message = $messages_controller->getErrorMessage())
-			$this->_html .= $this->displayErrors($error_message);
+			$this->html .= $this->displayErrors($error_message);
 	}
 
 	public function displayErrors($errors)
@@ -1067,7 +1090,7 @@ class DpdPoland extends Module
 		if (!$id_reference = self::getReferenceIdByCarrierId($id_carrier))
 			return false;
 
-		switch($id_reference)
+		switch ($id_reference)
 		{
 			case Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_ID):
 				return _DPDPOLAND_STANDARD_ID_;
@@ -1161,7 +1184,8 @@ class DpdPoland extends Module
 				SELECT p.`id_product`, pl.`name`, p.`weight`
 				FROM `'._DB_PREFIX_.'category_product` cp
 				LEFT JOIN `'._DB_PREFIX_.'product` p ON (p.`id_product` = cp.`id_product`)
-				LEFT JOIN `'._DB_PREFIX_.'product_lang` pl ON (pl.`id_product` = p.`id_product` AND pl.`id_lang` = "'.(int)$this->context->language->id.'")
+				LEFT JOIN `'._DB_PREFIX_.'product_lang` pl ON (pl.`id_product` = p.`id_product` AND pl.`id_lang` = "'.
+					(int)$this->context->language->id.'")
 				WHERE pl.`name` LIKE \'%'.pSQL($query).'%\'
 					OR p.`ean13` LIKE \'%'.pSQL($query).'%\'
 					OR p.`upc` LIKE \'%'.pSQL($query).'%\'
@@ -1188,7 +1212,8 @@ class DpdPoland extends Module
 			OR p.`upc` LIKE \'%'.pSQL($query).'%\'
 			OR p.`reference` LIKE \'%'.pSQL($query).'%\'
 			OR p.`supplier_reference` LIKE \'%'.pSQL($query).'%\'
-			OR  p.`id_product` IN (SELECT id_product FROM '._DB_PREFIX_.'product_supplier sp WHERE `product_supplier_reference` LIKE \'%'.pSQL($query).'%\')';
+			OR  p.`id_product` IN (SELECT id_product FROM '._DB_PREFIX_.'product_supplier sp WHERE `product_supplier_reference` LIKE \'%'.
+				pSQL($query).'%\')';
 			$sql->groupBy('`id_product`');
 			$sql->orderBy('pl.`name` ASC');
 
@@ -1203,7 +1228,6 @@ class DpdPoland extends Module
 
 		$result = Db::getInstance()->executeS($sql);
 
-
 		if (!$result)
 			return array('found' => false, 'notfound' => $this->l('No product has been found.'));
 
@@ -1211,7 +1235,7 @@ class DpdPoland extends Module
 		{
 			$product['id_product_attribute'] = Product::getDefaultAttribute($product['id_product']);
 			$product['weight_numeric'] = $product['weight'];
-			$product['weight'] = sprintf('%.3f', $product['weight']) . ' ' . _DPDPOLAND_DEFAULT_WEIGHT_UNIT_;
+			$product['weight'] = sprintf('%.3f', $product['weight']).' '._DPDPOLAND_DEFAULT_WEIGHT_UNIT_;
 		}
 
 		return array(
@@ -1279,7 +1303,8 @@ class DpdPoland extends Module
 			$error .= $this->l('Could not delete DPD client number / name');
 
 		if ($current_number == $configuration_obj->client_number)
-			if (!DpdPolandConfiguration::deleteByName(DpdPolandConfiguration::CLIENT_NUMBER) || !DpdPolandConfiguration::deleteByName(DpdPolandConfiguration::CLIENT_NAME))
+			if (!DpdPolandConfiguration::deleteByName(DpdPolandConfiguration::CLIENT_NUMBER) ||
+				!DpdPolandConfiguration::deleteByName(DpdPolandConfiguration::CLIENT_NAME))
 				$error .= $this->l('Could not delete default client number setting');
 
 		$success = $this->l('DPD client number / name deleted successfully');
@@ -1380,7 +1405,7 @@ class DpdPoland extends Module
 		}
 
 		$pickup = new DpdPolandPickup;
-		$is_today = (bool)(date('Ymd') == date('Ymd', strtotime($current_date)));
+		$is_today = (bool)date('Ymd') == date('Ymd', strtotime($current_date));
 		$pickup_timeframes = $pickup->getCourierTimeframes();
 
 		$poland_time_obj = new DateTime(null, new DateTimeZone('Poland'));
@@ -1410,7 +1435,7 @@ class DpdPoland extends Module
 		if (!$conversation_rate = Configuration::get(DpdPolandConfiguration::WEIGHT_CONVERSATION_RATE))
 			$conversation_rate = 1;
 
-		return (float)$weight*(float)$conversation_rate;
+		return (float)$weight * (float)$conversation_rate;
 	}
 
 	public static function convertDimention($value)
@@ -1418,22 +1443,25 @@ class DpdPoland extends Module
 		if (!$conversation_rate = Configuration::get(DpdPolandConfiguration::DIMENSION_CONVERSATION_RATE))
 			$conversation_rate = 1;
 
-		return sprintf('%.6f', (float)$value*(float)$conversation_rate);
+		return sprintf('%.6f', (float)$value * (float)$conversation_rate);
 	}
 
 	public static function convertPostcode($postcode)
 	{
-		return Tools::strtoupper(preg_replace("/[^a-zA-Z0-9]+/", "", $postcode));
+		return Tools::strtoupper(preg_replace('/[^a-zA-Z0-9]+/', '', $postcode));
 	}
 
 	public function hookAdminOrder($params)
 	{
+		if (!$this->soapClientExists())
+			return '';
+		
 		$order = new Order((int)$params['id_order']);
 		if (!DpdPolandConfiguration::checkRequiredConfiguration())
 		{
 			$this->context->smarty->assign(array(
 				'displayBlock' => false,
-				'moduleSettingsLink' => $this->context->link->getAdminLink('AdminModules').'&configure='.$this->name . '&menu=configuration'
+				'moduleSettingsLink' => $this->context->link->getAdminLink('AdminModules').'&configure='.$this->name.'&menu=configuration'
 			));
 		}
 		else
@@ -1484,10 +1512,10 @@ class DpdPoland extends Module
 				$payment_method_compatible = false;
 
 				$is_cod_module = Configuration::get(DpdPolandConfiguration::COD_MODULE_PREFIX.$order->module);
+
 				if ($id_method == _DPDPOLAND_STANDARD_COD_ID_ && $is_cod_module ||
 					$id_method == _DPDPOLAND_STANDARD_ID_ && !$is_cod_module ||
-					$id_method == _DPDPOLAND_CLASSIC_ID_ && !$is_cod_module
-				)
+					$id_method == _DPDPOLAND_CLASSIC_ID_ && !$is_cod_module)
 					$payment_method_compatible = true;
 			}
 			else
@@ -1498,7 +1526,8 @@ class DpdPoland extends Module
 				$error_message = $this->l('Your payment method and Shipping method is not compatible.').'<br />';
 			$error_message .= ' '.$this->l('If delivery address is not Poland, then COD payment method is not supported.').'<br />';
 			$error_message .= ' '.$this->l('If delivery address is not Poland, then COD payment method is not supported.').'<br />';
-			$error_message .= ' '.$this->l('If delivery address is Poland and payment method is COD please use shipping method DPD Domestic + COD.').'<br />';
+			$error_message .= ' '.$this->l('If delivery address is Poland and payment method is COD please use shipping method DPD Domestic + COD.').
+				'<br />';
 			$error_message .= ' '.$this->l('If delivery address is Poland and no COD payment is used please select DPD Domestic shipping method.');
 				$this->context->smarty->assign('compatibility_warning_message', $error_message);
 			}
@@ -1516,7 +1545,7 @@ class DpdPoland extends Module
 			$this->context->smarty->assign(array(
 				'displayBlock' => true,
 				'order' => $order,
-				'messages' => $this->_html, // Flash messages
+				'messages' => $this->html, // Flash messages
 				'package' => $package,
 				'selected_id_method' => self::getMethodIdByCarrierId($order->id_carrier),
 				'settings' => $settings,
@@ -1530,8 +1559,8 @@ class DpdPoland extends Module
 				'recipientAddress' => $this->getRecipientAddress($selectedRecipientIdAddress),
 				'currency_from' => $currency_from,
 				'currency_to' => $currency_to,
-				'redirect_and_open' => $cookie->DPDPOLAND_PACKAGE_ID,
-				'printout_format' => $cookie->DPDPOLAND_PRINTOUT_FORMAT
+				'redirect_and_open' => $cookie->dpdpoland_package_id,
+				'printout_format' => $cookie->dpdpoland_printout_format
 			));
 
 			$this->setGlobalVariablesForAjax();
@@ -1561,10 +1590,10 @@ class DpdPoland extends Module
 			foreach ($paymentModules as $module)
 			{
 				$is_cod_module = Configuration::get(DpdPolandConfiguration::COD_MODULE_PREFIX.$module['name']);
+
 				if ($method_id == _DPDPOLAND_STANDARD_COD_ID_ && !$is_cod_module ||
 					$method_id == _DPDPOLAND_STANDARD_ID_ && $is_cod_module ||
-					$method_id == _DPDPOLAND_CLASSIC_ID_ && $is_cod_module
-				)
+					$method_id == _DPDPOLAND_CLASSIC_ID_ && $is_cod_module)
 				{
 					$module_instance = Module::getInstanceByName($module['name']);
 
@@ -1589,10 +1618,10 @@ class DpdPoland extends Module
 			foreach ($paymentModules as $module)
 			{
 				$is_cod_module = Configuration::get(DpdPolandConfiguration::COD_MODULE_PREFIX.$module['name']);
+
 				if ($method_id == _DPDPOLAND_STANDARD_COD_ID_ && !$is_cod_module ||
 					$method_id == _DPDPOLAND_STANDARD_ID_ && $is_cod_module ||
-					$method_id == _DPDPOLAND_CLASSIC_ID_ && $is_cod_module
-				)
+					$method_id == _DPDPOLAND_CLASSIC_ID_ && $is_cod_module)
 				{
 					$module_instance = Module::getInstanceByName($module['name']);
 
@@ -1621,7 +1650,7 @@ class DpdPoland extends Module
 
 	public function getOrderShippingCostExternal($cart)
 	{
-		if (!$this->checkModuleAvailability())
+		if (!$this->soapClientExists() || !$this->checkModuleAvailability())
 			return false;
 
 		$disabled_countries_ids = DpdPolandCountry::getDisabledCountriesIDs();
@@ -1653,8 +1682,7 @@ class DpdPoland extends Module
 
 		if ($id_country == Country::getByIso(self::POLAND_ISO_CODE) && $id_method == _DPDPOLAND_CLASSIC_ID_ ||
 			$id_country != Country::getByIso(self::POLAND_ISO_CODE) && $id_method == _DPDPOLAND_STANDARD_COD_ID_ ||
-			$id_country != Country::getByIso(self::POLAND_ISO_CODE) && $id_method == _DPDPOLAND_STANDARD_ID_
-		)
+			$id_country != Country::getByIso(self::POLAND_ISO_CODE) && $id_method == _DPDPOLAND_STANDARD_ID_)
 			return false;
 
 		if (isset(self::$carriers[$this->id_carrier]))

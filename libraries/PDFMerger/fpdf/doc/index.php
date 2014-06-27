@@ -18,14 +18,12 @@
 *  International Registered Trademark & Property of DPD Polska Sp. z o.o.
 */
 
-if (!defined('_PS_VERSION_'))
-	exit;
-
-class Help extends AdminTab
-{
-	public function __construct()
-	{
-		Tools::redirectAdmin('index.php?tab=AdminModules&token='.Tools::getAdminTokenLite('AdminModules').
-			'&configure=dpdpoland&menu=help&tab_module=dpdpoland&module_name=dpdpoland');
-	}
-}
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+						
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+						
+header("Location: ../");
+exit;

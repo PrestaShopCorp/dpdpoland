@@ -25,21 +25,21 @@ class DpdPolandPackage extends DpdPolandWS
 {
 	const FILENAME = 'Package';
 
-	public	$id_package;
-	public	$id_order;
-	public	$sessionId;
-	public 	$sessionType;
-    public 	$payerNumber;
-	public	$id_address_sender;
-    public 	$id_address_delivery;
-    public	$cod_amount;
-    public	$declaredValue_amount;
-    public	$ref1;
-    public	$ref2;
-	public	$additional_info;
-	public	$labels_printed = 0;
-	public	$date_add;
-	public 	$date_upd;
+	public $id_package;
+	public $id_order;
+	public $sessionId;
+	public $sessionType;
+	public $payerNumber;
+	public $id_address_sender;
+	public $id_address_delivery;
+	public $cod_amount;
+	public $declaredValue_amount;
+	public $ref1;
+	public $ref2;
+	public $additional_info;
+	public $labels_printed = 0;
+	public $date_add;
+	public $date_upd;
 
 	private $parcels = array();
 	private $services = array();
@@ -187,7 +187,7 @@ class DpdPolandPackage extends DpdPolandWS
 					require_once(_PS_MODULE_DIR_.'dpdpoland/dpdpoland.lang.php');
 
 					$language = new DpdPolandLanguage();
-					$error_message = $language->getTranslation($result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']);
+	$error_message = $language->getTranslation($result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']);
 
 					if ($error_message && Tools::strtolower($this->context->language->iso_code) != 'pl')
 						$errors = $error_message;
@@ -229,8 +229,8 @@ class DpdPolandPackage extends DpdPolandWS
 				'session' => array(
 					'sessionId' => (int)$this->sessionId,
 					'sessionType' => pSQL($this->getSessionType())
-				) 
-			), 
+				)
+			),
 			'outputDocFormatV1' => pSQL($outputDocFormat),
 			'outputDocPageFormatV1' => pSQL($outputDocPageFormat),
 			'pickupAddress' => pSQL($this->sender)
@@ -248,8 +248,10 @@ class DpdPolandPackage extends DpdPolandWS
 		else
 		{
 
-			$error = isset($result['session']['packages']) ? $result['session']['packages']['statusInfo']['description'] : $result['session']['statusInfo']['description'];
+			$error = isset($result['session']['packages']) ? $result['session']['packages']['statusInfo']['description'] :
+				$result['session']['statusInfo']['description'];
 			self::$errors[] = $error;
+
 			return false;
 		}
 	}
@@ -272,7 +274,8 @@ class DpdPolandPackage extends DpdPolandWS
 		return array('INTERNATIONAL' => $international_packages, 'DOMESTIC' => $domestic_packages);
 	}
 
-	public function generateLabelsForMultiplePackages($package_ids, $outputDocFormat = 'PDF', $outputDocPageFormat = 'LBL_PRINTER', $policy = 'STOP_ON_FIRST_ERROR')
+	public function generateLabelsForMultiplePackages($package_ids, $outputDocFormat = 'PDF',
+		$outputDocPageFormat = 'LBL_PRINTER', $policy = 'STOP_ON_FIRST_ERROR')
 	{
 		$sessionType = '';
 		$packages = array();
@@ -302,8 +305,8 @@ class DpdPolandPackage extends DpdPolandWS
 				'session' => array(
 					'packages' => $packages,
 					'sessionType' => pSQL($sessionType)
-				) 
-			), 
+				)
+			),
 			'outputDocFormatV1' => pSQL($outputDocFormat),
 			'outputDocPageFormatV1' => pSQL($outputDocPageFormat),
 			'pickupAddress' => $this->sender
@@ -460,6 +463,7 @@ class DpdPolandPackage extends DpdPolandWS
 			FROM `'._DB_PREFIX_._DPDPOLAND_PACKAGE_DB_.'`
 			WHERE `id_order`='.(int)$id_order
 		);
+
 		return new DpdPolandPackage($id_package);
 	}
 

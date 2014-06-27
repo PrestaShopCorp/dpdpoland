@@ -21,14 +21,14 @@
 class DpdPolandLanguage
 {
 	const FILENAME = 'dpdpoland.lang';
-	
+
 	private $translations = array();
 	private $module_instance;
-	
+
 	public function __construct()
 	{
 		$this->module_instance = Module::getInstanceByName('dpdpoland');
-		
+
 		$this->translations = array(
 			'1000' => $this->module_instance->l('ERROR_INCORRECT_WEIGHT_FOR_DOX', self::FILENAME),
 			'1002' => $this->module_instance->l('ERROR_INCORRECT_WEIGHT_FOR_COUNTRY', self::FILENAME),
@@ -124,11 +124,12 @@ class DpdPolandLanguage
 			'2021' => $this->module_instance->l('ERROR_DEDICATED_DELIVERY_TIRES_EXCLUDING', self::FILENAME)
 		);
 	}
-	
+
 	public function getTranslation($id_translation)
 	{
 		if (isset($this->translations[(int)$id_translation]))
 			return $this->translations[(int)$id_translation];
+
 		return '';
 	}
 }

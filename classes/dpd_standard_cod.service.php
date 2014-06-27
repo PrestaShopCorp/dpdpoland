@@ -25,7 +25,7 @@ if (!defined('_PS_VERSION_'))
 class DpdPolandCarrierStandardCODService extends DpdPolandService
 {
 	const FILENAME = 'dpd_standard_cod.service';
-	
+
 	public static function install()
 	{
 		$id_carrier = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID);
@@ -36,7 +36,7 @@ class DpdPolandCarrierStandardCODService extends DpdPolandService
 		}
 		else
 			$carrier = Carrier::getCarrierByReference((int)$id_carrier);
-		
+
 		if ($id_carrier && Validate::isLoadedObject($carrier))
 			if (!$carrier->deleted)
 				return true;
@@ -45,9 +45,9 @@ class DpdPolandCarrierStandardCODService extends DpdPolandService
 				$carrier->deleted = 0;
 				return (bool)$carrier->save();
 			}
-		
+
 		$carrier_standard_cod = new DpdPolandCarrierStandardCODService();
-		
+
 		$carrier = new Carrier();
 		$carrier->name = $carrier_standard_cod->module_instance->l('DPD domestic shipment - Standard with COD', self::FILENAME);
 		$carrier->active = 1;
@@ -65,40 +65,44 @@ class DpdPolandCarrierStandardCODService extends DpdPolandService
 		$carrier->range_behavior = 1;
 		$carrier->external_module_name = $carrier_standard_cod->module_instance->name;
 		$carrier->url = _DPDPOLAND_TRACKING_URL_;
-		
+
 		$delay = array();
+
 		foreach (Language::getLanguages(false) as $language)
 			$delay[$language['id_lang']] = $carrier_standard_cod->module_instance->l('DPD domestic shipment - Standard with COD', self::FILENAME);
+
 		$carrier->delay = $delay;
-		
+
 		if (!$carrier->save())
 			return false;
-		
+
 		$dpdpoland_carrier = new DpdPolandCarrier();
 		$dpdpoland_carrier->id_carrier = (int)$carrier->id;
 		$dpdpoland_carrier->id_reference = (int)$carrier->id;
-		
+
 		if (!$dpdpoland_carrier->save())
 			return false;
-		
-		if (!copy(_DPDPOLAND_IMG_DIR_.DpdPolandCarrierStandardCODService::IMG_DIR.'/'._DPDPOLAND_STANDARD_COD_ID_.'.'.DpdPolandCarrierStandardCODService::IMG_EXTENTION, _PS_SHIP_IMG_DIR_.'/'.(int)$carrier->id.'.jpg'))
+
+		if (!copy(_DPDPOLAND_IMG_DIR_.DpdPolandCarrierStandardCODService::IMG_DIR.'/'._DPDPOLAND_STANDARD_COD_ID_.'.'.
+			DpdPolandCarrierStandardCODService::IMG_EXTENTION, _PS_SHIP_IMG_DIR_.'/'.(int)$carrier->id.'.jpg'))
 			return false;
-		
+
 		$range_obj = $carrier->getRangeObject();
 		$range_obj->id_carrier = (int)$carrier->id;
 		$range_obj->delimiter1 = 0;
 		$range_obj->delimiter2 = 1;
+
 		if (!$range_obj->save())
 			return false;
-		
+
 		foreach ($carrier_standard_cod->continents as $continent => $value)
 			if ($value && !$carrier->addZone($continent))
 				return false;
-		
+
 		$groups = array();
 		foreach (Group::getGroups((int)Context::getContext()->language->id) as $group)
 			$groups[] = $group['id_group'];
-		
+
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 		{
 			if (!self::setGroups14((int)$carrier->id, $groups))
@@ -107,13 +111,13 @@ class DpdPolandCarrierStandardCODService extends DpdPolandService
 		else
 			if (!$carrier->setGroups($groups))
 				return false;
-		
+
 		if (!Configuration::updateValue(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID, (int)$carrier->id))
 			return false;
-		
+
 		return true;
 	}
-	
+
 	public static function delete()
 	{
 		return (bool)self::deleteCarrier((int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID));

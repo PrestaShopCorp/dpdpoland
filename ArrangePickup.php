@@ -25,6 +25,7 @@ class ArrangePickup extends AdminTab
 {
 	public function __construct()
 	{
-		Tools::redirectAdmin('index.php?tab=AdminModules&token='.Tools::getAdminTokenLite('AdminModules').'&configure=dpdpoland&menu=arrange_pickup&tab_module=dpdpoland&module_name=dpdpoland');
+		Tools::redirectAdmin('index.php?tab=AdminModules&token='.Tools::getAdminTokenLite('AdminModules').
+			'&configure=dpdpoland&menu=arrange_pickup&tab_module=dpdpoland&module_name=dpdpoland');
 	}
 }
