@@ -116,10 +116,10 @@ class DpdPolandManifest extends DpdPolandWS
 		{
 			if (!$this->id_manifest)
 				$this->id_manifest = (int)$result['documentId'];
-				
+
 			$this->saveManifestLocally();
-				
-			return base64_decode($result['documentData']);
+
+			return $result['documentData'];
 		}
 		else
 			return false;
@@ -148,8 +148,6 @@ class DpdPolandManifest extends DpdPolandWS
 			}
 		}
 
-		$this->duplicatable_nodes = array('packages');
-
 		$params = array(
 			'dpdServicesParamsV1' => array(
 				'pickupAddress' => $package->getSenderAddress($package_number),
@@ -176,14 +174,14 @@ class DpdPolandManifest extends DpdPolandWS
 		{
 			if (!$this->id_manifest)
 				$this->id_manifest = (int)$result['documentId'];
-				
+
 			foreach ($package_ids as $id_package)
 			{
 				$this->id_package = (int)$id_package;
 				$this->saveManifestLocally();
 			}
 
-			return base64_decode($result['documentData']);
+			return $result['documentData'];
 		}
 		else
 		{
@@ -191,7 +189,7 @@ class DpdPolandManifest extends DpdPolandWS
 				self::$errors[] = $result['session']['statusInfo']['description'];
 			elseif (isset($result['session']['statusInfo']['status']))
 				self::$errors[] = $result['session']['statusInfo']['status'];
-			
+
 			return false;
 		}
 	}

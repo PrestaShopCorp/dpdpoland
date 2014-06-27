@@ -243,7 +243,7 @@ class DpdPolandPackage extends DpdPolandWS
 		{
 			$this->labels_printed = 1;
 			$this->logLabelsPrintout();
-			return base64_decode($result['documentData']);
+			return $result['documentData'];
 		}
 		else
 		{
@@ -296,7 +296,6 @@ class DpdPolandPackage extends DpdPolandWS
 			);
 		}
 
-		$this->duplicatable_nodes = array('packages');
 		$this->prepareSenderAddress();
 
 		$params = array(
@@ -323,7 +322,7 @@ class DpdPolandPackage extends DpdPolandWS
 				$this->id_package = (int)$id_package;
 				$this->logLabelsPrintout();
 			}
-			return base64_decode($result['documentData']);
+			return $result['documentData'];
 		}
 		else
 		{
@@ -354,7 +353,6 @@ class DpdPolandPackage extends DpdPolandWS
 
 		$this->prepareSenderAddress($payer_number);
 		$this->prepareServicesData();
-		$this->duplicatable_nodes = array('parcels');
 
 		$params = array(
 			'openUMLV1' => array(

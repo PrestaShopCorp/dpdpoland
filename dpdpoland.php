@@ -59,7 +59,7 @@ class DpdPoland extends Module
 	{
 		$this->name = 'dpdpoland';
 		$this->tab = 'shipping_logistics';
-		$this->version = '0.6';
+		$this->version = '0.7';
 		$this->author = 'DPD Polska Sp. z o.o.';
 
 		parent::__construct();
@@ -1455,7 +1455,7 @@ class DpdPoland extends Module
 	{
 		if (!$this->soapClientExists())
 			return '';
-		
+
 		$order = new Order((int)$params['id_order']);
 		if (!DpdPolandConfiguration::checkRequiredConfiguration())
 		{

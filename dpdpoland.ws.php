@@ -21,62 +21,94 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-if (!class_exists('nusoap_base'))
-	require_once(_DPDPOLAND_LIBRARIES_DIR_.'nusoap/nusoap.php');
 require_once dirname(__FILE__).'/dpdpoland.lang.php';
 
 class DpdPolandWS extends DpdPolandController
 {
-    private 	$client; /* NUSoap client */
-	private 	$endpoint;
-	private 	$targetNamespace = 'http://dpdservices.dpd.com.pl/';
+	private		$client; // instance of SoapClient class
 
 	private 	$params = array();
-	private 	$payload;
-	public		$duplicatable_nodes = array();
+
+	private 	$lastCalledFunctionPayload;
+
 	private 	$lastCalledFunctionName;
+
 	private 	$lastCalledFunctionArgs = array();
 
 	const 	FILENAME 				= 'dpdpoland.ws';
-	const 	DEBUG_FILENAME			= 'DPDPOLAND_DEBUG_FILENAME';
+	const 	DEBUG_FILENAME			= 'DPDPOLAND_DEBUG_FILENAME'; // @TODO prepend config_
 	const 	DEBUG_POPUP				= false;
-	const 	DEBUG_FILENAME_LENGTH 	= 16;
+	const 	DEBUG_FILENAME_LENGTH 	= 16; // @TODO prepend config_
 
-    public function __construct()
+    public function __construct($wsdl = null)
     {
-		parent::__construct();
-		$this->loadWSData();
+		$settings = new DpdPolandConfiguration;
+
+		$this->params = array(
+			'authDataV1' => array(
+				'login' => pSQL($settings->login),
+				'masterFid' => pSQL($settings->customer_fid),
+				'password' => pSQL($settings->password)
+			)
+		);
+
+        try
+		{
+			$timeout = 0; // @TODO value has to be taken from settings
+			$this->client = new SoapClient($settings->ws_url, array('connection_timeout' => (int)$timeout, 'trace' => true));
+			return $this->client;
+        }
+        catch (Exception $e)
+		{
+            self::$errors[] = $e->getMessage();
+        }
+
+		return false;
     }
 
-	public function __call($name, $arguments)
+	public function __call($function_name, $arguments)
 	{
-		$this->payload = '';
-		$this->lastCalledFunctionName = $name;
+		$result = null;
+
+		$this->lastCalledFunctionName = $function_name;
 		$this->lastCalledFunctionArgs = $arguments;
 
 		if (isset($arguments[0]) && is_array($arguments[0]))
 		{
 			$this->params = array_merge($this->params, $arguments[0]);
-			$this->createPayload($this->params);
 
-			if (!$result = $this->client->call($name, $this->payload, $this->targetNamespace))
+			try
 			{
-				self::$errors[] = $this->l('Could not connect to webservice server. Please check webservice URL');
-				return false;
+				if (!$result = $this->client->$function_name($this->params))
+					self::$errors[] = $this->l('Could not connect to webservice server. Please check webservice URL');
+			}
+			catch (Exception $e)
+			{
+				self::$errors[] = $e->getMessage();
 			}
 
-			$this->duplicatable_nodes = array(); /* value is reset after WS call has been done */
+			if (isset($result->return))
+				$result = $result->return;
 
-			if (isset($result['faultstring']))
-				self::$errors[] = $result['faultstring'];
+			if (isset($result->faultstring))
+				self::$errors[] = $result->faultstring;
 
 			if (_DPDPOLAND_DEBUG_MODE_)
 				$this->debug($result);
 
-			return $result;
+			return $this->objectToArray($result);
 		}
 
 		return false;
+	}
+
+	/* we want to have response as array */
+	private function objectToArray($response)
+	{
+		if(!is_object($response) && !is_array($response))
+			return $response;
+
+		return array_map(array($this, 'objectToArray'), (array)$response);
 	}
 
 	private function createDebugFileIfNotExists()
@@ -101,59 +133,6 @@ class DpdPolandWS extends DpdPolandController
 		return Tools::strlen($debug_filename) == (int)self::DEBUG_FILENAME_LENGTH + 5 && preg_match('#^[a-zA-Z0-9]+\.html$#', $debug_filename);
 	}
 
-	private function createPayload($params, $duplicatable_node_name = null)
-	{
-		foreach ($params as $param_name => $param_value)
-		{
-			if ($duplicatable_node_name)
-			{
-				$this->payload .= "<$duplicatable_node_name>";
-				$this->createPayload($param_value);
-				$this->payload .= "</$duplicatable_node_name>";
-			}
-			elseif (is_array($param_value))
-			{
-				if (!in_array($param_name, $this->duplicatable_nodes))
-				{
-					$this->payload .= "<$param_name>";
-					$this->createPayload($param_value);
-					$this->payload .= "</$param_name>";
-				}
-				else
-					$this->createPayload($param_value, $param_name);
-			}
-			else
-				$this->payload .= $this->client->serialize_val($param_value, $param_name, false, false, false, false, 'encoded');
-		}
-	}
-
-	private function loadWSData($timeout = 0)
-	{
-		$settings = new DpdPolandConfiguration;
-
-		$this->endpoint = $settings->ws_url;
-
-		$this->params = array(
-			'authDataV1' => array(
-				'login' => pSQL($settings->login),
-				'masterFid' => pSQL($settings->customer_fid),
-				'password' => pSQL($settings->password)
-			)
-		);
-
-		$this->client = new nusoap_client($this->endpoint, false, false, false, false, (int)$timeout);
-		$this->client->soap_defencoding = 'UTF-8';
-		$this->client->decode_utf8 = false;
-
-		if ($error = $this->client->getError())
-			self::$errors[] = $error;
-
-		if (count(self::$errors))
-			return false;
-
-		return true;
-	}
-
 	private function debug($result = null)
 	{
 		$debug_html = '';
@@ -167,12 +146,12 @@ class DpdPolandWS extends DpdPolandController
 			$debug_html .= '</pre>';
 		}
 
-		if ($this->payload)
+		if ($this->lastCalledFunctionPayload = (string)$this->client->__getLastRequest())
 			$debug_html .= '<h2>Request</h2><pre>' . $this->displayPayload() . '</pre>';
 
 		if ($result)
 		{
-			if ($err = $this->client->getError())
+			if ($err = $this->getError())
 				$debug_html .= '<h2>Error</h2><pre>' . $err . '</pre>';
 			else
 			{
@@ -214,7 +193,7 @@ class DpdPolandWS extends DpdPolandController
 	/* only for debugging purposes */
 	private function displayPayload()
 	{
-		$xml = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $this->payload);
+		$xml = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $this->lastCalledFunctionPayload);
 		$token      = strtok($xml, "\n");
 		$result     = '';
 		$pad        = 0;
