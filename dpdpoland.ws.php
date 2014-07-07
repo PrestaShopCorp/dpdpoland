@@ -47,9 +47,9 @@ class DpdPolandWS extends DpdPolandController
 
 		$this->params = array(
 			'authDataV1' => array(
-				'login' => pSQL($settings->login),
-				'masterFid' => pSQL($settings->customer_fid),
-				'password' => pSQL($settings->password)
+				'login' => $settings->login,
+				'masterFid' => $settings->customer_fid,
+				'password' => $settings->password
 			)
 		);
 
