@@ -165,9 +165,9 @@ select.client_number_select
 	width: 120px;
 }
 
-fieldset.extended
+fieldset#dpdpoland.extended
 {
-	width: 880px !important;
+	width: 880px;
 }
 
 div#printout_format_container

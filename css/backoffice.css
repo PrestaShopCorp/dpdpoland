@@ -1,16 +1,16 @@
 .process-icon-help
 {
-    background-image: url("../img/toolbar/help.png") !important;
+    background-image: url("../img/toolbar/help.png");
 }
 
 .process-icon-settings
 {
-    background-image: url("../img/toolbar/setting_tools.png") !important;
+    background-image: url("../img/toolbar/setting_tools.png");
 }
 
 .process-icon-csv
 {
-	background-image: url("../img/toolbar/csv_tools.png") !important;
+	background-image: url("../img/toolbar/csv_tools.png");
 }
 
 .process-icon-arrange_pickup
@@ -20,22 +20,22 @@
 
 .process-icon-packages_list
 {
-	background-image: url("../img/toolbar/packages_list.png") !important;
+	background-image: url("../img/toolbar/packages_list.png");
 }
 
 .process-icon-manifest_list
 {
-	background-image: url("../img/toolbar/manifest_list.png") !important;
+	background-image: url("../img/toolbar/manifest_list.png");
 }
 
 .process-icon-parcel_history_list
 {
-	background-image: url("../img/toolbar/parcels_history.png") !important;
+	background-image: url("../img/toolbar/parcels_history.png");
 }
 
 .process-icon-country_list
 {
-	background-image: url("../img/toolbar/shipment_countries.png") !important;
+	background-image: url("../img/toolbar/shipment_countries.png");
 }
 
 /* hides prestashop help button */
@@ -114,7 +114,7 @@ table#country_list tr.nodrag.nodrop a:hover
 
 .payment_modules_container label
 {
-	width: auto !important;
+	width: auto;
 	float: none;
 }
 
