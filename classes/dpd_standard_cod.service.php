@@ -21,7 +21,6 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-
 class DpdPolandCarrierStandardCODService extends DpdPolandService
 {
 	const FILENAME = 'dpd_standard_cod.service';

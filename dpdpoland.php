@@ -227,9 +227,6 @@ class DpdPoland extends Module
 			if (!Db::getInstance()->execute($sql)) return false;
 		}
 
-		if (!$this->installTab())
-			return false;
-
 		if (!parent::install() || !$this->registerHook('adminOrder'))
 			return false;
 
@@ -254,9 +251,6 @@ class DpdPoland extends Module
 
 	public function uninstall()
 	{
-		if (!$this->uninstallTab())
-			return false;
-
 		require_once(_DPDPOLAND_CLASSES_DIR_.'service.php');
 		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_classic.service.php');
 		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_standard.service.php');
@@ -285,176 +279,6 @@ class DpdPoland extends Module
 				`'._DB_PREFIX_._DPDPOLAND_PARCEL_PRODUCT_DB_.'`,
 				`'._DB_PREFIX_._DPDPOLAND_CARRIER_DB_.'`
 		');
-	}
-
-	private function installTab()
-	{
-		$max_position = DB::getInstance()->getValue('
-			SELECT MAX(`position`)
-			FROM `'._DB_PREFIX_.'tab`
-			WHERE `id_parent` = "-1"
-		');
-
-		$profiles = Db::getInstance()->executeS('
-			SELECT `id_profile`
-			FROM '._DB_PREFIX_.'profile
-			WHERE `id_profile` != 1
-		');
-
-		$tab = new Tab();
-		foreach (Language::getLanguages(false) as $language)
-			$tab->name[$language['id_lang']] = 'DPD';
-		$tab->class_name = 'Logo';
-		$tab->module = $this->name;
-		$tab->id_parent = '0';
-		$tab->position = $max_position + 1;
-		$tab->active = 1;
-		if (!$tab->add())
-			return false;
-
-		$id_parent_tab = (int)$tab->id;
-
-		if (!$this->setMenuPermissionsForAdministrators($profiles, (int)$id_parent_tab))
-			return false;
-
-		$tab = new Tab();
-		foreach (Language::getLanguages(false) as $language)
-		{
-			if ($language['iso_code'] == 'pl')
-				$tab->name[$language['id_lang']] = 'Zamów Kuriera DPD';
-			else
-				$tab->name[$language['id_lang']] = 'Arrange pickup';
-		}
-		$tab->class_name = 'ArrangePickup';
-		$tab->module = $this->name;
-		$tab->id_parent = $id_parent_tab;
-		$tab->position = 1;
-		$tab->active = 1;
-		if (!$tab->add())
-			return false;
-
-		if (!$this->setMenuPermissionsForAdministrators($profiles, (int)$tab->id))
-			return false;
-
-		$tab = new Tab();
-		foreach (Language::getLanguages(false) as $language)
-		{
-			if ($language['iso_code'] == 'pl')
-				$tab->name[$language['id_lang']] = 'Przesyłki';
-			else
-				$tab->name[$language['id_lang']] = 'Packages list';
-		}
-		$tab->class_name = 'PackagesList';
-		$tab->module = $this->name;
-		$tab->id_parent = $id_parent_tab;
-		$tab->position = 2;
-		$tab->active = 1;
-		if (!$tab->add())
-			return false;
-
-		if (!$this->setMenuPermissionsForAdministrators($profiles, (int)$tab->id))
-			return false;
-
-		$tab = new Tab();
-		foreach (Language::getLanguages(false) as $language)
-		{
-			if ($language['iso_code'] == 'pl')
-				$tab->name[$language['id_lang']] = 'Historia wysyłek';
-			else
-				$tab->name[$language['id_lang']] = 'Parcel History';
-		}
-		$tab->class_name = 'ParcelHistory';
-		$tab->module = $this->name;
-		$tab->id_parent = $id_parent_tab;
-		$tab->position = 3;
-		$tab->active = 1;
-		if (!$tab->add())
-			return false;
-
-		if (!$this->setMenuPermissionsForAdministrators($profiles, (int)$tab->id))
-			return false;
-
-		$tab = new Tab();
-		foreach (Language::getLanguages(false) as $language)
-		{
-			if ($language['iso_code'] == 'pl')
-				$tab->name[$language['id_lang']] = 'Lista protokołów';
-			else
-				$tab->name[$language['id_lang']] = 'Manifest List';
-		}
-		$tab->class_name = 'Manifestlist';
-		$tab->module = $this->name;
-		$tab->id_parent = $id_parent_tab;
-		$tab->position = 4;
-		$tab->active = 1;
-		if (!$tab->add())
-			return false;
-
-		if (!$this->setMenuPermissionsForAdministrators($profiles, (int)$tab->id))
-			return false;
-
-		$tab = new Tab();
-		foreach (Language::getLanguages(false) as $language)
-		{
-			if ($language['iso_code'] == 'pl')
-				$tab->name[$language['id_lang']] = 'Pomoc';
-			else
-				$tab->name[$language['id_lang']] = 'Help';
-		}
-		$tab->class_name = 'Help';
-		$tab->module = $this->name;
-		$tab->id_parent = $id_parent_tab;
-		$tab->position = 5;
-		$tab->active = 1;
-		if (!$tab->add())
-			return false;
-
-		if (!$this->setMenuPermissionsForAdministrators($profiles, (int)$tab->id))
-			return false;
-
-		return true;
-	}
-
-	private function uninstallTab()
-	{
-		$tabs = DB::getInstance()->executeS('
-			SELECT `id_tab`
-			FROM `'._DB_PREFIX_.'tab`
-			WHERE `module` = "'.pSQL($this->name).'"
-		');
-
-		if (!$tabs)
-			return true;
-
-		foreach ($tabs as $tab)
-		{
-			$tab_obj = new Tab($tab['id_tab']);
-			if (!$tab_obj->delete())
-				return false;
-		}
-
-		return true;
-	}
-
-	private function setMenuPermissionsForAdministrators($profiles, $id_tab)
-	{
-		foreach ($profiles as $profile)
-		{
-			if (!DB::getInstance()->execute('
-				INSERT INTO `'._DB_PREFIX_.'access`
-					(`id_profile`, `id_tab`, `view`, `add`, `edit`, `delete`)
-				VALUES
-					("'.(int)$profile['id_profile'].'", "'.(int)$id_tab.'", "1", "1", "1", "1")
-				ON DUPLICATE KEY UPDATE
-					`view` = "1",
-					`add` = "1",
-					`edit` = "1",
-					`delete` = "1"
-			'))
-				return false;
-		}
-
-		return true;
 	}
 
 	private function soapClientExists()
