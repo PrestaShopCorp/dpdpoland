@@ -114,7 +114,7 @@ class DpdPolandCarrierClassicService extends DpdPolandService
 		foreach (Group::getGroups((int)Context::getContext()->language->id) as $group)
 			$groups[] = $group['id_group'];
 
-		if (version_compare(_PS_VERSION_, '1.5', '<'))
+		if (version_compare(_PS_VERSION_, '1.5.5', '<'))
 		{
 			if (!self::setGroups14((int)$carrier->id, $groups))
 				return false;
