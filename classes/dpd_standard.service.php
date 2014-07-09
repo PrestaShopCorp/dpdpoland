@@ -28,13 +28,7 @@ class DpdPolandCarrierStandardService extends DpdPolandService
 	public static function install()
 	{
 		$id_carrier = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_ID);
-		if (version_compare(_PS_VERSION_, '1.5', '<'))
-		{
-			$id_carrier = (int)DpdPolandCarrier::getIdCarrierByReference((int)$id_carrier);
-			$carrier = new Carrier((int)$id_carrier);
-		}
-		else
-			$carrier = Carrier::getCarrierByReference($id_carrier);
+		$carrier = $this->getCarrierById((int)$id_carrier);
 
 		if ($id_carrier && Validate::isLoadedObject($carrier))
 			if (!$carrier->deleted)
@@ -98,19 +92,8 @@ class DpdPolandCarrierStandardService extends DpdPolandService
 			if ($value && !$carrier->addZone($continent))
 				return false;
 
-		$groups = array();
-
-		foreach (Group::getGroups((int)Context::getContext()->language->id) as $group)
-			$groups[] = $group['id_group'];
-
-		if (version_compare(_PS_VERSION_, '1.5.5', '<'))
-		{
-			if (!self::setGroups14((int)$carrier->id, $groups))
-				return false;
-		}
-		else
-			if (!$carrier->setGroups($groups))
-				return false;
+		if (!$this->assignCustomerGroupsForCarrier($carrier))
+			return false;
 
 		if (!Configuration::updateValue(DpdPolandConfiguration::CARRIER_STANDARD_ID, (int)$carrier->id))
 			return false;

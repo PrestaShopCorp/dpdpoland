@@ -95,4 +95,34 @@ class DpdPolandService
 				return false;
 		return true;
 	}
+
+	protected function assignCustomerGroupsForCarrier($carrier)
+	{
+		$groups = array();
+
+		foreach (Group::getGroups((int)Context::getContext()->language->id) as $group)
+			$groups[] = $group['id_group'];
+
+		if (version_compare(_PS_VERSION_, '1.5.5', '<'))
+		{
+			if (!self::setGroups14((int)$carrier->id, $groups))
+				return false;
+		}
+		else
+			if (!$carrier->setGroups($groups))
+				return false;
+	}
+
+	protected function getCarrierById($id_carrier)
+	{
+		if (version_compare(_PS_VERSION_, '1.5', '<'))
+		{
+			$id_carrier = (int)DpdPolandCarrier::getIdCarrierByReference($id_carrier);
+			$carrier = new Carrier((int)$id_carrier);
+		}
+		else
+			$carrier = Carrier::getCarrierByReference((int)$id_carrier);
+
+		return $carrier;
+	}
 }
