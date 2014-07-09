@@ -91,15 +91,15 @@ class DpdPolandPackage extends DpdPolandWS
 			if (Validate::isLoadedObject($customer))
 			{
 				$this->receiver = array(
-					'address' => pSQL($address->address1),
-					'city' => pSQL($address->city),
-					'company' => pSQL($address->company),
-					'countryCode' => pSQL(Country::getIsoById((int)$address->id_country)),
-					'email' => pSQL($customer->email),
+					'address' => $address->address1,
+					'city' => $address->city,
+					'company' => $address->company,
+					'countryCode' => Country::getIsoById((int)$address->id_country),
+					'email' => $customer->email,
 					'fid' => null,
-					'name' => pSQL($address->firstname).' '.pSQL($address->lastname),
-					'phone' => $address->phone ? pSQL($address->phone) : pSQL($address->phone_mobile),
-					'postalCode' => pSQL(DpdPoland::convertPostcode($address->postcode))
+					'name' => $address->firstname.' '.$address->lastname,
+					'phone' => $address->phone ? $address->phone : $address->phone_mobile,
+					'postalCode' => DpdPoland::convertPostcode($address->postcode)
 				);
 			}
 			else
@@ -122,15 +122,15 @@ class DpdPolandPackage extends DpdPolandWS
 		$settings = new DpdPolandConfiguration;
 
 		$this->sender = array(
-			'address' => pSQL($settings->address),
-			'city' => pSQL($settings->city),
-			'company' => pSQL($settings->company_name),
+			'address' => $settings->address,
+			'city' => $settings->city,
+			'company' => $settings->company_name,
 			'countryCode' => DpdPoland::POLAND_ISO_CODE,
-			'email' => pSQL($settings->email),
-			'fid' => pSQL($client_number),
-			'name' => pSQL($settings->name_surname),
-			'phone' => PSQL($settings->phone),
-			'postalCode' => pSQL(DpdPoland::convertPostcode($settings->postcode))
+			'email' => $settings->email,
+			'fid' => $client_number,
+			'name' => $settings->name_surname,
+			'phone' => $settings->phone,
+			'postalCode' => DpdPoland::convertPostcode($settings->postcode)
 		);
 	}
 
@@ -227,15 +227,15 @@ class DpdPolandPackage extends DpdPolandWS
 
 		$params = array(
 			'dpdServicesParamsV1' => array(
-				'policy' => pSQL($policy),
+				'policy' => $policy,
 				'session' => array(
 					'sessionId' => (int)$this->sessionId,
-					'sessionType' => pSQL($this->getSessionType())
+					'sessionType' => $this->getSessionType()
 				)
 			),
-			'outputDocFormatV1' => pSQL($outputDocFormat),
-			'outputDocPageFormatV1' => pSQL($outputDocPageFormat),
-			'pickupAddress' => pSQL($this->sender)
+			'outputDocFormatV1' => $outputDocFormat,
+			'outputDocPageFormatV1' => $outputDocPageFormat,
+			'pickupAddress' => $this->sender
 		);
 
 		if (!$result = $this->generateSpedLabelsV1($params))
@@ -302,14 +302,14 @@ class DpdPolandPackage extends DpdPolandWS
 
 		$params = array(
 			'dpdServicesParamsV1' => array(
-				'policy' => pSQL($policy),
+				'policy' => $policy,
 				'session' => array(
 					'packages' => $packages,
-					'sessionType' => pSQL($sessionType)
+					'sessionType' => $sessionType
 				)
 			),
-			'outputDocFormatV1' => pSQL($outputDocFormat),
-			'outputDocPageFormatV1' => pSQL($outputDocPageFormat),
+			'outputDocFormatV1' => $outputDocFormat,
+			'outputDocPageFormatV1' => $outputDocPageFormat,
 			'pickupAddress' => $this->sender
 		);
 
@@ -360,10 +360,10 @@ class DpdPolandPackage extends DpdPolandWS
 			'openUMLV1' => array(
 				'packages' => array(
 					'parcels' => $this->parcels,
-					'payerType' => pSQL($payerType),
+					'payerType' => $payerType,
 					'receiver' => $this->receiver,
-					'ref1' => pSQL($this->ref1),
-					'ref2' => pSQL($this->ref2),
+					'ref1' => $this->ref1,
+					'ref2' => $this->ref2,
 					'ref3' => _DPDPOLAND_REFERENCE3_,
 					'reference' => null,
 					'sender' => $this->sender,
@@ -383,16 +383,16 @@ class DpdPolandPackage extends DpdPolandWS
 		if ($this->cod_amount !== null)
 		{
 			$this->services['cod'] = array(
-				'amount' => pSQL($this->cod_amount),
-				'currency' => pSQL(_DPDPOLAND_CURRENCY_ISO_)
+				'amount' => $this->cod_amount,
+				'currency' => _DPDPOLAND_CURRENCY_ISO_
 			);
 		}
 
 		if ($this->declaredValue_amount !== null)
 		{
 			$this->services['declaredValue'] = array(
-				'amount' => pSQL($this->declaredValue_amount),
-				'currency' => pSQL(_DPDPOLAND_CURRENCY_ISO_)
+				'amount' => $this->declaredValue_amount,
+				'currency' => _DPDPOLAND_CURRENCY_ISO_
 			);
 		}
 	}
@@ -510,7 +510,7 @@ class DpdPolandPackage extends DpdPolandWS
 					WHERE m.`id_package` = p.`id_package`
 				) '.
 			$filter.
-			($order_by && $order_way ? ' ORDER BY '.pSQL($order_by).' '.pSQL($order_way) : '').
+			($order_by && $order_way ? ' ORDER BY '.bqSQL($order_by).' '.pSQL($order_way) : '').
 			($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 		);
 

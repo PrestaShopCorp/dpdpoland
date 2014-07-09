@@ -21,6 +21,14 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
+if (!function_exists('bqSQL'))
+{
+	function bqSQL($string)
+	{
+		return str_replace('`', '\`', pSQL($string));
+	}
+}
+
 require_once(dirname(__FILE__).'/config.api.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'controller.php');
 require_once(dirname(__FILE__).'/dpdpoland.ws.php');
@@ -538,7 +546,7 @@ class DpdPoland extends Module
 	public function savePackageFromPost()
 	{
 		$id_current_order = (int)Tools::getValue('id_order');
-		$current_session_type = pSQL(Tools::getValue('dpdpoland_SessionType'));
+		$current_session_type = Tools::getValue('dpdpoland_SessionType');
 		$id_method = (int)$this->getMethodBySessionType($current_session_type);
 
 		if (!$this->validateAddressForPackageSession((int)Tools::getValue('dpdpoland_id_address_delivery'), (int)$id_method))
@@ -582,17 +590,17 @@ class DpdPoland extends Module
 			return false;
 		}
 
-		$additional_info = pSQL(Tools::getValue('additional_info'));
+		$additional_info = Tools::getValue('additional_info');
 
 		$package = new DpdPolandPackage;
 		$package->id_order = $id_current_order;
-		$package->sessionType = pSQL(Tools::getValue('dpdpoland_SessionType'));
-		$package->payerNumber = pSQL(Tools::getValue('dpdpoland_PayerNumber'));
+		$package->sessionType = Tools::getValue('dpdpoland_SessionType');
+		$package->payerNumber = Tools::getValue('dpdpoland_PayerNumber');
 		$package->id_address_delivery = (int)$address_delivery->id;
 		$package->id_address_sender = (int)$address_sender->id;
 		$package->additional_info = $additional_info;
-		$package->ref1 = pSQL(Tools::getValue('dpdpoland_ref1'));
-		$package->ref2 = pSQL(Tools::getValue('dpdpoland_ref2'));
+		$package->ref1 = Tools::getValue('dpdpoland_ref1');
+		$package->ref2 = Tools::getValue('dpdpoland_ref2');
 
 		if ($package->sessionType == 'domestic_with_cod')
 			$package->cod_amount = (float)Tools::getValue('dpdpoland_COD_amount');
@@ -670,7 +678,7 @@ class DpdPoland extends Module
 			$order->shipping_number = $tracking_number;
 			$order->update();
 
-			$order_carrier->tracking_number = pSQL($tracking_number);
+			$order_carrier->tracking_number = $tracking_number;
 			if ($order_carrier->update())
 			{
 				$customer = new Customer((int)$order->id_customer);
@@ -768,8 +776,8 @@ class DpdPoland extends Module
 				$parcel = new DpdPolandParcel;
 				$parcel->id_parcel = (int)$parcel_data['ParcelId'];
 				$parcel->id_package = (int)$id_package;
-				$parcel->waybill = pSQL($parcel_data['Waybill']);
-				$parcel->content = pSQL($parcels[$parcel_number]['content']);
+				$parcel->waybill = $parcel_data['Waybill'];
+				$parcel->content = $parcels[$parcel_number]['content'];
 				$parcel->weight = (float)$parcels[$parcel_number]['weight'];
 				$parcel->height = (float)$parcels[$parcel_number]['height'];
 				$parcel->length = (float)$parcels[$parcel_number]['length'];

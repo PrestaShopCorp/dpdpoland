@@ -108,7 +108,7 @@ class DpdPolandObjectModel extends ObjectModel
 							case 3:
 							case 5:
 							case 6:
-								$fields[$field_name] = pSQL($this->$field_name, true);
+								$fields[$field_name] = $this->$field_name;
 								break;
 							case 4:
 								$fields[$field_name] = (float)$this->$field_name;

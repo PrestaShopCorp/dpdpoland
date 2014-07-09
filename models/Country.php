@@ -77,7 +77,7 @@ class DpdPolandCountry extends DpdPolandObjectModel
 				LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (cl.`id_country` = c.`id_country` AND cl.`id_lang` = "'.(int)$id_lang.'")
 				 '.
 				$filter.
-				($order_by && $order_way ? ' ORDER BY '.pSQL($order_by).' '.pSQL($order_way) : '').
+				($order_by && $order_way ? ' ORDER BY '.bqSQL($order_by).' '.pSQL($order_way) : '').
 				($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 			);
 		else
@@ -93,7 +93,7 @@ class DpdPolandCountry extends DpdPolandObjectModel
 				LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (cl.`id_country` = c.`id_country` AND cl.`id_lang` = "'.(int)$id_lang.'")
 				WHERE cs.`id_shop` = "'.(int)$id_shop.'" '.
 				$filter.
-				($order_by && $order_way ? ' ORDER BY '.pSQL($order_by).' '.pSQL($order_way) : '').
+				($order_by && $order_way ? ' ORDER BY '.bqSQL($order_by).' '.pSQL($order_way) : '').
 				($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 			);
 

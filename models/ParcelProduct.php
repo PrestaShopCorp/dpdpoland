@@ -72,7 +72,7 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 							$product_data = self::getProductNameAndWeight($parcel['id_parcel'], $product['id_product'],
 								$product['id_product_attribute']);
 							$products[] = array_merge($product, array(
-								'name' => pSQL($product_data['name']),
+								'name' => $product_data['name'],
 								'weight' => (float)$product_data['weight'],
 								'id_parcel' => (int)$parcel['id_parcel']
 							));
@@ -84,8 +84,8 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 
 							$products[] = array_merge($product, array(
 								'name' => (version_compare(_PS_VERSION_, '1.5', '<') ?
-									pSQL($product_obj->name[(int)Context::getContext()->language->id]) :
-									pSQL(Product::getProductName($product['id_product'], $product['id_product_attribute']))),
+									$product_obj->name[(int)Context::getContext()->language->id] :
+									Product::getProductName($product['id_product'], $product['id_product_attribute'])),
 								'weight' => (float)$combination->weight + (float)$product_obj->weight,
 								'id_parcel' => (int)$parcel['id_parcel']
 							));
@@ -102,7 +102,7 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 	{
 		return Db::getInstance()->executeS('
 			SELECT `id_product`, `id_product_attribute`
-			FROM `'._DB_PREFIX_.pSQL(self::$definition['table']).'`
+			FROM `'._DB_PREFIX_.bqSQL(self::$definition['table']).'`
 			WHERE `id_parcel`='.(int)$id_parcel
 		);
 	}

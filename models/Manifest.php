@@ -96,14 +96,14 @@ class DpdPolandManifest extends DpdPolandWS
 		$params = array(
 			'dpdServicesParamsV1' => array(
 				'pickupAddress' => $package->getSenderAddress($package_number),
-				'policy' => pSQL($policy),
+				'policy' => $policy,
 				'session' => array(
 					'sessionId' => (int)$package->sessionId,
-					'sessionType' => pSQL($package->getSessionType())
+					'sessionType' => $package->getSessionType()
 				)
 			),
-			'outputDocFormatV1' => pSQL($output_doc_format),
-			'outputDocPageFormatV1' => pSQL($output_doc_page_format)
+			'outputDocFormatV1' => $output_doc_format,
+			'outputDocPageFormatV1' => $output_doc_page_format
 		);
 
 		if ($this->id_manifest)
@@ -151,14 +151,14 @@ class DpdPolandManifest extends DpdPolandWS
 		$params = array(
 			'dpdServicesParamsV1' => array(
 				'pickupAddress' => $package->getSenderAddress($package_number),
-				'policy' => pSQL($policy),
+				'policy' => $policy,
 				'session' => array(
-					'sessionType' => pSQL($session_type),
+					'sessionType' => $session_type,
 					'packages' => array()
 				)
 			),
-			'outputDocFormatV1' => pSQL($output_doc_format),
-			'outputDocPageFormatV1' => pSQL($output_doc_page_format)
+			'outputDocFormatV1' => $output_doc_format,
+			'outputDocPageFormatV1' => $output_doc_page_format
 		);
 
 		foreach ($package_ids as $id_package)

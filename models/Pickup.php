@@ -52,33 +52,33 @@ class DpdPolandPickup extends DpdPolandWS
 
 		$params = array(
 			'dpdPickupParamsV3' => array(
-				'operationType' => pSQL($operationType),
-				'orderType' => pSQL($this->orderType),
+				'operationType' => $operationType,
+				'orderType' => $this->orderType,
 				'pickupCallSimplifiedDetails' => array(
 					'packagesParams' => $this->getPackagesParams(),
 					'pickupCustomer' => array(
-						'customerFullName' => pSQL($settings->customer_name),
-						'customerName' => pSQL($settings->customer_company),
-						'customerPhone' => pSQL($settings->customer_phone)
+						'customerFullName' => $settings->customer_name,
+						'customerName' => $settings->customer_company,
+						'customerPhone' => $settings->customer_phone
 					),
 					'pickupPayer' => array(
 						//'payerCostCenter' => null,
-						'payerName' => pSQL($settings->client_name),
-						'payerNumber' => pSQL($settings->client_number)
+						'payerName' => $settings->client_name,
+						'payerNumber' => $settings->client_number
 					),
 					'pickupSender' => array(
-						'senderAddress' => pSQL($settings->address),
-						'senderCity' => pSQL($settings->city),
-						'senderFullName' => pSQL($settings->name_surname),
-						'senderName' => pSQL($settings->name_surname),
-						'senderPhone' => pSQL($settings->phone),
+						'senderAddress' => $settings->address,
+						'senderCity' => $settings->city,
+						'senderFullName' => $settings->name_surname,
+						'senderName' => $settings->name_surname,
+						'senderPhone' => $settings->phone,
 						'senderPostalCode' => DpdPoland::convertPostcode(pSQL($settings->postcode)),
 					)
 				),
-				'pickupDate' => pSQL($this->pickupDate),
-				'pickupTimeFrom' => pSQL($pickupTimeFrom),
-				'pickupTimeTo' => pSQL($pickupTimeTo),
-				'waybillsReady' => pSQL($waybillsReady)
+				'pickupDate' => $this->pickupDate,
+				'pickupTimeFrom' => $pickupTimeFrom,
+				'pickupTimeTo' => $pickupTimeTo,
+				'waybillsReady' => $waybillsReady
 			)
 		);
 
@@ -109,20 +109,20 @@ class DpdPolandPickup extends DpdPolandWS
 		$parcels_count = $this->parcelsCount > 0 ? $this->parcelsCount : 1;
 
 		$packagesParams = array(
-			'dox' => 1,//pSQL($this->dox),
+			'dox' => 1,
 			'doxCount' => (int)$this->doxCount,
-			'pallet' => pSQL($this->pallet),
-			'palletMaxHeight' => pSQL($this->palletMaxHeight),
-			'palletMaxWeight' => pSQL($this->palletMaxWeight),
+			'pallet' => $this->pallet,
+			'palletMaxHeight' => $this->palletMaxHeight,
+			'palletMaxWeight' => $this->palletMaxWeight,
 			'palletsCount' => (int)$this->palletsCount,
-			'palletsWeight' => pSQL($this->palletsWeight),
+			'palletsWeight' => $this->palletsWeight,
 			'parcelsCount' => (int)$parcels_count,
 			'standardParcel' => self::STANDARD_PARCEL,
-			'parcelMaxDepth' => $this->parcelMaxDepth ? pSQL($this->parcelMaxDepth) : 1,
-			'parcelMaxHeight' => $this->parcelMaxHeight ? pSQL($this->parcelMaxHeight) : 1,
-			'parcelMaxWeight' => $this->parcelMaxWeight ? pSQL($this->parcelMaxWeight) : 1,
-			'parcelMaxWidth' => $this->parcelMaxWidth ? pSQL($this->parcelMaxWidth) : 1,
-			'parcelsWeight' => $this->parcelsWeight ? pSQL($this->parcelsWeight) : 1
+			'parcelMaxDepth' => $this->parcelMaxDepth ? $this->parcelMaxDepth : 1,
+			'parcelMaxHeight' => $this->parcelMaxHeight ? $this->parcelMaxHeight : 1,
+			'parcelMaxWeight' => $this->parcelMaxWeight ? $this->parcelMaxWeight : 1,
+			'parcelMaxWidth' => $this->parcelMaxWidth ? $this->parcelMaxWidth : 1,
+			'parcelsWeight' => $this->parcelsWeight ? $this->parcelsWeight : 1
 		);
 
 		return $packagesParams;
@@ -135,7 +135,7 @@ class DpdPolandPickup extends DpdPolandWS
 		$params = array(
 			'senderPlaceV1' => array(
 				'countryCode' => DpdPoland::POLAND_ISO_CODE,
-				'zipCode' => pSQL(DpdPoland::convertPostcode($settings->postcode))
+				'zipCode' => DpdPoland::convertPostcode($settings->postcode)
 			)
 		);
 

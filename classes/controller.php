@@ -92,7 +92,7 @@ class DpdPolandController
 					if (is_array($value))
 						$this->context->cookie->$key = serialize($value);
 					else
-						$this->context->cookie->$key = pSQL($value);
+						$this->context->cookie->$key = $value;
 				}
 			}
 
