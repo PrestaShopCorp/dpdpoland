@@ -72,7 +72,7 @@ class DpdPolandPickup extends DpdPolandWS
 						'senderFullName' => $settings->name_surname,
 						'senderName' => $settings->name_surname,
 						'senderPhone' => $settings->phone,
-						'senderPostalCode' => DpdPoland::convertPostcode(pSQL($settings->postcode)),
+						'senderPostalCode' => DpdPoland::convertPostcode($settings->postcode),
 					)
 				),
 				'pickupDate' => $this->pickupDate,
