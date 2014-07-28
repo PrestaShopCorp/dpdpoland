@@ -59,13 +59,13 @@ class DpdPolandCSV extends DpdPolandObjectModel
 		)
 	);
 
-	public static function getAllData($limit = '')
+	public static function getAllData($start = '', $limit = '')
 	{
 		return DB::getInstance()->executeS('
 			SELECT `id_csv`, `iso_country`, `weight_from`, `weight_to`, `parcel_price`, `cod_price`, `id_carrier`
 			FROM `'._DB_PREFIX_._DPDPOLAND_PRICE_RULE_DB_.'`
 			WHERE `id_shop` = "'.(int)Context::getContext()->shop->id.'"
-			'.pSQL($limit)
+			'.($start && $limit ? 'LIMIT '.(int)$start.', '.(int)$limit : '')
 		);
 	}
 

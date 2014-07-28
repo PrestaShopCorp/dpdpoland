@@ -61,7 +61,6 @@ class DpdPolandConfiguration
 	const PRICE_CALCULATION_CSV			= 'csv_calculation';
 	const PRICE_CALCULATION_PRESTASHOP	= 'prestashop_calculation';
 
-	const PRINTOUT_FORMAT				= 'dpdpoland_printout_format';
 	const PRINTOUT_FORMAT_A4			= 'A4';
 	const PRINTOUT_FORMAT_LABEL			= 'LBL_PRINTER';
 

@@ -72,9 +72,8 @@ class DpdPolandCSVController extends DpdPolandController
 		$selected_pagination = Tools::getValue('pagination', '20');
 		$page = Tools::getValue('current_page', '1');
 		$start = ($selected_pagination * $page) - $selected_pagination;
-		$limit = ' LIMIT '.$start.', '.$selected_pagination.' ';
 
-		$selected_products_data = DpdPolandCSV::getAllData($limit);
+		$selected_products_data = DpdPolandCSV::getAllData($start, $selected_pagination);
 		$list_total = count(DpdPolandCSV::getAllData());
 		$pagination = array(20, 50, 100, 300);
 

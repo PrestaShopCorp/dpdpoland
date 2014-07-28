@@ -117,6 +117,8 @@ class DpdPolandParcel extends DpdPolandObjectModel
 
 	public function getList($order_by, $order_way, $filter, $start, $pagination)
 	{
+		$order_way = Validate::isOrderWay($order_way) ? $order_way : 'ASC';
+
 		$id_shop = (int)Context::getContext()->shop->id;
 		$id_lang = (int)Context::getContext()->language->id;
 
@@ -137,7 +139,7 @@ class DpdPolandParcel extends DpdPolandObjectModel
 			LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (cl.`id_country` = a.`id_country` AND cl.`id_lang` = "'.(int)$id_lang.'")'.
 			(version_compare(_PS_VERSION_, '1.5', '<') ? ' ' : 'WHERE o.`id_shop` = "'.(int)$id_shop.'" ').
 			$filter.
-			($order_by && $order_way ? ' ORDER BY '.bqSQL($order_by).' '.pSQL($order_way) : '').
+			($order_by && $order_way ? ' ORDER BY `'.bqSQL($order_by).'` '.pSQL($order_way) : '').
 			($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 		);
 

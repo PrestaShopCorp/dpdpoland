@@ -209,6 +209,8 @@ class DpdPolandManifest extends DpdPolandWS
 
 	public function getList($order_by, $order_way, $filter, $start, $pagination)
 	{
+		$order_way = Validate::isOrderWay($order_way) ? $order_way : 'ASC';
+
 		return Db::getInstance()->executeS('
 			SELECT m.`id_manifest` 				AS `id_manifest`,
 				COUNT(p.`id_parcel`) 			AS `count_parcels`,
@@ -218,7 +220,7 @@ class DpdPolandManifest extends DpdPolandWS
 			LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_PARCEL_DB_.'` p ON (p.`id_package` = m.`id_package`)
 			GROUP BY `id_manifest`
 			'.$filter.'
-			ORDER BY '.$order_by.' '.$order_way.
+			ORDER BY `'.bqSQL($order_by).'` '.pSQL($order_way).
 			($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 		);
 	}

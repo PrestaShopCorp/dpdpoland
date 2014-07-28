@@ -47,20 +47,29 @@ if (Tools::isSubmit('savePackagePrintLabels'))
 		)));
 	}
 
+	$printout_format = Tools::getValue('dpdpoland_printout_format');
+
+	if ($printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL || $printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_A4)
+		$printout_format = DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL;
+
 	die(Tools::jsonEncode(array(
-	'error' => false,
+		'error' => false,
 		'id_package' => (int)$id_package,
-	'link_to_labels_pdf' => '?printLabels&id_package='.(int)$id_package.'&printout_format='.
-		Tools::getValue(DpdPolandConfiguration::PRINTOUT_FORMAT).'&token='.Tools::getValue('token')
+		'link_to_labels_pdf' => '?printLabels&id_package='.(int)$id_package.'&printout_format='.$printout_format.'&token='.Tools::getValue('token')
 	)));
 }
 
 if (Tools::isSubmit('printLabels'))
 {
+	$printout_format = Tools::getValue('dpdpoland_printout_format');
+
+	if ($printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL || $printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_A4)
+		$printout_format = DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL;
+
 	die(Tools::jsonEncode(array(
-	'error' => false,
-	'link_to_labels_pdf' => '?printLabels&id_package='.(int)Tools::getValue('id_package').
-		'&printout_format='.Tools::getValue('printout_format').'&token='.Tools::getValue('token')
+		'error' => false,
+		'link_to_labels_pdf' => '?printLabels&id_package='.(int)Tools::getValue('id_package').
+		'&printout_format='.$printout_format.'&token='.Tools::getValue('token')
 	)));
 }
 

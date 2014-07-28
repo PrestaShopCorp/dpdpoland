@@ -300,7 +300,7 @@ $(document).ready(function(){
                   "&id_shop=" + encodeURIComponent(dpdpoland_id_shop) +
                   "&id_lang=" + encodeURIComponent(dpdpoland_id_lang) +
                   "&printLabels=true"+
-				  "&printout_format="+encodeURIComponent($('input[name="dpdpoland_printout_format"]:checked').val()) +
+				  "&dpdpoland_printout_format="+encodeURIComponent($('input[name="dpdpoland_printout_format"]:checked').val()) +
 				  "&id_package="+encodeURIComponent(id_package) +
 				  "&_PS_ADMIN_DIR_="+encodeURIComponent(_PS_ADMIN_DIR_),
             success: function(resp)

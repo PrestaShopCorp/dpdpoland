@@ -27,7 +27,7 @@
             {l s='Login:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input id="login" type="text" name="{DpdPolandConfiguration::LOGIN|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::LOGIN, $settings->login)}" />
+            <input id="login" type="text" name="{DpdPolandConfiguration::LOGIN|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::LOGIN, $settings->login)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -36,7 +36,7 @@
             {l s='Password:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input id="password" type="password" name="{DpdPolandConfiguration::PASSWORD|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::PASSWORD, $settings->password)}" />
+            <input id="password" type="password" name="{DpdPolandConfiguration::PASSWORD|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::PASSWORD, $settings->password)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -102,7 +102,7 @@
             {l s='Company name:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::COMPANY_NAME|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::COMPANY_NAME, $settings->company_name)}" />
+            <input type="text" name="{DpdPolandConfiguration::COMPANY_NAME|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::COMPANY_NAME, $settings->company_name)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -111,7 +111,7 @@
             {l s='Name and surname:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::NAME_SURNAME|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::COMPANY_NAME, $settings->name_surname)}" />
+            <input type="text" name="{DpdPolandConfiguration::NAME_SURNAME|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::COMPANY_NAME, $settings->name_surname)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -120,7 +120,7 @@
             {l s='Address:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::ADDRESS|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::ADDRESS, $settings->address)}" />
+            <input type="text" name="{DpdPolandConfiguration::ADDRESS|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::ADDRESS, $settings->address)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
             <p class="preference_description">
                 {l s='Company name or First and surname is mandatory' mod='dpdpoland'}
@@ -132,7 +132,7 @@
             {l s='Postal code:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::POSTCODE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::POSTCODE, $settings->postcode)}" />
+            <input type="text" name="{DpdPolandConfiguration::POSTCODE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::POSTCODE, $settings->postcode)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
             <p class="preference_description">
                 {l s='Company name or First and surname is mandatory' mod='dpdpoland'}
@@ -144,7 +144,7 @@
             {l s='City:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::CITY|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CITY, $settings->city)}" />
+            <input type="text" name="{DpdPolandConfiguration::CITY|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CITY, $settings->city)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -162,7 +162,7 @@
             {l s='E-mail:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::EMAIL|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::EMAIL, $settings->email)}" />
+            <input type="text" name="{DpdPolandConfiguration::EMAIL|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::EMAIL, $settings->email)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -171,7 +171,7 @@
             {l s='Tel. No.:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::PHONE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::PHONE, $settings->phone)}" />
+            <input type="text" name="{DpdPolandConfiguration::PHONE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::PHONE, $settings->phone)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -312,7 +312,7 @@
             {l s='Conversation rate:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input id="weight_conversion_input" type="text" name="{DpdPolandConfiguration::WEIGHT_CONVERSATION_RATE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::WEIGHT_CONVERSATION_RATE, $settings->weight_conversation_rate)}" />
+            <input id="weight_conversion_input" type="text" name="{DpdPolandConfiguration::WEIGHT_CONVERSATION_RATE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::WEIGHT_CONVERSATION_RATE, $settings->weight_conversation_rate)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
             1 {Configuration::get('PS_WEIGHT_UNIT')|escape:'htmlall':'UTF-8'} = <span id="dpd_weight_unit">{DpdPoland::getInputValue(DpdPolandConfiguration::WEIGHT_CONVERSATION_RATE, $settings->weight_conversation_rate|escape:'htmlall':'UTF-8')}</span> {$smarty.const._DPDPOLAND_DEFAULT_WEIGHT_UNIT_|escape:'htmlall':'UTF-8'}
             <p class="preference_description">
@@ -358,9 +358,9 @@
             {l s='Conversation rate:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input id="weight_conversion_input" type="text" name="{DpdPolandConfiguration::DIMENSION_CONVERSATION_RATE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::DIMENSION_CONVERSATION_RATE, $settings->dimension_conversation_rate)}" />
+            <input id="weight_conversion_input" type="text" name="{DpdPolandConfiguration::DIMENSION_CONVERSATION_RATE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::DIMENSION_CONVERSATION_RATE, $settings->dimension_conversation_rate)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
-            1 {Configuration::get('PS_DIMENSION_UNIT')|escape:'htmlall':'UTF-8'} = <span id="dpd_weight_unit">{DpdPoland::getInputValue(DpdPolandConfiguration::DIMENSION_CONVERSATION_RATE, $settings->dimension_conversation_rate)}</span> {$smarty.const._DPDPOLAND_DEFAULT_DIMENSION_UNIT_|escape:'htmlall':'UTF-8'}
+            1 {Configuration::get('PS_DIMENSION_UNIT')|escape:'htmlall':'UTF-8'} = <span id="dpd_weight_unit">{DpdPoland::getInputValue(DpdPolandConfiguration::DIMENSION_CONVERSATION_RATE, $settings->dimension_conversation_rate)|escape:'htmlall':'UTF-8'}</span> {$smarty.const._DPDPOLAND_DEFAULT_DIMENSION_UNIT_|escape:'htmlall':'UTF-8'}
             <p class="preference_description">
                 {l s='Conversation rate from system to DPD dimension units. If your system uses the same units as DPD please fill 1.' mod='dpdpoland'}
             </p>
@@ -388,7 +388,7 @@
             {l s='Customer company name:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_COMPANY|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_COMPANY, $settings->customer_company)}" />
+            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_COMPANY|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_COMPANY, $settings->customer_company)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -397,7 +397,7 @@
             {l s='Customer name and surname:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_NAME|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_NAME, $settings->customer_name)}" />
+            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_NAME|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_NAME, $settings->customer_name)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -406,7 +406,7 @@
             {l s='Customer tel. No.:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_PHONE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_PHONE, $settings->customer_phone)}" />
+            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_PHONE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_PHONE, $settings->customer_phone)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -415,7 +415,7 @@
             {l s='Customer FID:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_FID|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_FID, $settings->customer_fid)}" />
+            <input type="text" name="{DpdPolandConfiguration::CUSTOMER_FID|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::CUSTOMER_FID, $settings->customer_fid)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -424,7 +424,7 @@
             {l s='Master FID:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input type="text" name="{DpdPolandConfiguration::MASTER_FID|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::MASTER_FID, $settings->master_fid)}" />
+            <input type="text" name="{DpdPolandConfiguration::MASTER_FID|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::MASTER_FID, $settings->master_fid)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
         </div>
         <div class="clear"></div>
@@ -450,7 +450,7 @@
             {l s='Web Services URL:' mod='dpdpoland'}
         </label>
         <div class="margin-form">
-            <input id="login" type="text" name="{DpdPolandConfiguration::WS_URL|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::WS_URL, $settings->ws_url)}" size="{if isset($ps14)}94{else}150{/if}"/>
+            <input id="login" type="text" name="{DpdPolandConfiguration::WS_URL|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::WS_URL, $settings->ws_url)|escape:'htmlall':'UTF-8'}" size="{if isset($ps14)}94{else}150{/if}"/>
             <sup>*</sup>
             <p class="preference_description">
                 {l s='Standard URL: https://dpdservices.dpd.com.pl/DPDPackageObjServicesService/DPDPackageObjServices?wsdl' mod='dpdpoland'}
