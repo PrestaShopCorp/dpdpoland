@@ -15,8 +15,10 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * International Registered Trademark & Property of DPD Polska Sp. z o.o.
  *}
-<br />
-<div id="help_container">
+{if version_compare($smarty.const._PS_VERSION_, '1.6', '<')}
+	<br />
+{/if}
+<div id="help_container"{if version_compare($smarty.const._PS_VERSION_, '1.6', '>=')} class="panel"{/if}>
 	<img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}pdf.gif" />
 	<a href="{$module_link|escape:'htmlall':'UTF-8'}&menu=help&print_pdf">{l s='User guide in English' mod='dpdpoland'}</a>
 	<br /><br />

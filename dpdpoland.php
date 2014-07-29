@@ -85,6 +85,8 @@ class DpdPoland extends Module
 		if (defined('_PS_ADMIN_DIR_'))
 			$this->module_url = self::CURRENT_INDEX.Tools::getValue('token').'&configure='.$this->name.
 				'&tab_module='.$this->tab.'&module_name='.$this->name;
+
+		$this->bootstrap = true;
 	}
 
 	public function install()
@@ -871,8 +873,88 @@ class DpdPoland extends Module
 
 	private function displayNavigation()
 	{
+		if (version_compare(_PS_VERSION_, '1.6', '>='))
+			$this->context->smarty->assign('meniutabs', $this->initNavigation16());
+
 		$this->context->smarty->assign('module_link', $this->module_url);
 		$this->html .= $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/navigation.tpl');
+	}
+
+	private function initNavigation16()
+	{
+		$meniu_tabs = array(
+			'arrange_pickup' => array(
+				'short' => 'Arrange Pickup',
+				'desc' => $this->l('Arrange Pickup'),
+				'href' => $this->module_url.'&menu=arrange_pickup',
+				'active' => false,
+				'imgclass' => 'icon-calendar'
+			),
+			'packages_list' => array(
+				'short' => 'Packages list',
+				'desc' => $this->l('Packages list'),
+				'href' => $this->module_url.'&menu=packages_list',
+				'active' => false,
+				'imgclass' => 'icon-list'
+			),
+			'manifest_list' => array(
+				'short' => 'Manifest list',
+				'desc' => $this->l('Manifest list'),
+				'href' => $this->module_url.'&menu=manifest_list',
+				'active' => false,
+				'imgclass' => 'icon-th'
+			),
+			'parcel_history_list' => array(
+				'short' => 'Parcels history',
+				'desc' => $this->l('Parcels history'),
+				'href' => $this->module_url.'&menu=parcel_history_list',
+				'active' => false,
+				'imgclass' => 'icon-history'
+			),
+			'country_list' => array(
+				'short' => 'Shipment countries',
+				'desc' => $this->l('Shipment countries'),
+				'href' => $this->module_url.'&menu=country_list',
+				'active' => false,
+				'imgclass' => 'icon-globe'
+			),
+			'csv' => array(
+				'short' => 'CSV prices import',
+				'desc' => $this->l('CSV prices import'),
+				'href' => $this->module_url.'&menu=csv',
+				'active' => false,
+				'imgclass' => 'icon-file'
+			),
+			'configuration' => array(
+				'short' => 'Settings',
+				'desc' => $this->l('Settings'),
+				'href' => $this->module_url.'&menu=configuration',
+				'active' => false,
+				'imgclass' => 'icon-cogs'
+			),
+			'help' => array(
+				'short' => 'Help',
+				'desc' => $this->l('Help'),
+				'href' => $this->module_url.'&menu=help',
+				'active' => false,
+				'imgclass' => 'icon-info-circle'
+			),
+		);
+
+		$current_page = Tools::getValue('menu');
+
+		if (in_array($current_page, array(
+			'arrange_pickup',
+			'packages_list',
+			'manifest_list',
+			'parcel_history_list',
+			'country_list',
+			'configuration',
+			'help'
+		)))
+			$meniu_tabs[$current_page]['active'] = true;
+
+		return $meniu_tabs;
 	}
 
 	/* adds success message into session */

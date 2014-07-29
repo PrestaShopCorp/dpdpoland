@@ -349,12 +349,12 @@
 			<input type="button" id="save_and_print_labels" class="button" value="{l s='Save and print labels' mod='dpdpoland'}"{if $package->id_package} style="display:none"{/if} />
 			<input type="button" id="print_labels" class="button" value="{l s='Print labels' mod='dpdpoland'}"{if !$package->id_package} style="display:none"{/if} />
 			<div id="printout_format_container">
-				<input id="printout_format_a4" type="radio" name="{DpdPolandConfiguration::PRINTOUT_FORMAT|escape:'htmlall':'UTF-8'}" checked="checked" value="{DpdPolandConfiguration::PRINTOUT_FORMAT_A4|escape:'htmlall':'UTF-8'}" />
+				<input id="printout_format_a4" type="radio" name="dpdpoland_printout_format" checked="checked" value="{DpdPolandConfiguration::PRINTOUT_FORMAT_A4|escape:'htmlall':'UTF-8'}" />
 				<label class="t" for="printout_format_a4">
 					{l s='A4' mod='dpdpoland'}
 				</label>
 				<br />
-				<input id="printout_format_label" type="radio" name="{DpdPolandConfiguration::PRINTOUT_FORMAT|escape:'htmlall':'UTF-8'}" value="{DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL|escape:'htmlall':'UTF-8'}" />
+				<input id="printout_format_label" type="radio" name="dpdpoland_printout_format" value="{DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL|escape:'htmlall':'UTF-8'}" />
 				<label class="t" for="printout_format_label">
 					{l s='Label Printer' mod='dpdpoland'}
 				</label>
