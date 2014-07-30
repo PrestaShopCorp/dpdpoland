@@ -47,11 +47,12 @@
 		})
 		$('#submitFilterButtonPackages').click(function() {
 			$('#submitFilterPackages').val(1);
+			$('#packages_form').submit();
 		});
 	});
 </script>
 
-<form class="form-horizontal clearfix" action="{$full_url|escape:'htmlall':'UTF-8'}" method="post">
+<form id="packages_form" class="form-horizontal clearfix" action="{$full_url|escape:'htmlall':'UTF-8'}" method="post">
 	<input type="hidden" value="0" name="submitFilterButtonPackages" id="submitFilterPackages" />
 	<div class="panel col-lg-12">
 		<div class="panel-heading">
@@ -66,7 +67,7 @@
 						<th class="center fixed-width-xs">
 							&nbsp;
 						</th>
-						<th class="fixed-width-xs center">
+						<th>
 							<span class="title_box{if $order_by == 'date_add'} active{/if}">
 								{l s='Printout date' mod='dpdpoland'}
 								<a{if $order_by == 'date_add' && $order_way == 'desc'} class="active"{/if} href="{$full_url|escape:'htmlall':'UTF-8'}&PackagesOrderBy=date_add&PackagesOrderWay=desc">
@@ -88,7 +89,7 @@
 								</a>
 							</span>
 						</th>
-						<th class="fixed-width-xs center">
+						<th>
 							<span class="title_box{if $order_by == 'package_number'} active{/if}">
 								{l s='Package number' mod='dpdpoland'}
 								<a{if $order_by == 'package_number' && $order_way == 'desc'} class="active"{/if} href="{$full_url|escape:'htmlall':'UTF-8'}&PackagesOrderBy=package_number&PackagesOrderWay=desc">
@@ -110,7 +111,7 @@
 								</a>
 							</span>
 						</th>
-						<th class="fixed-width-xs center">
+						<th>
 							<span class="title_box{if $order_by == 'receiver'} active{/if}">
 								{l s='Receiver' mod='dpdpoland'}
 								<a{if $order_by == 'receiver' && $order_way == 'desc'} class="active"{/if} href="{$full_url|escape:'htmlall':'UTF-8'}&PackagesOrderBy=receiver&PackagesOrderWay=desc">
@@ -121,7 +122,7 @@
 								</a>
 							</span>
 						</th>
-						<th class="fixed-width-xs center">
+						<th>
 							<span class="title_box{if $order_by == 'country'} active{/if}">
 								{l s='Country' mod='dpdpoland'}
 								<a{if $order_by == 'country' && $order_way == 'desc'} class="active"{/if} href="{$full_url|escape:'htmlall':'UTF-8'}&PackagesOrderBy=country&PackagesOrderWay=desc">
@@ -143,7 +144,7 @@
 								</a>
 							</span>
 						</th>
-						<th class="fixed-width-xs center">
+						<th>
 							<span class="title_box{if $order_by == 'city'} active{/if}">
 								{l s='City' mod='dpdpoland'}
 								<a{if $order_by == 'city' && $order_way == 'desc'} class="active"{/if} href="{$full_url|escape:'htmlall':'UTF-8'}&PackagesOrderBy=city&PackagesOrderWay=desc">
@@ -154,7 +155,7 @@
 								</a>
 							</span>
 						</th>
-						<th class="fixed-width-xs center">
+						<th>
 							<span class="title_box{if $order_by == 'address'} active{/if}">
 								{l s='Address' mod='dpdpoland'}
 								<a{if $order_by == 'address' && $order_way == 'desc'} class="active"{/if} href="{$full_url|escape:'htmlall':'UTF-8'}&PackagesOrderBy=address&PackagesOrderWay=desc">
@@ -165,9 +166,7 @@
 								</a>
 							</span>
 						</th>
-						<th class="fixed-width-sm">
-							&nbsp;
-						</th>
+						<th></th>
 					</tr>
 					<tr class="nodrag nodrop filter row_hover">
 						<th class="text-center">
@@ -232,24 +231,24 @@
 					{if isset($table_data) && $table_data}
 						{section name=ii loop=$table_data}
 							<tr id="tr__{$table_data[ii].id_package|escape:'htmlall':'UTF-8'}_0" class="odd">
-								<td class="text-center">
+								<td class="text-center fixed-width-xs center">
 									<input class="noborder" type="checkbox" value="{$table_data[ii].id_package|escape:'htmlall':'UTF-8'}" name="PackagesBox[]"{if isset($smarty.post.PackagesBox) && in_array($table_data[ii].id_package, $smarty.post.PackagesBox)} checked="checked"{/if} />
 								</td>
-								<td class="pointer fixed-width-xs center">
+								<td class="pointer">
 									{if $table_data[ii].date_add && $table_data[ii].date_add != '0000-00-00 00:00:00'}
 										{$table_data[ii].date_add|escape:'htmlall':'UTF-8'}
 									{else}
 										--
 									{/if}
 								</td>
-								<td class="pointer fixed-width-xs">
+								<td class="pointer">
 									{if $table_data[ii].id_order}
 										{$table_data[ii].id_order|escape:'htmlall':'UTF-8'}
 									{else}
 										--
 									{/if}
 								</td>
-								<td class="pointer fixed-width-xs center">
+								<td class="pointer">
 									{if $table_data[ii].package_number}
 										{$table_data[ii].package_number|escape:'htmlall':'UTF-8'}
 									{else}
@@ -263,14 +262,14 @@
 										--
 									{/if}
 								</td>
-								<td class="pointer fixed-width-xs center">
+								<td class="pointer">
 									{if $table_data[ii].receiver}
 										{$table_data[ii].receiver|escape:'htmlall':'UTF-8'}
 									{else}
 										--
 									{/if}
 								</td>
-								<td class="pointer fixed-width-xs center">
+								<td class="pointer center">
 									{if $table_data[ii].country}
 										{$table_data[ii].country|escape:'htmlall':'UTF-8'}
 									{else}
@@ -284,14 +283,14 @@
 										--
 									{/if}
 								</td>
-								<td class="pointer fixed-width-xs center">
+								<td class="pointer center">
 									{if $table_data[ii].city}
 										{$table_data[ii].city|escape:'htmlall':'UTF-8'}
 									{else}
 										--
 									{/if}
 								</td>
-								<td class="pointer fixed-width-xs center">
+								<td class="pointer center">
 									{if $table_data[ii].address}
 										{$table_data[ii].address|escape:'htmlall':'UTF-8'}
 									{else}
@@ -343,15 +342,21 @@
 						</li>
 						<li class="divider"></li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'enablePackages');" href="#">
-								<i class="icon-power-off text-success"></i>
-								{l s='Enable selection' mod='dpdpoland'}
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printManifest');" href="#">
+								<i class="icon-download"></i>
+								{l s='Manifest printout' mod='dpdpoland'}
 							</a>
 						</li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'disablePackages');" href="#">
-								<i class="icon-power-off text-danger"></i>
-								{l s='Disable selection' mod='dpdpoland'}
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printLabelsLabelFormat');" href="#">
+								<i class="icon-download"></i>
+								{l s='Label duplicate printout Label printer' mod='dpdpoland'}
+							</a>
+						</li>
+						<li>
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printLabelsA4Format');" href="#">
+								<i class="icon-download"></i>
+								{l s='Label duplicate printout A4' mod='dpdpoland'}
 							</a>
 						</li>
 					</ul>
