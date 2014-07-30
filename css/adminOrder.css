@@ -5,6 +5,11 @@
 	z-index: 100;
 }
 
+#dpdpoland.dpdpoland-ps16
+{
+	width: auto;
+}
+
 #dpdpoland legend a
 {
 	padding-left:5px;
@@ -28,10 +33,17 @@
 	margin-top: 15px;
 }
 
+.dpdpoland-ps16 #dpdpoland_shipment_creation #save_and_print_labels,
+	.dpdpoland-ps16 #dpdpoland_shipment_creation #print_labels
+{
+	float: none;
+	margin-top: 0;
+}
+
 #dpdpoland_shipment_creation .infoContainer
 {
 	float:left;
-	margin-right:10px; 
+	margin-right:10px;
 }
 
 #dpdpoland_sender_address_container,
@@ -79,6 +91,14 @@
 	width: 260px;
 }
 
+.dpdpoland-ps16 #dpdpoland_sender_address_container .margin-form,
+	.dpdpoland-ps16	#dpdpoland_recipient_address_container .margin-form
+{
+	display: inline-block;
+	padding:3px 0 3px 20px;
+	width: 230px;
+}
+
 #dpdpoland_cod_amount_container,
 	#dpdpoland_additional_info_container {
 	float: left;
@@ -115,6 +135,16 @@
 	height: 168px;
 }
 
+#dpdpoland.dpdpoland-ps16 #dpdpoland_shipment_creation .dpdpoland_address
+{
+	height: auto;
+}
+
+.dpdpoland-ps16	#dpdpoland_recipient_address_container .dpdpoland_address
+{
+	margin-top: 36px;
+}
+
 #dpdpoland_recipient_address_selection_container
 {
 	margin-top: 10px;
@@ -124,6 +154,11 @@
 #dpdpoland_recipient_address_selection
 {
 	width: 250px;
+}
+
+.dpdpoland-ps16 #dpdpoland_recipient_address_selection
+{
+	width: auto;
 }
 
 #dpdpoland_shipment_parcels .delete_parcel,
@@ -178,9 +213,22 @@ div#printout_format_container
 	margin-right: 15px;
 }
 
+.dpdpoland-ps16 div#printout_format_container
+{
+	float: none;
+	margin-top: inherit;
+	margin-right: inherit;
+}
+
 label.printout_format_label
 {
 	float: right;
 	width: auto;
 	margin-top: 15px;
+}
+
+.dpdpoland-ps16 label.printout_format_label
+{
+	float: none;
+	margin-top: inherit;
 }

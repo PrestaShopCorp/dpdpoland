@@ -1328,7 +1328,8 @@ class DpdPoland extends Module
 		}
 
 		$pickup = new DpdPolandPickup;
-		$is_today = (bool)date('Ymd') == date('Ymd', strtotime($current_date));
+		$is_today = (bool)(date('Ymd') == date('Ymd', strtotime($current_date)));
+		
 		$pickup_timeframes = $pickup->getCourierTimeframes();
 
 		$poland_time_obj = new DateTime(null, new DateTimeZone('Poland'));
@@ -1489,7 +1490,9 @@ class DpdPoland extends Module
 			$this->setGlobalVariablesForAjax();
 		}
 
-		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder.tpl');
+		if (version_compare(_PS_VERSION_, '1.6', '<'))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder.tpl');
+		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder_16.tpl');
 	}
 
 	/* hook is used to filter out non COD payment methods if DPD COD carrier was selected */
