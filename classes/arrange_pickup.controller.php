@@ -158,6 +158,9 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 			'pickupDate' => $pickup_date
 		));
 
+		if (version_compare(_PS_VERSION_, '1.6', '>='))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/arrange_pickup_16.tpl');
+
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/arrange_pickup.tpl');
 	}
 
