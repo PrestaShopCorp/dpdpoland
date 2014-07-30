@@ -58,10 +58,7 @@ class DpdPolandController
 				$value = $this->context->cookie->{$table.'Filter_'.$key};
 				if (Validate::isSerializedArray($value))
 				{
-					if (version_compare(_PS_VERSION_, '1.5', '<'))
-						$date = unserialize($value);
-					else
-						$date = Tools::unSerialize($value);
+					$date = $this->module_instance->unSerialize($value);
 
 					if (!empty($date[0]))
 						$sql .= '`'.bqSQL($key).'` > "'.pSQL($date[0]).'" AND ';

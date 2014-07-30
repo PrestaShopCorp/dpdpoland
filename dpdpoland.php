@@ -1329,7 +1329,7 @@ class DpdPoland extends Module
 
 		$pickup = new DpdPolandPickup;
 		$is_today = (bool)(date('Ymd') == date('Ymd', strtotime($current_date)));
-		
+
 		$pickup_timeframes = $pickup->getCourierTimeframes();
 
 		$poland_time_obj = new DateTime(null, new DateTimeZone('Poland'));
@@ -1634,5 +1634,16 @@ class DpdPoland extends Module
 		$currency_to = $this->context->currency;
 		self::$carriers[$this->id_carrier] = Tools::convertPriceFull($price, $currency_from, $currency_to);
 		return self::$carriers[$this->id_carrier];
+	}
+
+	public function unSerialize($serialized, $object = false)
+	{
+		if (method_exists('Tools', 'unSerialize'))
+			return Tools::unSerialize($serialized, $object);
+
+		if (is_string($serialized) && (strpos($serialized, 'O:') === false || !preg_match('/(^|;|{|})O:[0-9]+:"/', $serialized)) && !$object || $object)
+			return @unserialize($serialized);
+
+		return false;
 	}
 }
