@@ -47,7 +47,6 @@
 		<div class="panel dpdpoland-ps16" id="dpdpoland">
 			<div class="panel-heading">
 				<img src="{$smarty.const._DPDPOLAND_MODULE_URI_|escape:'htmlall':'UTF-8'}logo.gif" width="16" height="16"> {l s='DPD Polska Sp. z o.o. shipping' mod='dpdpoland'}
-				Order
 				<span class="badge"><a href="javascript:toggleShipmentCreationDisplay()" rel="[ {l s='collapse' mod='dpdpoland'} ]">[ {l s='expand' mod='dpdpoland'} ]</a></span>
 			</div>
 
@@ -458,15 +457,13 @@
 
 <div class="row">
 	<div class="col-lg-7">
-		<div class="panel">
-			<fieldset id="dpdpoland">
-				<legend>
-					<img src="{$smarty.const._DPDPOLAND_MODULE_URI_|escape:'htmlall':'UTF-8'}logo.gif" width="16" height="16"> {l s='DPD Polska Sp. z o.o. shipping' mod='dpdpoland'}
-				</legend>
-				<p class="warn warning">
-					{l s='Module is not configured yet. Please check required settings' mod='dpdpoland'} <a href="{$moduleSettingsLink|escape:'htmlall':'UTF-8'}">{l s='here' mod='dpdpoland'}</a>
-				</p>
-			</fieldset>
+		<div class="panel dpdpoland-ps16" id="dpdpoland">
+			<div class="panel-heading">
+				<img src="{$smarty.const._DPDPOLAND_MODULE_URI_|escape:'htmlall':'UTF-8'}logo.gif" width="16" height="16"> {l s='DPD Polska Sp. z o.o. shipping' mod='dpdpoland'}
+			</div>
+			<div class="alert alert-warning">
+				{l s='Module is not configured yet. Please check required settings' mod='dpdpoland'}<strong><a href="{$moduleSettingsLink|escape:'htmlall':'UTF-8'}"> {l s='here' mod='dpdpoland'}</a></strong>
+			</div>
 		</div>
 	</div>
 </div>
