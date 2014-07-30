@@ -1,0 +1,139 @@
+<h2 style="padding: 10px 0 10px 0; display: block; border-top: solid 2px #000000; border-bottom: solid 2px #000000;">
+			[2014-07-29 10:39:49]</h2><h2>Function 'generatePackagesNumbersV2' params
+			</h2><pre>Array
+(
+    [0] => Array
+        (
+            [openUMLV1] => Array
+                (
+                    [packages] => Array
+                        (
+                            [parcels] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [content] => 1_1, 2_7, 3_13
+                                            [customerData1] => 
+                                            [customerData2] => 
+                                            [customerData3] => 
+                                            [reference] => VBXJNKPBP_1
+                                            [sizeX] => 0
+                                            [sizeY] => 0
+                                            [sizeZ] => 0
+                                            [weight] => 0
+                                        )
+
+                                )
+
+                            [payerType] => SENDER
+                            [receiver] => Array
+                                (
+                                    [address] => 16, Main street
+                                    [city] => Paris 
+                                    [company] => My Company
+                                    [countryCode] => FR
+                                    [email] => pub@prestashop.com
+                                    [fid] => 
+                                    [name] => John DOE
+                                    [phone] => 0102030405
+                                    [postalCode] => 75002
+                                )
+
+                            [ref1] => 5
+                            [ref2] => 
+                            [ref3] => PSMODUL#
+                            [reference] => 
+                            [sender] => Array
+                                (
+                                    [address] => 22 Płk. Dąbka Street
+                                    [city] => Kraków
+                                    [company] => DPD Poland
+                                    [countryCode] => PL
+                                    [email] => pub@prestashop.com
+                                    [fid] => 1495
+                                    [name] => DPD Poland
+                                    [phone] => +48 12 298-15-00
+                                    [postalCode] => 30732
+                                )
+
+                            [services] => Array
+                                (
+                                    [cod] => Array
+                                        (
+                                            [amount] => 220.9
+                                            [currency] => PLN
+                                        )
+
+                                )
+
+                            [thirdPartyFID] => 
+                        )
+
+                )
+
+            [pkgNumsGenerationPolicyV1] => STOP_ON_FIRST_ERROR
+            [langCode] => PL
+        )
+
+)
+</pre><h2>Request</h2><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:ns1=&quot;http://dpdservices.dpd.com.pl/&quot;&gt;
+    &lt;SOAP-ENV:Body&gt;
+        &lt;ns1:generatePackagesNumbersV2&gt;
+            &lt;openUMLV1&gt;
+                &lt;packages&gt;
+                    &lt;parcels&gt;
+                        &lt;content&gt;1_1, 2_7, 3_13&lt;/content&gt;
+                        &lt;customerData1&gt;
+                        &lt;/customerData1&gt;
+                        &lt;reference&gt;VBXJNKPBP_1&lt;/reference&gt;
+                        &lt;sizeX&gt;0&lt;/sizeX&gt;
+                        &lt;sizeY&gt;0&lt;/sizeY&gt;
+                        &lt;sizeZ&gt;0&lt;/sizeZ&gt;
+                        &lt;weight&gt;0&lt;/weight&gt;
+                    &lt;/parcels&gt;
+                    &lt;payerType&gt;SENDER&lt;/payerType&gt;
+                    &lt;receiver&gt;
+                        &lt;address&gt;16, Main street&lt;/address&gt;
+                        &lt;city&gt;Paris &lt;/city&gt;
+                        &lt;company&gt;My Company&lt;/company&gt;
+                        &lt;countryCode&gt;FR&lt;/countryCode&gt;
+                        &lt;email&gt;pub@prestashop.com&lt;/email&gt;
+                        &lt;name&gt;John DOE&lt;/name&gt;
+                        &lt;phone&gt;0102030405&lt;/phone&gt;
+                        &lt;postalCode&gt;75002&lt;/postalCode&gt;
+                    &lt;/receiver&gt;
+                    &lt;ref1&gt;5&lt;/ref1&gt;
+                    &lt;ref2&gt;
+                    &lt;/ref2&gt;
+                    &lt;ref3&gt;PSMODUL#&lt;/ref3&gt;
+                    &lt;sender&gt;
+                      &lt;address&gt;22 Płk. Dąbka Street&lt;/address&gt;
+                       &lt;city&gt;Krak&oacute;w&lt;/city&gt;
+                        &lt;company&gt;DPD Poland&lt;/company&gt;
+                        &lt;countryCode&gt;PL&lt;/countryCode&gt;
+                        &lt;email&gt;pub@prestashop.com&lt;/email&gt;
+                        &lt;fid&gt;1495&lt;/fid&gt;
+                        &lt;name&gt;DPD Poland&lt;/name&gt;
+                        &lt;phone&gt;+48 12 298-15-00&lt;/phone&gt;
+                        &lt;postalCode&gt;30732&lt;/postalCode&gt;
+                    &lt;/sender&gt;
+                    &lt;services&gt;
+                        &lt;cod&gt;
+                            &lt;amount&gt;220.9&lt;/amount&gt;
+                            &lt;currency&gt;PLN&lt;/currency&gt;
+                        &lt;/cod&gt;
+                    &lt;/services&gt;
+                &lt;/packages&gt;
+            &lt;/openUMLV1&gt;
+            &lt;pkgNumsGenerationPolicyV1&gt;STOP_ON_FIRST_ERROR&lt;/pkgNumsGenerationPolicyV1&gt;
+            &lt;langCode&gt;PL&lt;/langCode&gt;
+            &lt;authDataV1&gt;
+                &lt;login&gt;test&lt;/login&gt;
+                &lt;masterFid&gt;256985&lt;/masterFid&gt;
+                &lt;password&gt;KqvsoFLT2M&lt;/password&gt;
+            &lt;/authDataV1&gt;
+        &lt;/ns1:generatePackagesNumbersV2&gt;
+    &lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;
+</pre><h2>Response</h2><pre><script>alert("uuu");</script></pre>

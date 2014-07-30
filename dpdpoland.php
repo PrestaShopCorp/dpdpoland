@@ -1489,7 +1489,8 @@ class DpdPoland extends Module
 			$this->setGlobalVariablesForAjax();
 		}
 
-		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder.tpl');
+		//return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder.tpl');
+		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder_16.tpl');
 	}
 
 	/* hook is used to filter out non COD payment methods if DPD COD carrier was selected */
