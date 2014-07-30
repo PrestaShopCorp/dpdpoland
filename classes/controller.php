@@ -85,16 +85,26 @@ class DpdPolandController
 	public function prepareListData($keys_array, $table, $model, $default_order_by, $default_order_way, $menu_page)
 	{
 		if (Tools::isSubmit('submitFilterButton'.$table))
+		{
+			$has_value = false;
+
 			foreach ($_POST as $key => $value)
 			{
 				if (strpos($key, $table.'Filter_') !== false) // looking for filter values in $_POST
 				{
+					if ($value)
+						$has_value = true;
+
 					if (is_array($value))
 						$this->context->cookie->$key = serialize($value);
 					else
 						$this->context->cookie->$key = $value;
 				}
 			}
+
+			if ($has_value)
+				$this->context->smarty->assign('filters_has_value', true);
+		}
 
 		if (Tools::isSubmit('submitReset'.$table))
 		{
@@ -108,7 +118,7 @@ class DpdPolandController
 			}
 		}
 
-		$page = (int)Tools::getValue('submitFilter'.$table);
+		$page = version_compare(_PS_VERSION_, '1.6', '>=') ? (int)Tools::getValue('submitFilterButton'.$table) : (int)Tools::getValue('submitFilter'.$table);
 		if (!$page)
 			$page = 1;
 

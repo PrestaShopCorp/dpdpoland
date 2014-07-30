@@ -449,7 +449,6 @@ class DpdPoland extends Module
 					break;
 				}
 
-				$this->addDateTimePickerPlugins();
 				require_once(_DPDPOLAND_CLASSES_DIR_.'countryList.controller.php');
 				$country_list_controller = new DpdPolandCountryListController();
 				$this->html .= $country_list_controller->getListHTML();
