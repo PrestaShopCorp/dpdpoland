@@ -86,24 +86,16 @@ class DpdPolandController
 	{
 		if (Tools::isSubmit('submitFilterButton'.$table))
 		{
-			$has_value = false;
-
 			foreach ($_POST as $key => $value)
 			{
 				if (strpos($key, $table.'Filter_') !== false) // looking for filter values in $_POST
 				{
-					if ($value)
-						$has_value = true;
-
 					if (is_array($value))
 						$this->context->cookie->$key = serialize($value);
 					else
 						$this->context->cookie->$key = $value;
 				}
 			}
-
-			if ($has_value)
-				$this->context->smarty->assign('filters_has_value', true);
 		}
 
 		if (Tools::isSubmit('submitReset'.$table))
@@ -146,6 +138,7 @@ class DpdPolandController
 			'pagination' => $this->pagination,
 			'total_pages' => $total_pages,
 			'list_total' => $list_total,
+			'filters_has_value' => (bool)$filter,
 			'order_by' => $order_by,
 			'order_way' => $order_way,
 			'order_link' => 'index.php?controller=AdminOrders&vieworder&token='.Tools::getAdminTokenLite('AdminOrders')

@@ -17,18 +17,18 @@
  *}
 <script>
 	var dpdpoland_packages_ids = "{Context::getContext()->cookie->dpdpoland_packages_ids|escape:'htmlall':'UTF-8'}";
-	
+
 	$(document).ready(function(){
 		$("table.Packages .datepicker").datepicker({
 			prevText: '',
 			nextText: '',
 			dateFormat: 'yy-mm-dd'
 		});
-		
-		$('table#packages_list .filter').keypress(function(event){
+
+		$('table#packages .filter').keypress(function(event){
 			formSubmit(event, 'submitFilterButtonPackages');
 		})
-		
+
 		if (dpdpoland_packages_ids)
 		{
 			window.location = window.location + '&printManifest';
@@ -37,30 +37,30 @@
 </script>
 <script type="text/javascript">
 	$(function() {
-		$('table.country_list .filter').keypress(function(e){
+		$('table#packages .filter').keypress(function(e){
 			var key = (e.keyCode ? e.keyCode : e.which);
 			if (key == 13)
 			{
 				e.preventDefault();
-				formSubmit(event, 'submitFilterButtonCountries');
+				formSubmit(event, 'submitFilterButtonPackages');
 			}
 		})
-		$('#submitFilterButtonCountries').click(function() {
-			$('#submitFilterCountries').val(1);
+		$('#submitFilterButtonPackages').click(function() {
+			$('#submitFilterPackages').val(1);
 		});
 	});
 </script>
 
 <form class="form-horizontal clearfix" action="{$full_url|escape:'htmlall':'UTF-8'}" method="post">
-	<input type="hidden" value="0" name="submitFilterButtonCountries" id="submitFilterCountries" />
+	<input type="hidden" value="0" name="submitFilterButtonPackages" id="submitFilterPackages" />
 	<div class="panel col-lg-12">
 		<div class="panel-heading">
 			{l s='Packages list' mod='dpdpoland'}
 			<span class="badge">{$list_total|escape:'htmlall':'UTF-8'}</span>
 		</div>
-		
+
 		<div class="table-responsive clearfix">
-			<table id="Packages" class="table Packages">
+			<table id="packages" class="table Packages">
 				<thead>
 					<tr class="nodrag nodrop">
 						<th class="center fixed-width-xs">
@@ -215,12 +215,12 @@
 						</th>
 						<th class="actions">
 							<span class="pull-right">
-								<button id="submitFilterButtonCountries" class="btn btn-default" data-list-id="Packages" name="submitFilter" type="submit">
+								<button id="submitFilterButtonPackages" class="btn btn-default" data-list-id="Packages" name="submitFilter" type="submit">
 									<i class="icon-search"></i>
 									{l s='Search' mod='dpdpoland'}
 								</button>
-								{if isset($filters_has_value) && $filters_has_value}
-									<button type="submit" name="submitResetCountries" class="btn btn-warning">
+								{if $filters_has_value}
+									<button type="submit" name="submitResetPackages" class="btn btn-warning">
 										<i class="icon-eraser"></i> {l s='Reset'}
 									</button>
 								{/if}
@@ -310,10 +310,10 @@
 						{/section}
 					{else}
 						<tr>
-							<td class="list-empty" colspan="11">
+							<td colspan="9" class="list-empty">
 								<div class="list-empty-msg">
 									<i class="icon-warning-sign list-empty-icon"></i>
-									{l s='No packages' mod='dpdpoland'}
+									{l s='No records found' mod='dpdpoland'}
 								</div>
 							</td>
 						</tr>
@@ -343,13 +343,13 @@
 						</li>
 						<li class="divider"></li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'enableCountries');" href="#">
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'enablePackages');" href="#">
 								<i class="icon-power-off text-success"></i>
 								{l s='Enable selection' mod='dpdpoland'}
 							</a>
 						</li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'disableCountries');" href="#">
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'disablePackages');" href="#">
 								<i class="icon-power-off text-danger"></i>
 								{l s='Disable selection' mod='dpdpoland'}
 							</a>
@@ -357,78 +357,7 @@
 					</ul>
 				</div>
 			</div>
-			{if $list_total > 10}
-				<div class="col-lg-4">
-					<span class="pagination">
-						{l s='Display'}: 
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							{$selected_pagination}
-							<i class="icon-caret-down"></i>
-						</button>
-						<ul class="dropdown-menu">
-						{foreach $pagination AS $value}
-							<li>
-								<a href="javascript:void(0);" class="pagination-items-page" data-items="{$value|intval}">{$value}</a>
-							</li>
-						{/foreach}
-						</ul>
-						/ {$list_total} {l s='result(s)'}
-						<input type="hidden" id="pagination-items-page" name="pagination" value="{$selected_pagination|intval}" />
-					</span>
-					<script type="text/javascript">
-						$('.pagination-items-page').on('click',function(e){
-							e.preventDefault();
-							$('#pagination-items-page').val($(this).data("items")).closest("form").submit();
-						});
-					</script>
-					<ul class="pagination pull-right">
-						<li {if $page <= 1}class="disabled"{/if}>
-							<a href="javascript:void(0);" class="pagination-link" data-page="1">
-								<i class="icon-double-angle-left"></i>
-							</a>
-						</li>
-						<li {if $page <= 1}class="disabled"{/if}>
-							<a href="javascript:void(0);" class="pagination-link" data-page="{$page - 1}">
-								<i class="icon-angle-left"></i>
-							</a>
-						</li>
-						{assign p 0}
-						{while $p++ < $total_pages}
-							{if $p < $page-2}
-								<li class="disabled">
-									<a href="javascript:void(0);">&hellip;</a>
-								</li>
-								{assign p $page-3}
-							{else if $p > $page+2}
-								<li class="disabled">
-									<a href="javascript:void(0);">&hellip;</a>
-								</li>
-								{assign p $total_pages}
-							{else}
-								<li {if $p == $page}class="active"{/if}>
-									<a href="javascript:void(0);" class="pagination-link" data-page="{$p}">{$p}</a>
-								</li>
-							{/if}
-						{/while}
-						<li {if $page > $total_pages}class="disabled"{/if}>
-							<a href="javascript:void(0);" class="pagination-link" data-page="{$page + 1}">
-								<i class="icon-angle-right"></i>
-							</a>
-						</li>
-						<li {if $page > $total_pages}class="disabled"{/if}>
-							<a href="javascript:void(0);" class="pagination-link" data-page="{$total_pages}">
-								<i class="icon-double-angle-right"></i>
-							</a>
-						</li>
-					</ul>
-					<script type="text/javascript">
-						$('.pagination-link').on('click',function(e){
-							e.preventDefault();
-							$('#submitFilterCountries').val($(this).data("page")).closest("form").submit();
-						});
-					</script>
-				</div>
-			{/if}
+			{include file=$smarty.const._DPDPOLAND_TPL_DIR_|cat:'admin/_pagination_16.tpl' identifier='Packages'}
 		</div>
 	</div>
 </form>
