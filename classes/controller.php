@@ -150,7 +150,5 @@ class DpdPolandController
 			'order_way' => $order_way,
 			'order_link' => 'index.php?controller=AdminOrders&vieworder&token='.Tools::getAdminTokenLite('AdminOrders')
 		));
-
-		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/country_list.tpl');
 	}
 }

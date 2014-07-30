@@ -842,7 +842,8 @@ class DpdPoland extends Module
 			_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js' // for datetimepicker
 		));
 
-		$this->addCSS(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css'); // for datetimepicker
+		if (version_compare(_PS_VERSION_, '1.6', '<'))
+			$this->addCSS(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css'); // for datetimepicker
 	}
 
 	private function displayShopRestrictionWarning()
