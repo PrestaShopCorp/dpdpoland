@@ -122,9 +122,6 @@
         <div class="margin-form">
             <input type="text" name="{DpdPolandConfiguration::ADDRESS|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::ADDRESS, $settings->address)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
-            <p class="preference_description">
-                {l s='Company name or First and surname is mandatory' mod='dpdpoland'}
-            </p>
         </div>
         <div class="clear"></div>
         
@@ -134,9 +131,6 @@
         <div class="margin-form">
             <input type="text" name="{DpdPolandConfiguration::POSTCODE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::POSTCODE, $settings->postcode)|escape:'htmlall':'UTF-8'}" />
             <sup>*</sup>
-            <p class="preference_description">
-                {l s='Company name or First and surname is mandatory' mod='dpdpoland'}
-            </p>
         </div>
         <div class="clear"></div>
         

@@ -18,7 +18,7 @@
 */
 
 $(document).ready(function(){
-    if ($('fieldset#credentials').length != 0) { //in configuration page only
+    if ($('#credentials').length != 0) { //in configuration page only
         showHideCODModulesList();
     }
     

@@ -49,6 +49,9 @@ class DpdPolandConfigurationController extends DpdPolandController
 			'payment_modules' => $payment_modules
 		));
 
+		if (version_compare(_PS_VERSION_, '1.6', '>='))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/configuration_16.tpl');
+
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/configuration.tpl');
 	}
 

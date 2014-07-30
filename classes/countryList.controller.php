@@ -129,7 +129,7 @@ class DpdPolandCountryListController extends DpdPolandController
 			$redirect_url .= '&CountryOrderWay='.$order_way;
 			$redirect_url .= '&submitFilterCountries='.$page;
 
-			die(Tools::redirectAdmin());
+			die(Tools::redirectAdmin($redirect_url));
 		}
 	}
 
@@ -145,6 +145,10 @@ class DpdPolandCountryListController extends DpdPolandController
 	{
 		$keys_array = array('id_country', 'name', 'iso_code', 'enabled');
 		$this->prepareListData($keys_array, 'Countries', new DpdPolandCountry(), self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'country_list');
+
+		if (version_compare(_PS_VERSION_, '1.6', '>='))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/country_list_16.tpl');
+
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/country_list.tpl');
 	}
 
