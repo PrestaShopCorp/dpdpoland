@@ -161,6 +161,8 @@ class DpdPolandManifestListController extends DpdPolandController
 		$keys_array = array('id_manifest', 'count_parcels', 'count_orders', 'date_add');
 		$this->prepareListData($keys_array, 'Manifests', new DpdPolandManifest(), self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'manifest_list');
 
-		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/manifest_list.tpl');
+		if (version_compare(_PS_VERSION_, '1.6', '<'))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/manifest_list.tpl');
+		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/manifest_list_16.tpl');
 	}
 }
