@@ -92,6 +92,9 @@ class DpdPolandCSVController extends DpdPolandController
 			'selected_pagination' => $selected_pagination
 		));
 
+		if (version_compare(_PS_VERSION_, '1.6', '>='))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/csv_16.tpl');
+
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/csv.tpl');
 	}
 

@@ -16,17 +16,19 @@
  * International Registered Trademark & Property of DPD Polska Sp. z o.o.
  *}
 {if count($errors)}
-	<div class="error">
-		{if count($errors) == 1}
-			{$errors[0]|escape:'htmlall':'UTF-8'}
-		{else}
-			{$errors|count} {l s='errors' mod='dpdpoland'}
-			<br/>
-			<ol>
-				{foreach $errors as $error}
-					<li>{$error|escape:'htmlall':'UTF-8'}</li>
-				{/foreach}
-			</ol>
-		{/if}
+	<div class="bootstrap">
+		<div class="error alert alert-danger">
+			{if count($errors) == 1}
+				{$errors[0]|escape:'htmlall':'UTF-8'}
+			{else}
+				{$errors|count} {l s='errors' mod='dpdpoland'}
+				<br/>
+				<ol>
+					{foreach $errors as $error}
+						<li>{$error|escape:'htmlall':'UTF-8'}</li>
+					{/foreach}
+				</ol>
+			{/if}
+		</div>
 	</div>
 {/if}
