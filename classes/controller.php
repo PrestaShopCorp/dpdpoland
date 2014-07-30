@@ -92,13 +92,20 @@ class DpdPolandController
 			{
 				if (strpos($key, $table.'Filter_') !== false) // looking for filter values in $_POST
 				{
-					if ($value)
-						$has_value = true;
-
 					if (is_array($value))
+					{
+						if (array_filter($value))
+							$has_value = true;
+
 						$this->context->cookie->$key = serialize($value);
+					}
 					else
+					{
+						if ($value)
+							$has_value = true;
+
 						$this->context->cookie->$key = $value;
+					}
 				}
 			}
 

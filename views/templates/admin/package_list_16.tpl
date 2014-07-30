@@ -42,17 +42,17 @@
 			if (key == 13)
 			{
 				e.preventDefault();
-				formSubmit(event, 'submitFilterButtonCountries');
+				formSubmit(event, 'submitFilterButtonPackages');
 			}
 		})
-		$('#submitFilterButtonCountries').click(function() {
-			$('#submitFilterCountries').val(1);
+		$('#submitFilterButtonPackages').click(function() {
+			$('#submitFilterPackages').val(1);
 		});
 	});
 </script>
 
 <form class="form-horizontal clearfix" action="{$full_url|escape:'htmlall':'UTF-8'}" method="post">
-	<input type="hidden" value="0" name="submitFilterButtonCountries" id="submitFilterCountries" />
+	<input type="hidden" value="0" name="submitFilterButtonPackages" id="submitFilterPackages" />
 	<div class="panel col-lg-12">
 		<div class="panel-heading">
 			{l s='Packages list' mod='dpdpoland'}
@@ -215,12 +215,12 @@
 						</th>
 						<th class="actions">
 							<span class="pull-right">
-								<button id="submitFilterButtonCountries" class="btn btn-default" data-list-id="Packages" name="submitFilter" type="submit">
+								<button id="submitFilterButtonPackages" class="btn btn-default" data-list-id="Packages" name="submitFilter" type="submit">
 									<i class="icon-search"></i>
 									{l s='Search' mod='dpdpoland'}
 								</button>
 								{if isset($filters_has_value) && $filters_has_value}
-									<button type="submit" name="submitResetCountries" class="btn btn-warning">
+									<button type="submit" name="submitResetPackages" class="btn btn-warning">
 										<i class="icon-eraser"></i> {l s='Reset'}
 									</button>
 								{/if}
@@ -343,15 +343,21 @@
 						</li>
 						<li class="divider"></li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'enableCountries');" href="#">
-								<i class="icon-power-off text-success"></i>
-								{l s='Enable selection' mod='dpdpoland'}
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printManifest');" href="#">
+								<i class="icon-download"></i>
+								{l s='Manifest printout' mod='dpdpoland'}
 							</a>
 						</li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'disableCountries');" href="#">
-								<i class="icon-power-off text-danger"></i>
-								{l s='Disable selection' mod='dpdpoland'}
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printLabelsLabelFormat');" href="#">
+								<i class="icon-download"></i>
+								{l s='Label duplicate printout Label printer' mod='dpdpoland'}
+							</a>
+						</li>
+						<li>
+							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printLabelsA4Format');" href="#">
+								<i class="icon-download"></i>
+								{l s='Label duplicate printout A4' mod='dpdpoland'}
 							</a>
 						</li>
 					</ul>
@@ -424,7 +430,7 @@
 					<script type="text/javascript">
 						$('.pagination-link').on('click',function(e){
 							e.preventDefault();
-							$('#submitFilterCountries').val($(this).data("page")).closest("form").submit();
+							$('#submitFilterPackages').val($(this).data("page")).closest("form").submit();
 						});
 					</script>
 				</div>
