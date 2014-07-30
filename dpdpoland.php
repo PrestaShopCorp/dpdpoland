@@ -1327,7 +1327,8 @@ class DpdPoland extends Module
 		}
 
 		$pickup = new DpdPolandPickup;
-		$is_today = (bool)date('Ymd') == date('Ymd', strtotime($current_date));
+		$is_today = (bool)(date('Ymd') == date('Ymd', strtotime($current_date)));
+		
 		$pickup_timeframes = $pickup->getCourierTimeframes();
 
 		$poland_time_obj = new DateTime(null, new DateTimeZone('Poland'));
