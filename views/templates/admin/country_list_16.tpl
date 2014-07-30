@@ -29,6 +29,7 @@
 		$('#submitFilterButtonCountries').click(function() {
 			$('#submitFilterCountries').val(1);
 		});
+	});
 </script>
 
 <form class="form-horizontal clearfix" action="{$full_url|escape:'htmlall':'UTF-8'}" method="post">

@@ -235,6 +235,9 @@ class DpdPolandPackageListController extends DpdPolandController
 		$this->prepareListData($keys_array, 'Packages', new DpdPolandPackage(), self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'packages_list');
 		$this->context->smarty->assign('order_link', 'index.php?controller=AdminOrders&vieworder&token='.Tools::getAdminTokenLite('AdminOrders'));
 
+		if (version_compare(_PS_VERSION_, '1.6', '>='))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/package_list_16.tpl');
+
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/package_list.tpl');
 	}
 }
