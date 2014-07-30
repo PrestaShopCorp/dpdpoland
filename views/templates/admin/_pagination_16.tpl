@@ -49,17 +49,17 @@
 					{assign p $total_pages}
 				{else}
 					<li {if $p == $page}class="active"{/if}>
-						<a href="javascript:void(0);" class="pagination-link" data-page="{$p}">{$p}</a>
+						<a href="javascript:void(0);" class="pagination-link" data-page="{$p|intval}">{$p|intval}</a>
 					</li>
 				{/if}
 			{/while}
 			<li {if $page > $total_pages}class="disabled"{/if}>
-				<a href="javascript:void(0);" class="pagination-link" data-page="{$page + 1}">
+				<a href="javascript:void(0);" class="pagination-link" data-page="{$page|intval + 1}">
 					<i class="icon-angle-right"></i>
 				</a>
 			</li>
 			<li {if $page > $total_pages}class="disabled"{/if}>
-				<a href="javascript:void(0);" class="pagination-link" data-page="{$total_pages}">
+				<a href="javascript:void(0);" class="pagination-link" data-page="{$total_pages|intval}">
 					<i class="icon-double-angle-right"></i>
 				</a>
 			</li>

@@ -107,7 +107,11 @@ class DpdPolandController
 			}
 		}
 
-		$page = version_compare(_PS_VERSION_, '1.6', '>=') ? (int)Tools::getValue('submitFilterButton'.$table) : (int)Tools::getValue('submitFilter'.$table);
+		if (version_compare(_PS_VERSION_, '1.6', '>='))
+			$page = (int)Tools::getValue('submitFilterButton'.$table);
+		else
+			$page = (int)Tools::getValue('submitFilter'.$table);
+
 		if (!$page)
 			$page = 1;
 
