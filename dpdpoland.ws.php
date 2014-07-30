@@ -135,6 +135,7 @@ class DpdPolandWS extends DpdPolandController
 
 	private function debug($result = null)
 	{
+		$result = strip_tags($result);
 		$debug_html = '';
 
 		if ($this->lastCalledFunctionName)
