@@ -1488,7 +1488,8 @@ class DpdPoland extends Module
 			$this->setGlobalVariablesForAjax();
 		}
 
-		//return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder.tpl');
+		if (version_compare(_PS_VERSION_, '1.6', '<'))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder.tpl');
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'hook/adminOrder_16.tpl');
 	}
 
