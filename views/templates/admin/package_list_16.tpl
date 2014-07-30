@@ -56,7 +56,7 @@
 	<input type="hidden" value="0" name="submitFilterButtonPackages" id="submitFilterPackages" />
 	<div class="panel col-lg-12">
 		<div class="panel-heading">
-			{l s='Packages list' mod='dpdpoland'}
+			{l s='Packages' mod='dpdpoland'}
 			<span class="badge">{$list_total|escape:'htmlall':'UTF-8'}</span>
 		</div>
 

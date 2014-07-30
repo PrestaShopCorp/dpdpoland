@@ -35,6 +35,9 @@ class DpdPolandParcelHistoryController extends DpdPolandController
 		$this->prepareListData($keys_array, 'ParcelHistories', new DpdPolandParcel(),
 			self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'parcel_history_list');
 		$this->context->smarty->assign('tracking_link', $this->tracking_link);
-		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/parcel_history_list.tpl');
+
+		if (version_compare(_PS_VERSION_, '1.6', '<'))
+			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/parcel_history_list.tpl');
+		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/parcel_history_list_16.tpl');
 	}
 }
