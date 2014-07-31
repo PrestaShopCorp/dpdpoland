@@ -157,13 +157,13 @@
 				<hr />
 
 				<div class="row form-horizontal">
-					<div class="form-group" id="dpdpoland_cod_amount_container"{if ($package->sessionType && $package->sessionType != 'domestic_with_cod') || (!$package->sessionType && $selected_id_method != $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} style="display:none"{/if}>
+					<div class="form-group col-lg-6" id="dpdpoland_cod_amount_container"{if ($package->sessionType && $package->sessionType != 'domestic_with_cod') || (!$package->sessionType && $selected_id_method != $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} style="display:none"{/if}>
 						<label for="dpdpoland_COD_amount" class="control-label col-lg-3">
 							<span title="" data-toggle="tooltip" class="label-tooltip" data-original-title="{l s='Enter the amount of COD' mod='dpdpoland'}">
-								 {l s='COD:' mod='dpdpoland'}
+								{l s='COD:' mod='dpdpoland'}
 							</span>
 						</label>
-						<div class="input-group col-lg-3">
+						<div class="input-group col-lg-5">
 							<span class="input-group-addon">{$smarty.const._DPDPOLAND_CURRENCY_ISO_|escape:'htmlall':'UTF-8'}</span>
 							<input type="text" name="dpdpoland_COD_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');"
 								   value="{if $package->cod_amount}{$package->cod_amount|escape:'htmlall':'UTF-8'}{else}{if isset($ps14) && $ps14}{Tools::convertPrice($order->total_paid_real, $currency_from, $currency_to)}{else}{Tools::convertPriceFull($order->total_paid_tax_incl, $currency_from, $currency_to)}{/if}{/if}"
@@ -171,13 +171,13 @@
 						</div>
 					</div>
 
-					<div class="form-group" id="dpdpoland_declared_value_amount_container">
+					<div class="form-group col-lg-6" id="dpdpoland_declared_value_amount_container">
 						<label for="dpdpoland_DeclaredValue_amount" class="control-label col-lg-3">
 							<span title="" data-toggle="tooltip" class="label-tooltip" data-original-title="{l s='Leave blank if service is not needed' mod='dpdpoland'}">
-								 {l s='Valuable parcel:' mod='dpdpoland'}
+								{l s='Valuable parcel:' mod='dpdpoland'}
 							</span>
 						</label>
-						<div class="input-group col-lg-3">
+						<div class="input-group col-lg-5">
 							<span class="input-group-addon">{$smarty.const._DPDPOLAND_CURRENCY_ISO_|escape:'htmlall':'UTF-8'}</span>
 							<input type="text" name="dpdpoland_DeclaredValue_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');" value="{$package->declaredValue_amount}" maxlength="14" size="11"{if $package->id_package} disabled="disabled"{/if}>
 						</div>
@@ -187,23 +187,23 @@
 				<hr />
 
 				<div class="row">
-					<div class="form-group" id="dpdpoland_additional_info_container">
+					<div class="form-group col-lg-6" id="dpdpoland_additional_info_container">
 						<label for="additional_info" class="control-label col-lg-3">
 							{l s='Additional shipment information:' mod='dpdpoland'}
 						</label>
-						<div class="input-group col-lg-7">
+						<div class="input-group col-lg-12 col-sm-12 col-xs-12">
 							<textarea name="additional_info" autocomplete="off" rows="4"{if $package->id_package} disabled="disabled"{/if}>{$package->additional_info|escape:'htmlall':'UTF-8'}</textarea>
 						</div>
 					</div>
 
-					<div id="dpdpoland_shipment_references_container">
+					<div id="dpdpoland_shipment_references_container" class="col-lg-6">
 						<div class="form-group">
 							<label for="dpdpoland_ref1" class="control-label col-lg-3">
 								<span title="" data-toggle="tooltip" class="label-tooltip" data-original-title="{l s='Reference number 1' mod='dpdpoland'}">
 									{l s='Order ID:' mod='dpdpoland'}
 								</span>
 							</label>
-							<div class="input-group col-lg-4">
+							<div class="input-group col-lg-4 col-xs-12">
 								<input type="text" name="dpdpoland_ref1" autocomplete="off" value="{if $package->ref1}{$package->ref1|escape:'htmlall':'UTF-8'}{else}{$order->id|escape:'htmlall':'UTF-8'}{/if}"{if $package->id_package} disabled="disabled"{/if} />
 							</div>
 						</div>
@@ -214,7 +214,7 @@
 									{l s='Invoice number:' mod='dpdpoland'}
 								</span>
 							</label>
-							<div class="input-group col-lg-4">
+							<div class="input-group col-lg-4 col-xs-12">
 								<input type="text" name="dpdpoland_ref2" autocomplete="off" value="{if $package->ref2}{$package->ref2|escape:'UTF-8'}{elseif $order->invoice_number}{$order->invoice_number|escape:'htmlall':'UTF-8'}{/if}"{if $package->id_package} disabled="disabled"{/if} />
 							</div>
 						</div>
@@ -284,12 +284,12 @@
 				<br />
 				<div class="row form-horizontal" id="dpdpoland_add_product_container">
 					<div class="form-group">
-						<label class="control-label col-lg-3">
+						<label class="control-label col-xs-3 col-sm-3 col-lg-3 margin-top-5">
 							<span data-original-title="{l s='Begin typing the first letters of the product name, then select the product from the drop-down list.' mod='dpdpoland'}" class="label-tooltip" data-toggle="tooltip" title="">
 								{l s='Search for a product' mod='dpdpoland'}
 							</span>
 						</label>
-						<div class="col-lg-7">
+						<div class="col-xs-9 col-sm-6 col-lg-6 margin-top-5">
 							<input type="hidden" id="dpdpoland_selected_product_id_product" value="0" />
 							<input type="hidden" id="dpdpoland_selected_product_id_product_attribute" value="0" />
 							<input type="hidden" id="dpdpoland_selected_product_weight_numeric" value="0" />
@@ -302,7 +302,7 @@
 								</span>
 							</div>
 						</div>
-						<div class="col-lg-2">
+						<div class="col-xs-12 col-sm-2 col-lg-2 margin-top-5">
 							<input type="button" class="btn btn-primary btn-block" id="dpdpoland_add_product" value="{l s='Add product' mod='dpdpoland'}" />
 						</div>
 					</div>
