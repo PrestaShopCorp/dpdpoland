@@ -155,8 +155,10 @@ class DpdPolandWS extends DpdPolandController
 				$debug_html .= '<h2>Error</h2><pre>'.$err.'</pre>';
 			else
 			{
+				$result = print_r($result, true);
+				
 				$debug_html .= '<h2>Response</h2><pre>';
-				$debug_html .= print_r($result, true);
+				$debug_html .= strip_tags($result);
 				$debug_html .= '</pre>';
 			}
 		}
