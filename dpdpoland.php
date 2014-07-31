@@ -1336,8 +1336,10 @@ class DpdPoland extends Module
 
 		$pickup_timeframes = $pickup->getCourierTimeframes();
 
-		$poland_time_obj = new DateTime(null, new DateTimeZone('Poland'));
-		$poland_time_in_seconds = strtotime($poland_time_obj->format('H:i:s'));
+		$system_timezone = date_default_timezone_get();
+		date_default_timezone_set('Europe/Warsaw');
+
+		$poland_time_in_seconds = strtotime(date('H:i:s'));
 
 		DpdPolandArrangePickUpController::validateTimeframes($pickup_timeframes, $poland_time_in_seconds, $is_today);
 		if (empty($pickup_timeframes))
@@ -1354,6 +1356,8 @@ class DpdPoland extends Module
 		$extra_timeframe = DpdPolandArrangePickUpController::createExtraTimeframe($pickup_timeframes);
 		if ($extra_timeframe !== false)
 			$this->context->smarty->assign('extra_timeframe', $extra_timeframe);
+
+		date_default_timezone_set($system_timezone);
 
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/timeframes.tpl');
 	}
