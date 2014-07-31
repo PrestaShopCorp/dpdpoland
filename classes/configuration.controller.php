@@ -36,6 +36,10 @@ class DpdPolandConfigurationController extends DpdPolandController
 		foreach (DpdPoland::getPaymentModules() as $payment_module)
 		{
 			$module = Module::getInstanceByName($payment_module['name']);
+
+			if (!Validate::isLoadedObject($module))
+				continue;
+
 			$payment_modules[] = array(
 				'displayName' => $module->displayName,
 				'name' => $payment_module['name']
