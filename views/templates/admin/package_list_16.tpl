@@ -309,7 +309,7 @@
 						{/section}
 					{else}
 						<tr>
-							<td colspan="9" class="list-empty">
+							<td colspan="11" class="list-empty">
 								<div class="list-empty-msg">
 									<i class="icon-warning-sign list-empty-icon"></i>
 									{l s='No records found' mod='dpdpoland'}
