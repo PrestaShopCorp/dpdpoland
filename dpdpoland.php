@@ -944,7 +944,7 @@ class DpdPoland extends Module
 			),
 		);
 
-		$current_page = Tools::getValue('menu');
+		$current_page = Tools::getValue('menu', 'packages_list');
 
 		if (in_array($current_page, array(
 			'arrange_pickup',
@@ -953,6 +953,7 @@ class DpdPoland extends Module
 			'parcel_history_list',
 			'country_list',
 			'configuration',
+			'csv',
 			'help'
 		)))
 			$meniu_tabs[$current_page]['active'] = true;
