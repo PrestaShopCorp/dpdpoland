@@ -119,7 +119,7 @@
 									</div>
 
 									<div class="dpdpoland_address">
-										{include file=$smarty.const._DPDPOLAND_TPL_DIR_|cat:'admin/address.tpl' address=$senderAddress}
+										{include file=$smarty.const._DPDPOLAND_TPL_DIR_|cat:'admin/address_16.tpl' address=$senderAddress}
 									</div>
 								</div>
 							</div>
@@ -146,7 +146,7 @@
 									</div>
 
 									<div class="dpdpoland_address">
-										{include file=$smarty.const._DPDPOLAND_TPL_DIR_|cat:'admin/address.tpl' address=$recipientAddress}
+										{include file=$smarty.const._DPDPOLAND_TPL_DIR_|cat:'admin/address_16.tpl' address=$recipientAddress}
 									</div>
 								</div>
 							</div>
