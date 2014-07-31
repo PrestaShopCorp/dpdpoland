@@ -220,7 +220,7 @@
 								</button>
 								{if $filters_has_value}
 									<button type="submit" name="submitResetPackages" class="btn btn-warning">
-										<i class="icon-eraser"></i> {l s='Reset'}
+										<i class="icon-eraser"></i> {l s='Reset' mod='dpdpoland'}
 									</button>
 								{/if}
 							</span>

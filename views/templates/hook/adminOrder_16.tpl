@@ -164,7 +164,7 @@
 							</span>
 						</label>
 						<div class="input-group col-lg-3">
-							<span class="input-group-addon">{$smarty.const._DPDPOLAND_CURRENCY_ISO_} </span>
+							<span class="input-group-addon">{$smarty.const._DPDPOLAND_CURRENCY_ISO_|escape:'htmlall':'UTF-8'}</span>
 							<input type="text" name="dpdpoland_COD_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');"
 								   value="{if $package->cod_amount}{$package->cod_amount|escape:'htmlall':'UTF-8'}{else}{if isset($ps14) && $ps14}{Tools::convertPrice($order->total_paid_real, $currency_from, $currency_to)}{else}{Tools::convertPriceFull($order->total_paid_tax_incl, $currency_from, $currency_to)}{/if}{/if}"
 								   maxlength="14" size="11"{if $package->id_package} disabled="disabled"{/if}>
@@ -178,7 +178,7 @@
 							</span>
 						</label>
 						<div class="input-group col-lg-3">
-							<span class="input-group-addon">{$smarty.const._DPDPOLAND_CURRENCY_ISO_} </span>
+							<span class="input-group-addon">{$smarty.const._DPDPOLAND_CURRENCY_ISO_|escape:'htmlall':'UTF-8'}</span>
 							<input type="text" name="dpdpoland_DeclaredValue_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');" value="{$package->declaredValue_amount}" maxlength="14" size="11"{if $package->id_package} disabled="disabled"{/if}>
 						</div>
 					</div>

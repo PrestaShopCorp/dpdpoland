@@ -37,7 +37,7 @@
 	<div class="panel col-lg-12">
 		<div class="panel-heading">
 			{l s='Shipment countries' mod='dpdpoland'}
-			<span class="badge">{$list_total|escape:'htmlall':'UTF-8'}</span>
+			<span class="badge">{$list_total|intval}</span>
 		</div>
 		
 		<div class="table-responsive clearfix">
@@ -117,7 +117,7 @@
 								</button>
 								{if isset($filters_has_value) && $filters_has_value}
 									<button type="submit" name="submitResetCountries" class="btn btn-warning">
-										<i class="icon-eraser"></i> {l s='Reset'}
+										<i class="icon-eraser"></i> {l s='Reset' mod='dpdpoland'}
 									</button>
 								{/if}
 							</span>
@@ -220,9 +220,9 @@
 			{if $list_total > 10}
 				<div class="col-lg-4">
 					<span class="pagination">
-						{l s='Display'}: 
+						{l s='Display' mod='dpdpoland'}: 
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							{$selected_pagination}
+							{$selected_pagination|intval}
 							<i class="icon-caret-down"></i>
 						</button>
 						<ul class="dropdown-menu">
@@ -232,7 +232,7 @@
 							</li>
 						{/foreach}
 						</ul>
-						/ {$list_total} {l s='result(s)'}
+						/ {$list_total|intval} {l s='result(s)' mod='dpdpoland'}
 						<input type="hidden" id="pagination-items-page" name="pagination" value="{$selected_pagination|intval}" />
 					</span>
 					<script type="text/javascript">
@@ -248,7 +248,7 @@
 							</a>
 						</li>
 						<li {if $page <= 1}class="disabled"{/if}>
-							<a href="javascript:void(0);" class="pagination-link" data-page="{$page - 1}">
+							<a href="javascript:void(0);" class="pagination-link" data-page="{$page|intval - 1}">
 								<i class="icon-angle-left"></i>
 							</a>
 						</li>
@@ -266,17 +266,17 @@
 								{assign p $total_pages}
 							{else}
 								<li {if $p == $page}class="active"{/if}>
-									<a href="javascript:void(0);" class="pagination-link" data-page="{$p}">{$p}</a>
+									<a href="javascript:void(0);" class="pagination-link" data-page="{$p|escape:'htmlall':'UTF-8'}">{$p|escape:'htmlall':'UTF-8'}</a>
 								</li>
 							{/if}
 						{/while}
 						<li {if $page > $total_pages}class="disabled"{/if}>
-							<a href="javascript:void(0);" class="pagination-link" data-page="{$page + 1}">
+							<a href="javascript:void(0);" class="pagination-link" data-page="{$page|intval + 1}">
 								<i class="icon-angle-right"></i>
 							</a>
 						</li>
 						<li {if $page > $total_pages}class="disabled"{/if}>
-							<a href="javascript:void(0);" class="pagination-link" data-page="{$total_pages}">
+							<a href="javascript:void(0);" class="pagination-link" data-page="{$total_pages|intval}">
 								<i class="icon-double-angle-right"></i>
 							</a>
 						</li>

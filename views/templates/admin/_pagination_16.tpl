@@ -1,3 +1,20 @@
+{** 2014 DPD Polska Sp. z o.o.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * prestashop@dpd.com.pl so we can send you a copy immediately.
+ *
+ * @author JSC INVERTUS www.invertus.lt <help@invertus.lt>
+ * @copyright 2014 DPD Polska Sp. z o.o.
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * International Registered Trademark & Property of DPD Polska Sp. z o.o.
+ *}
 {if $list_total > 10}
 <div class="row">
 	<div class="col-lg-4 pull-right clearfix">
@@ -15,7 +32,7 @@
 					</li>
 				{/foreach}
 			</ul>
-			/ {$list_total} {l s='result(s)' mod='dpdpoland'}
+			/ {$list_total|intval} {l s='result(s)' mod='dpdpoland'}
 			<input type="hidden" value="{$selected_pagination|intval}" name="country_pagination" id="pagination-items-page">
 		</span>
 		<script type="text/javascript">
@@ -31,7 +48,7 @@
 				</a>
 			</li>
 			<li {if $page <= 1}class="disabled"{/if}>
-				<a href="javascript:void(0);" class="pagination-link" data-page="{$page - 1}">
+				<a href="javascript:void(0);" class="pagination-link" data-page="{$page|intval - 1}">
 					<i class="icon-angle-left"></i>
 				</a>
 			</li>
@@ -67,7 +84,7 @@
 		<script type="text/javascript">
 			$('.pagination-link').on('click',function(e){
 				e.preventDefault();
-				$('#submitFilter'+'{$identifier}').val($(this).data("page")).closest("form").submit();
+				$('#submitFilter'+'{$identifier|escape:'htmlall':'UTF-8'}').val($(this).data("page")).closest("form").submit();
 			});
 		</script>
 	</div>
