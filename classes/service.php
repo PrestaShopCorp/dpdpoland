@@ -21,7 +21,6 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-
 class DpdPolandService
 {
 	const IMG_DIR = 'DPD_services';
@@ -80,6 +79,7 @@ class DpdPolandService
 			return true;
 
 		$carrier->deleted = 1;
+
 		return (bool)$carrier->save();
 	}
 
@@ -93,6 +93,7 @@ class DpdPolandService
 					("'.(int)$id_carrier.'", "'.(int)$id_group.'")
 			'))
 				return false;
+
 		return true;
 	}
 
@@ -111,6 +112,8 @@ class DpdPolandService
 		else
 			if (!$carrier->setGroups($groups))
 				return false;
+
+		return true;
 	}
 
 	protected static function getCarrierById($id_carrier)
