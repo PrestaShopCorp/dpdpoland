@@ -21,6 +21,11 @@
 	display:none;
 }
 
+#dpdpoland.dpdpoland-ps16 #dpdpoland_shipment_creation
+{
+	width: auto;
+}
+
 #dpdpoland_shipment_creation #add_parcel
 {
 	float: right;
@@ -53,6 +58,12 @@
 				#dpdpoland_shipment_references_container,
 					#dpdpoland_declared_value_amount_container {
 	width: 420px;
+}
+
+.dpdpoland-ps16 #dpdpoland_recipient_address_container,
+.dpdpoland-ps16 #dpdpoland_sender_address_container
+{
+	width: auto;
 }
 
 #dpdpoland_sender_address_container
