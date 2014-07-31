@@ -92,7 +92,10 @@ class DpdPoland extends Module
 	public function install()
 	{
 		if (!extension_loaded('soap'))
+		{
+			$this->_errors[] = $this->l('Soap Client lib is not installed');
 			return false;
+		}
 
 		$sql = '
 			CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_._DPDPOLAND_PRICE_RULE_DB_.'` (
