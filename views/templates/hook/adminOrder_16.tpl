@@ -386,11 +386,14 @@
 					</div>
 				</div>
 				<hr />
+				{/if}
 				<div class="row">
 					<div class="col-lg-6">
-						<div class="alert alert-info">
-							{l s='It will not be possible to edit shipment after printing labels.' mod='dpdpoland'}
-						</div>
+						{if !$package->id_package}
+							<div class="alert alert-info">
+								{l s='It will not be possible to edit shipment after printing labels.' mod='dpdpoland'}
+							</div>
+						{/if}
 					</div>
 					<div id="dpdgeopost_actions" class="form-horizontal">
 						<div class="col-lg-4">
@@ -418,7 +421,6 @@
 						</div>
 					</div>
 				</div>
-				{/if}
 			</div>
 
 			<div style="margin-top:10px;" id="dpdpoland_current_status_accordion" class="panel-group">
