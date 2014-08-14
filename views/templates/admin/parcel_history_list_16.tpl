@@ -246,7 +246,7 @@
 								</td>
 								<td class="text-right">
 									<div class="btn-group pull-right">
-										<a class=" btn btn-default" title="View" href="{$tracking_link|escape:'htmlall':'UTF-8'}{$table_data[ii].id_parcel|escape:'htmlall':'UTF-8'}">
+										<a target="_blank" class="btn btn-default" title="View" href="{$tracking_link|escape:'htmlall':'UTF-8'}{$table_data[ii].id_parcel|escape:'htmlall':'UTF-8'}">
 											<i class="icon-search-plus"></i>
 											{l s='View' mod='dpdpoland'}
 										</a>
