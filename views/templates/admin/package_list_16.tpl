@@ -34,6 +34,26 @@
 			window.location = window.location + '&printManifest';
 		}
 	});
+
+	function sendDpdPolandBulkAction(form, action) {
+		String.prototype.splice = function(index, remove, string) {
+			return (this.slice(0, index) + string + this.slice(index + Math.abs(remove)));
+		};
+	
+		var form_action = $(form).attr('action');
+		
+		form_action = form_action.replace('&printLabelsLabelFormat', '').replace('&printLabelsA4Format', '');
+	
+		if (form_action.replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ') == '')
+			return false;
+	
+		if (form_action.indexOf('#') == -1)
+			$(form).attr('action', form_action + '&' + action);
+		else
+			$(form).attr('action', form_action.splice(form_action.lastIndexOf('&'), 0, '&' + action));
+	
+		$(form).submit();
+	}
 </script>
 <script type="text/javascript">
 	$(function() {
@@ -348,13 +368,13 @@
 							</a>
 						</li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printLabelsLabelFormat');" href="#">
+							<a onclick="sendDpdPolandBulkAction($(this).closest('form').get(0), 'printLabelsLabelFormat');" href="#">
 								<i class="icon-download"></i>
 								{l s='Label duplicate printout Label printer' mod='dpdpoland'}
 							</a>
 						</li>
 						<li>
-							<a onclick="sendBulkAction($(this).closest('form').get(0), 'printLabelsA4Format');" href="#">
+							<a onclick="sendDpdPolandBulkAction($(this).closest('form').get(0), 'printLabelsA4Format');" href="#">
 								<i class="icon-download"></i>
 								{l s='Label duplicate printout A4' mod='dpdpoland'}
 							</a>
