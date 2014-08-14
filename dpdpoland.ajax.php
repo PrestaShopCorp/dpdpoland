@@ -49,7 +49,7 @@ if (Tools::isSubmit('savePackagePrintLabels'))
 
 	$printout_format = Tools::getValue('dpdpoland_printout_format');
 
-	if ($printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL || $printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_A4)
+	if ($printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL && $printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_A4)
 		$printout_format = DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL;
 
 	die(Tools::jsonEncode(array(
@@ -63,7 +63,7 @@ if (Tools::isSubmit('printLabels'))
 {
 	$printout_format = Tools::getValue('dpdpoland_printout_format');
 
-	if ($printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL || $printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_A4)
+	if ($printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL && $printout_format != DpdPolandConfiguration::PRINTOUT_FORMAT_A4)
 		$printout_format = DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL;
 
 	die(Tools::jsonEncode(array(
