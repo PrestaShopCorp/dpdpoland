@@ -705,7 +705,7 @@ class DpdPoland extends Module
 
 				if (@Mail::Send((int)$order->id_lang, 'in_transit', Mail::l('Package in transit', (int)$order->id_lang), $templateVars,
 					$customer->email, $customer->firstname.' '.$customer->lastname, null, null, null, null,
-					_PS_MAIL_DIR_, true, (int)$order->id_shop))
+					_PS_MAIL_DIR_, false, (int)$order->id_shop))
 				{
 					Hook::exec('actionAdminOrdersTrackingNumberUpdate', array('order' => $order, 'customer' => $customer, 'carrier' => $carrier));
 					return true;
@@ -748,7 +748,7 @@ class DpdPoland extends Module
 			);
 			@Mail::Send((int)$order->id_lang, 'in_transit', Mail::l('Package in transit', (int)$order->id_lang), $templateVars,
 				$customer->email, $customer->firstname.' '.$customer->lastname, null, null, null, null,
-				_PS_MAIL_DIR_, true);
+				_PS_MAIL_DIR_);
 		}
 
 		return true;
