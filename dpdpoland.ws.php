@@ -43,6 +43,8 @@ class DpdPolandWS extends DpdPolandController
 
 	public function __construct()
 	{
+		parent::__construct();
+		
 		$settings = new DpdPolandConfiguration;
 
 		$this->params = array(
@@ -156,7 +158,7 @@ class DpdPolandWS extends DpdPolandController
 			else
 			{
 				$result = print_r($result, true);
-				
+
 				$debug_html .= '<h2>Response</h2><pre>';
 				$debug_html .= strip_tags($result);
 				$debug_html .= '</pre>';
