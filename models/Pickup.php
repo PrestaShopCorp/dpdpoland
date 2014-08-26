@@ -44,6 +44,12 @@ class DpdPolandPickup extends DpdPolandWS
 
 	const STANDARD_PARCEL = true;
 
+	/**
+	 * Makes web services call to arrange a pickup
+	 * @param string $operationType
+	 * @param bool $waybillsReady
+	 * @return bool
+	 */
 	public function arrange($operationType = 'INSERT', $waybillsReady = true)
 	{
 		list($pickupTimeFrom, $pickupTimeTo) = explode('-', $this->pickupTime);
@@ -62,7 +68,6 @@ class DpdPolandPickup extends DpdPolandWS
 						'customerPhone' => $settings->customer_phone
 					),
 					'pickupPayer' => array(
-						//'payerCostCenter' => null,
 						'payerName' => $settings->client_name,
 						'payerNumber' => $settings->client_number
 					),
@@ -104,30 +109,118 @@ class DpdPolandPickup extends DpdPolandWS
 		return false;
 	}
 
+	/**
+	 * Create array with pickup packages (envelopes, pallets or parcels) data for web services call
+	 * @return array
+	 */
 	private function getPackagesParams()
 	{
-		$parcels_count = $this->parcelsCount > 0 ? $this->parcelsCount : 1;
-
-		$packagesParams = array(
-			'dox' => 1,
-			'doxCount' => (int)$this->doxCount,
-			'pallet' => $this->pallet,
-			'palletMaxHeight' => $this->palletMaxHeight,
-			'palletMaxWeight' => $this->palletMaxWeight,
-			'palletsCount' => (int)$this->palletsCount,
-			'palletsWeight' => $this->palletsWeight,
-			'parcelsCount' => (int)$parcels_count,
-			'standardParcel' => self::STANDARD_PARCEL,
-			'parcelMaxDepth' => $this->parcelMaxDepth ? $this->parcelMaxDepth : 1,
-			'parcelMaxHeight' => $this->parcelMaxHeight ? $this->parcelMaxHeight : 1,
-			'parcelMaxWeight' => $this->parcelMaxWeight ? $this->parcelMaxWeight : 1,
-			'parcelMaxWidth' => $this->parcelMaxWidth ? $this->parcelMaxWidth : 1,
-			'parcelsWeight' => $this->parcelsWeight ? $this->parcelsWeight : 1
+		return array_merge(
+			$this->getEnvelopesParams(),
+			$this->getPalletsParams(),
+			$this->getParcelsParams()
 		);
-
-		return $packagesParams;
 	}
 
+	/**
+	 * Returns array with envelopes data prepared for web services call
+	 * In order to send envelopes, both conditions must be met:
+	 * 	1. Envelopes chosen
+	 * 	2. Envelopes count > 0
+	 * Otherwise envelopes will be set as false.
+	 * @return array
+	 */
+	private function getEnvelopesParams()
+	{
+		$result =  array(
+			'dox' => 0,
+			'doxCount' => 0
+		);
+
+		if ($this->dox && (int)$this->doxCount)
+		{
+			$result['dox'] = 1;
+			$result['doxCount'] = (int)$this->doxCount;
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns array with envelopes data prepared for web services call
+	 * In order to send pallets, both conditions must be met:
+	 * 	1. Pallets chosen
+	 * 	2. Pallets count > 0
+	 * @return array
+	 */
+	private function getPalletsParams()
+	{
+		$result = array(
+			'pallet' => 0,
+			'palletMaxHeight' => '',
+			'palletMaxWeight' => '',
+			'palletsCount' => 0,
+			'palletsWeight' => ''
+		);
+
+		if ($this->pallet && (int)$this->palletsCount)
+		{
+			$result['pallet'] = 1;
+			$result['palletMaxHeight'] = $this->palletMaxHeight;
+			$result['palletMaxWeight'] = $this->palletMaxWeight;
+			$result['palletsCount'] = (int)$this->palletsCount;
+			$result['palletsWeight'] = $this->palletsWeight;
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns array with parcels data prepared for web services call
+	 * If envelopes or pallets are sent without parcels then parcels should have all params set to 1
+	 * In order to send parcels, both conditions must be met:
+	 * 	1. Parcels chosen
+	 * 	2. Parcels count > 0
+	 * @return array
+	 */
+	private function getParcelsParams()
+	{
+		$result = array(
+			'parcelsCount' => 0,
+			'standardParcel' => self::STANDARD_PARCEL, // Always must be true
+			'parcelMaxDepth' => '',
+			'parcelMaxHeight' => '',
+			'parcelMaxWeight' => '',
+			'parcelMaxWidth' => '',
+			'parcelsWeight' => ''
+		);
+
+		// If no parcels but envelopes or pallets are chosen then parcels all values should be 1
+		if (!$this->parcels && ($this->dox || $this->pallet))
+		{
+			$result['parcelsCount'] = 1;
+			$result['standardParcel'] = self::STANDARD_PARCEL; // Always must be true
+			$result['parcelMaxDepth'] = 1;
+			$result['parcelMaxHeight'] = 1;
+			$result['parcelMaxWeight'] = 1;
+			$result['parcelMaxWidth'] = 1;
+			$result['parcelsWeight'] = 1;
+		}
+		elseif ($this->parcels && (int)$this->parcelsCount)
+		{
+			$result['parcelsCount'] = (int)$this->parcelsCount;
+			$result['standardParcel'] = self::STANDARD_PARCEL; // Always must be true
+			$result['parcelMaxDepth'] = $this->parcelMaxDepth;
+			$result['parcelMaxHeight'] = $this->parcelMaxHeight;
+			$result['parcelMaxWeight'] = $this->parcelMaxWeight;
+			$result['parcelMaxWidth'] = $this->parcelMaxWidth;
+			$result['parcelsWeight'] = $this->parcelsWeight;
+		}
+		return $result;
+	}
+
+	/**
+	 * Get available pickup time frames for a particular date
+	 * @return bool
+	 */
 	public function getCourierTimeframes()
 	{
 		$settings = new DpdPolandConfiguration;
