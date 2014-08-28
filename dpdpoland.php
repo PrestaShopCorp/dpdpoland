@@ -1286,7 +1286,7 @@ class DpdPoland extends Module
 			return 0;
 
 		$end_time_in_seconds = strtotime($end_time[1]);
-		$poland_time_obj = new DateTime(null, new DateTimeZone('Poland'));
+		$poland_time_obj = new DateTime(null, new DateTimeZone('Europe/Warsaw'));
 		$poland_time_in_seconds = strtotime($poland_time_obj->format('H:i:s'));
 		$days_left = strtotime($current_date) - strtotime(date('Y-m-d'));
 		$time_left = round(($end_time_in_seconds + $days_left - $poland_time_in_seconds) / 60);
