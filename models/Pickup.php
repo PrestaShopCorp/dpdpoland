@@ -115,11 +115,12 @@ class DpdPolandPickup extends DpdPolandWS
 	 */
 	private function getPackagesParams()
 	{
-		return array_merge(
+		$result = array_merge(
 			$this->getEnvelopesParams(),
 			$this->getPalletsParams(),
 			$this->getParcelsParams()
 		);
+		return $result;
 	}
 
 	/**
@@ -127,7 +128,7 @@ class DpdPolandPickup extends DpdPolandWS
 	 * In order to send envelopes, both conditions must be met:
 	 * 	1. Envelopes chosen
 	 * 	2. Envelopes count > 0
-	 * Otherwise envelopes will be set as false.
+	 * Otherwise envelopes will be set as false and count will be 0
 	 * @return array
 	 */
 	private function getEnvelopesParams()
@@ -139,7 +140,7 @@ class DpdPolandPickup extends DpdPolandWS
 
 		if ($this->dox && (int)$this->doxCount)
 		{
-			$result['dox'] = 1;
+			$result['dox'] = 0; // always false even if envelopes are sent
 			$result['doxCount'] = (int)$this->doxCount;
 		}
 		return $result;
