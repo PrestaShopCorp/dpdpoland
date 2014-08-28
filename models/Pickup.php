@@ -133,7 +133,7 @@ class DpdPolandPickup extends DpdPolandWS
 	 */
 	private function getEnvelopesParams()
 	{
-		$result =  array(
+		$result = array(
 			'dox' => 0, // always false even if envelopes are sent
 			'doxCount' => 0
 		);
