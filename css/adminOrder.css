@@ -102,7 +102,7 @@
 	margin: 0 0 5px 0;
 }
 
-.dpdpoland-ps14 #dpdpoland_sender_address_container label, .dpdpoland-ps15 #dpdpoland_sender_address_container,
+.dpdpoland-ps14 #dpdpoland_sender_address_container label, .dpdpoland-ps15 #dpdpoland_sender_address_container label,
 	.dpdpoland-ps14 #dpdpoland_recipient_address_container label, .dpdpoland-ps15 #dpdpoland_recipient_address_container label,
 		.dpdpoland-ps14 #dpdpoland_cod_amount_container label, .dpdpoland-ps15 #dpdpoland_cod_amount_container label,
 			.dpdpoland-ps14 #dpdpoland_declared_value_amount_container label, .dpdpoland-ps15 #dpdpoland_declared_value_amount_container label,
@@ -275,6 +275,3 @@ label.printout_format_label
 {
 	margin-top: 5px;
 }
-
-/* =============================================== */
-
