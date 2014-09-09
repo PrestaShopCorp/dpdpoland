@@ -181,6 +181,7 @@
 .dpdpoland-ps16 #dpdpoland_recipient_address_selection
 {
 	width: auto;
+	max-width: 100%;
 }
 
 #dpdpoland_shipment_parcels .delete_parcel,
