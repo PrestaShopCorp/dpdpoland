@@ -49,7 +49,7 @@
 	});
 </script>
 
-<fieldset id="dpdpoland">
+<fieldset id="dpdpoland" class="dpdpoland-ps14 dpdpoland-ps15">
     <legend>
         <img src="{$smarty.const._DPDPOLAND_MODULE_URI_|escape:'htmlall':'UTF-8'}logo.gif" width="16" height="16"> {l s='DPD Polska Sp. z o.o. shipping' mod='dpdpoland'}
 		<a href="javascript:toggleShipmentCreationDisplay()" rel="[ {l s='collapse' mod='dpdpoland'} ]">[ {l s='expand' mod='dpdpoland'} ]</a>

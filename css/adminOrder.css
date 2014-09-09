@@ -97,16 +97,18 @@
 }
 
 #dpdpoland_sender_address_container h3,
-	#dpdpoland_recipient_address_container h3{
+	#dpdpoland_recipient_address_container h3
+{
 	margin: 0 0 5px 0;
 }
 
-#dpdpoland_sender_address_container label,
-	#dpdpoland_recipient_address_container label,
-		#dpdpoland_cod_amount_container label,
-			#dpdpoland_declared_value_amount_container label,
-				#dpdpoland_additional_info_container label,
-					#dpdpoland_shipment_references_container label {
+.dpdpoland-ps14 #dpdpoland_sender_address_container label, .dpdpoland-ps15 #dpdpoland_sender_address_container,
+	.dpdpoland-ps14 #dpdpoland_recipient_address_container label, .dpdpoland-ps15 #dpdpoland_recipient_address_container label,
+		.dpdpoland-ps14 #dpdpoland_cod_amount_container label, .dpdpoland-ps15 #dpdpoland_cod_amount_container label,
+			.dpdpoland-ps14 #dpdpoland_declared_value_amount_container label, .dpdpoland-ps15 #dpdpoland_declared_value_amount_container label,
+				.dpdpoland-ps14 #dpdpoland_additional_info_container label, .dpdpoland-ps15 #dpdpoland_additional_info_container label,
+					.dpdpoland-ps14 #dpdpoland_shipment_references_container label, .dpdpoland-ps15 #dpdpoland_shipment_references_container label
+{
 	width: 155px;
 }
 
@@ -140,7 +142,8 @@
 #dpdpoland_cod_amount_container .margin-form,
 	#dpdpoland_declared_value_amount_container .margin-form,
 		#dpdpoland_additional_info_container .margin-form,
-			#dpdpoland_shipment_references_container .margin-form {
+			#dpdpoland_shipment_references_container .margin-form
+{
     padding: 3px 0 3px 170px;
 	width: 260px;
 }
@@ -153,7 +156,8 @@
 #dpdpoland_cod_amount_container p,
 	#dpdpoland_declared_value_amount_container p,
 		#dpdpoland_additional_info_container p,
-			#dpdpoland_shipment_references_container p {
+			#dpdpoland_shipment_references_container p
+{
 	margin: 0;
 }
 
@@ -271,3 +275,6 @@ label.printout_format_label
 {
 	margin-top: 5px;
 }
+
+/* =============================================== */
+
