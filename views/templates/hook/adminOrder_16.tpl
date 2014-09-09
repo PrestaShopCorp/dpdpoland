@@ -104,9 +104,9 @@
 				<hr />
 
 				<div class="row">
-					<div class="col-xs-6">
+					<div class="col-lg-6 col-xs-12">
 
-						<div class="panel panel-sm" id="dpdpoland_sender_address_container">
+						<div class="panel panel-sm clearfix" id="dpdpoland_sender_address_container">
 							<div class="panel-heading">
 								<i class="icon-user"></i>
 								{l s='Sender' mod='dpdpoland'}
@@ -126,8 +126,8 @@
 						</div>
 					</div>
 
-					<div class="col-xs-6">
-						<div class="panel panel-sm" id="dpdpoland_recipient_address_container">
+					<div class="col-lg-6 col-xs-12">
+						<div class="panel panel-sm clearfix" id="dpdpoland_recipient_address_container">
 							<div class="panel-heading">
 								<i class="icon-user"></i>
 								{l s='Recipient' mod='dpdpoland'}

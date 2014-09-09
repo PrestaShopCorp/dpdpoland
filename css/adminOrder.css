@@ -90,6 +90,12 @@
 	float: right;
 }
 
+.dpdpoland-ps16 #dpdpoland_recipient_address_container, .dpdpoland-ps16 #dpdpoland_sender_address_container
+{
+	float: none;
+	margin-right: 0;
+}
+
 #dpdpoland_sender_address_container h3,
 	#dpdpoland_recipient_address_container h3{
 	margin: 0 0 5px 0;
