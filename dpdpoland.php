@@ -767,7 +767,8 @@ class DpdPoland extends Module
 
 		foreach ($parcels_ws as $parcel_data)
 		{
-			list($order_reference, $parcel_number) = explode('_', $parcel_data['Reference']);
+			$parcel_number = explode('_', $parcel_data['Reference']); // order_reference - underscore - parcel_number
+			$parcel_number = end($parcel_number); // number AFTER the underscore suppose to be the parcel number
 
 			if (!isset($parcels[$parcel_number]))
 			{
