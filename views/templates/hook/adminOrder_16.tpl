@@ -139,7 +139,7 @@
 									<select class="col-lg-6 col-sm-6 col-xs-12" id="dpdpoland_recipient_address_selection" name="dpdpoland_id_address_delivery" autocomplete="off"{if $package->id_package} disabled="disabled"{/if}>
 										{foreach from=$recipientAddresses item=address}
 										{capture assign=address_title|escape:'htmlall':'UTF-8'}{$address['alias']|escape:'UTF-8'} - {$address['address1']|escape:'UTF-8'} {$address['postcode']|escape:'UTF-8'} {$address['city']|escape:'UTF-8'}{if !empty($address['state'])} {$address['state']|escape:'UTF-8'}{/if}, {$address['country']|escape:'UTF-8'}{/capture}
-										<option value="{$address['id_address']|escape:'htmlall':'UTF-8'}"{if $address['id_address'] == $selectedRecipientIdAddress} selected="selected"{/if}>{$address_title|truncate:35:'...'|escape:'UTF-8'}</option>
+										<option value="{$address['id_address']|escape:'htmlall':'UTF-8'}"{if $address['id_address'] == $selectedRecipientIdAddress} selected="selected"{/if}>{$address_title|escape:'UTF-8'}</option>
 										{/foreach}
 									</select>
 									<div class="dpdpoland_address">
