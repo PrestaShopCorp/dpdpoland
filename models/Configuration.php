@@ -251,9 +251,14 @@ class DpdPolandConfiguration
 		$carrier_standard_obj = DpdPolandService::getCarrierById((int)$id_carrier_standard);
 		$carrier_standard_cod_obj = DpdPolandService::getCarrierById((int)$id_carrier_standard_cod);
 
-		$id_carrier_classic = $classic_carrier_obj->id;
-		$id_carrier_standard = $carrier_standard_obj->id;
-		$id_carrier_standard_cod = $carrier_standard_cod_obj->id;
+		if (Validate::isLoadedObject($classic_carrier_obj))
+			$id_carrier_classic = $classic_carrier_obj->id;
+
+		if (Validate::isLoadedObject($carrier_standard_obj))
+			$id_carrier_standard = $carrier_standard_obj->id;
+
+		if (Validate::isLoadedObject($carrier_standard_cod_obj))
+			$id_carrier_standard_cod = $carrier_standard_cod_obj->id;
 
 		if ($configuration->carrier_classic)
 			if (!self::removeZonesForCarrier($id_carrier_classic) || !self::saveZoneForCarrier('classic', $id_carrier_classic))
