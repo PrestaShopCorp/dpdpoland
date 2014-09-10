@@ -105,7 +105,7 @@ class DpdPolandService
 		return true;
 	}
 
-	protected static function getCarrierById($id_carrier)
+	public static function getCarrierById($id_carrier)
 	{
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 		{

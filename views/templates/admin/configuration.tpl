@@ -180,7 +180,7 @@
     </fieldset>
     
     <br />
-    
+
     <fieldset id="shipping">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
@@ -247,9 +247,74 @@
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
-        
     </fieldset>
-    
+
+    <br />
+
+    <fieldset id="active_zones">
+        <legend>
+            <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
+            {l s='Active zones' mod='dpdpoland'}
+        </legend>
+
+        <div class="margin-form">
+            <table cellspacing="0" cellpadding="5" id="zones_table">
+                <thead>
+                    <th>
+                        
+                    </th>
+                    <th>
+                        {l s='DPD domestic shipment - Standard' mod='dpdpoland'}
+                    </th>
+                    <th>
+                        
+                    </th>
+                    <th>
+                        {l s='DPD domestic shipment - Standard with COD' mod='dpdpoland'}
+                    </th>
+                    <th>
+                        
+                    </th>
+                    <th>
+                        {l s='DPD international shipment (DPD Classic)' mod='dpdpoland'}
+                    </th>
+                </thead>
+				<tbody>
+                    {section name=ii loop=$zones}
+                        <tr class="fees{if $smarty.section.ii.index %2 == 0} alt_row{/if}">
+                            <td class="border_top border_bottom border_bold">
+                                {$zones[ii].name}
+                            </td>
+                            <td class="center">
+                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard'])} checked="checked"{/if} name="standard_{$zones[ii].id_zone}" class="form-control domestic_zone" value="1" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td class="center">
+                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard_cod'])} checked="checked"{/if} name="standard_cod_{$zones[ii].id_zone}" class="form-control domestic_cod_zone" value="1" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td class="center">
+                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['classic'])} checked="checked"{/if} name="classic_{$zones[ii].id_zone}" class="form-control classic_zone" value="1">
+                            </td>
+                        </tr>
+                    {/section}
+			</tbody></table>
+        </div>
+        <div class="clear"></div>
+
+        <p class="clear list info">
+            {l s='Please define price ranges for each carrier in carrier configuration page or import CSV file with price ranges.' mod='dpdpoland'}
+        </p>
+
+        <div class="margin-form">
+            <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
+        </div>
+    </fieldset>
+
     <br />
     
     <fieldset id="price_calculation">

@@ -258,7 +258,7 @@
             {l s='Active zones' mod='dpdpoland'}
         </div>
 	
-		<div class="form-group">
+		<div id="zones_table_container" class="form-group">
 			<table style="max-width:100%" class="table" id="zones_table">
 				<tbody>
 					<tr>
