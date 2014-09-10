@@ -261,10 +261,15 @@ class DpdPolandConfigurationController extends DpdPolandController
 
 	private function saveSettings()
 	{
-		if (DpdPolandConfiguration::saveConfiguration() && DpdPolandConfiguration::saveZonesForCarriers())
+		if (DpdPolandConfiguration::saveConfiguration())
 		{
-			DpdPoland::addFlashMessage($this->l('Settings saved successfully'));
-			Tools::redirectAdmin($this->module_instance->module_url.'&menu=configuration');
+			if (!DpdPolandConfiguration::saveZonesForCarriers())
+				DpdPoland::addFlashError($this->l('Settings saved successfully but could not assign zones for carriers'));
+			else
+			{
+				DpdPoland::addFlashMessage($this->l('Settings saved successfully'));
+				Tools::redirectAdmin($this->module_instance->module_url.'&menu=configuration');
+			}
 		}
 		else
 			DpdPoland::addFlashError($this->l('Could not save settings'));

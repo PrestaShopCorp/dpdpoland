@@ -283,22 +283,22 @@
                     {section name=ii loop=$zones}
                         <tr class="fees{if $smarty.section.ii.index %2 == 0} alt_row{/if}">
                             <td class="border_top border_bottom border_bold">
-                                {$zones[ii].name}
+                                {$zones[ii].name|escape:'htmlall':'UTF-8'}
                             </td>
                             <td class="center">
-                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard'])} checked="checked"{/if} name="standard_{$zones[ii].id_zone}" class="form-control domestic_zone" value="1" />
+                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard'])} checked="checked"{/if} name="standard_{$zones[ii].id_zone|intval}" class="form-control domestic_zone" value="1" />
                             </td>
                             <td>
                                 
                             </td>
                             <td class="center">
-                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard_cod'])} checked="checked"{/if} name="standard_cod_{$zones[ii].id_zone}" class="form-control domestic_cod_zone" value="1" />
+                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard_cod'])} checked="checked"{/if} name="standard_cod_{$zones[ii].id_zone|intval}" class="form-control domestic_cod_zone" value="1" />
                             </td>
                             <td>
                                 
                             </td>
                             <td class="center">
-                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['classic'])} checked="checked"{/if} name="classic_{$zones[ii].id_zone}" class="form-control classic_zone" value="1">
+                                <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['classic'])} checked="checked"{/if} name="classic_{$zones[ii].id_zone|intval}" class="form-control classic_zone" value="1">
                             </td>
                         </tr>
                     {/section}

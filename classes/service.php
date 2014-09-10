@@ -26,15 +26,6 @@ class DpdPolandService
 	const IMG_DIR = 'DPD_services';
 	const IMG_EXTENTION = 'jpg';
 
-	const CONTINENT_EUROPE = 1;
-	const CONTINENT_NORTH_AMERICA = 0;
-	const CONTINENT_ASIA = 0;
-	const CONTINENT_AFRICA = 0;
-	const CONTINENT_OCEANIA = 0;
-	const CONTINENT_SOUTH_AMERICA = 0;
-	const CONTINENT_EUROPE_EU = 1;
-	const CONTINENT_CENTRAL_AMERICA = 0;
-
 	protected $module_instance;
 
 	public function __construct()

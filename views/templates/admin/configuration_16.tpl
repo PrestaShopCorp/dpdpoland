@@ -278,16 +278,16 @@
 					{section name=ii loop=$zones}
 						<tr class="fees_all">
 							<td class="border_top border_bottom border_bold">
-								{$zones[ii].name}
+								{$zones[ii].name|escape:'htmlall':'UTF-8'}
 							</td>
 							<td>
-								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard'])} checked="checked"{/if} name="standard_{$zones[ii].id_zone}" class="form-control domestic_zone" value="1" />
+								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard'])} checked="checked"{/if} name="standard_{$zones[ii].id_zone|intval}" class="form-control domestic_zone" value="1" />
 							</td>
 							<td>
-								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard_cod'])} checked="checked"{/if} name="standard_cod_{$zones[ii].id_zone}" class="form-control domestic_cod_zone" value="1" />
+								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard_cod'])} checked="checked"{/if} name="standard_cod_{$zones[ii].id_zone|intval}" class="form-control domestic_cod_zone" value="1" />
 							</td>
 							<td>
-								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['classic'])} checked="checked"{/if} name="classic_{$zones[ii].id_zone}" class="form-control classic_zone" value="1">
+								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['classic'])} checked="checked"{/if} name="classic_{$zones[ii].id_zone|intval}" class="form-control classic_zone" value="1">
 							</td>
 						</tr>
 					{/section}
