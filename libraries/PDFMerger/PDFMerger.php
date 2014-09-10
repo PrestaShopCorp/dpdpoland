@@ -32,8 +32,8 @@ class PDFMerger
 	 */
 	public function __construct()
 	{
-		require_once('fpdf/fpdf.php');
-		require_once('fpdi/fpdi.php');
+		require_once(_PS_MODULE_DIR_.'dpdpoland/libraries/PDFMerger/fpdf/fpdf.php');
+		require_once(_PS_MODULE_DIR_.'dpdpoland/libraries/PDFMerger/fpdi/fpdi.php');
 	}
 	
 	/**
