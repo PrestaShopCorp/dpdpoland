@@ -26,7 +26,6 @@ class DpdPolandCSVController extends DpdPolandController
 	const POLAND_ISO_CODE 				= 'PL';
 
 	private $csv_titles 				= array();
-	private $csv_available_formats 		= array();
 
 	const SETTINGS_SAVE_CSV_ACTION 		= 'saveModuleCSVSettings';
 	const SETTINGS_DOWNLOAD_CSV_ACTION 	= 'downloadModuleCSVSettings';
@@ -52,19 +51,6 @@ class DpdPolandCSVController extends DpdPolandController
 			'cod_price' 		=> $this->l('COD cost (PLN)')
 		);
 
-		$this->csv_available_formats = array(
-			'text/csv',
-			'text/plain',
-			'application/csv',
-			'text/comma-separated-values',
-			'application/excel',
-			'application/vnd.ms-excel',
-			'application/vnd.msexcel',
-			'text/anytext',
-			'application/octet-stream',
-			'application/txt',
-			'application/force-download'
-		);
 	}
 
 	public function getCSVPage()
@@ -424,12 +410,30 @@ $errors[] = $this->l('COD cost (PLN): COD is available only in Poland. Leave emp
 			array($wrong_price, $wrong_price_method, $wrong_price_country);
 	}
 
-	private function readCSVData()
+	/**
+	 * Check if uploaded file has no errors and if extension is 'csv'.
+	 * It's not reliable to detect file type using MIME types so it's not checked in this function.
+	 * @TODO more user friendly errors e.g. "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+	 * @param $file_name
+	 * @return bool
+	 */
+	private function isUploadedCsvValid($file_name)
 	{
-		if ($_FILES[DpdPolandCSV::CSV_FILE]['error'])
+		if (!isset($_FILES[$file_name]))
 			return false;
 
-		if (!in_array($_FILES[DpdPolandCSV::CSV_FILE]['type'], $this->csv_available_formats))
+		if (!empty($_FILES[$file_name]['error']))
+			return false;
+
+		if (!preg_match('/.*\.csv$/i', $_FILES[$file_name]['name']))
+			return false;
+
+		return true;
+	}
+
+	private function readCSVData()
+	{
+		if (!$this->isUploadedCsvValid(DpdPolandCSV::CSV_FILE))
 			return false;
 
 		$csv_data = array();
