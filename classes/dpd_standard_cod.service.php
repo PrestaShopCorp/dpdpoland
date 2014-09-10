@@ -88,10 +88,6 @@ class DpdPolandCarrierStandardCODService extends DpdPolandService
 		if (!$range_obj->save())
 			return false;
 
-		foreach ($carrier_standard_cod->continents as $continent => $value)
-			if ($value && !$carrier->addZone($continent))
-				return false;
-
 		if (!self::assignCustomerGroupsForCarrier($carrier))
 			return false;
 

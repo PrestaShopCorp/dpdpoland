@@ -28,8 +28,17 @@ $(document).ready(function(){
     
     $('#dpd_standard_cod').change(function(){
         showHideCODModulesList();
+		enableDisableZones();
     });
-    
+
+	$('#dpd_standard').change(function(){
+        enableDisableZones();
+    });
+
+	$('#dpd_classic').change(function(){
+        enableDisableZones();
+    });
+
     $('select[name="pickupTime"]').live('change', function(){
         calculateTimeLeftForArrangePickup();
     });
@@ -46,6 +55,8 @@ $(document).ready(function(){
 	toggleEnvelope();
 	toggleParcel();
 	togglePallet();
+
+	enableDisableZones();
     
     if ($('#pickup_date').length)
 		getTimeFramesByDate();
@@ -62,6 +73,24 @@ $(document).ready(function(){
 		togglePallet();
 	});
 });
+
+function enableDisableZones()
+{
+	if ($('#dpd_standard').is(':checked'))
+		$('.domestic_zone').removeAttr('disabled');
+	else
+		$('.domestic_zone').attr('disabled', 'disabled');
+
+	if ($('#dpd_standard_cod').is(':checked'))
+		$('.domestic_cod_zone').removeAttr('disabled');
+	else
+		$('.domestic_cod_zone').attr('disabled', 'disabled');
+
+	if ($('#dpd_classic').is(':checked'))
+		$('.classic_zone').removeAttr('disabled');
+	else
+		$('.classic_zone').attr('disabled', 'disabled');
+}
 
 function toggleEnvelope()
 {

@@ -50,13 +50,45 @@ class DpdPolandConfigurationController extends DpdPolandController
 			'saveAction' => $this->module_instance->module_url,
 			'settings' => $configuration_obj,
 			'payer_numbers' => DpdPolandPayerNumber::getPayerNumbers(),
-			'payment_modules' => $payment_modules
+			'payment_modules' => $payment_modules,
+			'zones' => Zone::getZones(),
+			'carrier_zones' => $this->getZonesForCarriers()
 		));
 
 		if (version_compare(_PS_VERSION_, '1.6', '>='))
 			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/configuration_16.tpl');
 
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/configuration.tpl');
+	}
+
+	private function getZonesForCarriers()
+	{
+		$id_carrier_classic = (int)Configuration::get(DpdPolandConfiguration::CARRIER_CLASSIC_ID);
+		$id_carrier_standard = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_ID);
+		$id_carrier_standard_cod = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID);
+
+		$carrier_classic_zones = DpdPolandConfiguration::getCarrierZones((int)$id_carrier_classic);
+		$carrier_standard_zones = DpdPolandConfiguration::getCarrierZones((int)$id_carrier_standard);
+		$carrier_standard_cod_zones = DpdPolandConfiguration::getCarrierZones((int)$id_carrier_standard_cod);
+
+		$carrier_classic_zones_array = array();
+		$carrier_standard_zones_array = array();
+		$carrier_standard_cod_zones_array = array();
+
+		foreach ($carrier_classic_zones as $zone)
+			$carrier_classic_zones_array[] = $zone['id_zone'];
+
+		foreach ($carrier_standard_zones as $zone)
+			$carrier_standard_zones_array[] = $zone['id_zone'];
+
+		foreach ($carrier_standard_cod_zones as $zone)
+			$carrier_standard_cod_zones_array[] = $zone['id_zone'];
+
+		return array(
+			'classic' => $carrier_classic_zones_array,
+			'standard' => $carrier_standard_zones_array,
+			'standard_cod' => $carrier_standard_cod_zones_array
+		);
 	}
 
 	public static function init()
@@ -219,7 +251,7 @@ class DpdPolandConfigurationController extends DpdPolandController
 
 	private function saveSettings()
 	{
-		if (DpdPolandConfiguration::saveConfiguration())
+		if (DpdPolandConfiguration::saveConfiguration() && DpdPolandConfiguration::saveZonesForCarriers())
 		{
 			DpdPoland::addFlashMessage($this->l('Settings saved successfully'));
 			Tools::redirectAdmin($this->module_instance->module_url.'&menu=configuration');

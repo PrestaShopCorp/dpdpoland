@@ -229,4 +229,59 @@ class DpdPolandConfiguration
 
 		return true;	
 	}
+
+	public static function getCarrierZones($id_carrier)
+	{
+		return DB::getInstance()->executeS('
+			SELECT `id_zone`
+			FROM `'._DB_PREFIX_.'carrier_zone`
+			WHERE `id_carrier` = "'.(int)$id_carrier.'"
+		');
+	}
+
+	public static function saveZonesForCarriers()
+	{
+		$configuration = new DpdPolandConfiguration();
+
+		$id_carrier_classic = (int)Configuration::get(DpdPolandConfiguration::CARRIER_CLASSIC_ID);
+		$id_carrier_standard = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_ID);
+		$id_carrier_standard_cod = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID);
+
+		if ($configuration->carrier_classic)
+			if (!self::removeZonesForCarrier($id_carrier_classic) || !self::saveZoneForCarrier('classic', $id_carrier_classic))
+				return false;
+
+		if ($configuration->carrier_standard)
+			if (!self::removeZonesForCarrier($id_carrier_standard) || !self::saveZoneForCarrier('standard', $id_carrier_standard))
+				return false;
+
+		if ($configuration->carrier_standard_cod)
+			if (!self::removeZonesForCarrier($id_carrier_standard_cod) || !self::saveZoneForCarrier('standard_cod', $id_carrier_standard_cod))
+				return false;
+
+		return true;
+	}
+
+	private static function removeZonesForCarrier($id_carrier)
+	{
+		return DB::getInstance()->Execute('
+			DELETE FROM `'._DB_PREFIX_.'carrier_zone`
+			WHERE `id_carrier` = "'.(int)$id_carrier.'"
+		');
+	}
+
+	private static function saveZoneForCarrier($type, $id_carrier)
+	{
+		foreach (Zone::getZones() as $zone)
+			if (Tools::getValue($type.'_'.(int)$zone['id_zone']))
+				if (!DB::getInstance()->Execute('
+					INSERT INTO `'._DB_PREFIX_.'carrier_zone`
+						(`id_carrier`, `id_zone`)
+					VALUES
+						("'.(int)$id_carrier.'", "'.(int)$zone['id_zone'].'")
+				'))
+					return false;
+
+		return true;
+	}
 }

@@ -36,21 +36,10 @@ class DpdPolandService
 	const CONTINENT_CENTRAL_AMERICA = 0;
 
 	protected $module_instance;
-	protected $continents;
 
 	public function __construct()
 	{
 		$this->module_instance = Module::getInstanceByName('dpdpoland');
-		$this->continents = array(
-			'1' => self::CONTINENT_EUROPE,
-			'2' => self::CONTINENT_NORTH_AMERICA,
-			'3' => self::CONTINENT_ASIA,
-			'4' => self::CONTINENT_AFRICA,
-			'5' => self::CONTINENT_OCEANIA,
-			'6' => self::CONTINENT_SOUTH_AMERICA,
-			'7' => self::CONTINENT_EUROPE_EU,
-			'8' => self::CONTINENT_CENTRAL_AMERICA,
-		);
 	}
 
 	/**

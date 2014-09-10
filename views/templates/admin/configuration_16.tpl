@@ -251,6 +251,61 @@
             </button>
         </div>
     </div>
+
+	<div id="active_zones" class="panel">
+        <div class="panel-heading">
+            <i class="icon-cogs"></i>
+            {l s='Active zones' mod='dpdpoland'}
+        </div>
+	
+		<div class="form-group">
+			<table style="max-width:100%" class="table" id="zones_table">
+				<tbody>
+					<tr>
+						<td>
+							
+						</td>
+						<td class="border_bottom text-center">
+							<label>{l s='DPD domestic shipment - Standard' mod='dpdpoland'}</label>
+						</td>
+						<td class="border_bottom text-center">
+							<label>{l s='DPD domestic shipment - Standard with COD' mod='dpdpoland'}</label>
+						</td>
+						<td class="border_bottom text-center">
+							<label>{l s='DPD international shipment (DPD Classic)' mod='dpdpoland'}</label>
+						</td>
+					</tr>
+					{section name=ii loop=$zones}
+						<tr class="fees_all">
+							<td class="border_top border_bottom border_bold">
+								{$zones[ii].name}
+							</td>
+							<td>
+								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard'])} checked="checked"{/if} name="standard_{$zones[ii].id_zone}" class="form-control domestic_zone" value="1" />
+							</td>
+							<td>
+								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard_cod'])} checked="checked"{/if} name="standard_cod_{$zones[ii].id_zone}" class="form-control domestic_cod_zone" value="1" />
+							</td>
+							<td>
+								<input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['classic'])} checked="checked"{/if} name="classic_{$zones[ii].id_zone}" class="form-control classic_zone" value="1">
+							</td>
+						</tr>
+					{/section}
+				</tbody>
+			</table>
+		</div>
+
+		<p class="alert alert-info">
+            {l s='Please define price ranges for each carrier in carrier configuration page or import CSV file with price ranges.' mod='dpdpoland'}
+        </p>
+
+		<div class="panel-footer">
+            <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
+                <i class="process-icon-save"></i>
+                {l s='Save' mod='dpdpoland'}
+            </button>
+        </div>
+	</div>
     
     <div id="price_calculation" class="panel">
         <div class="panel-heading">
