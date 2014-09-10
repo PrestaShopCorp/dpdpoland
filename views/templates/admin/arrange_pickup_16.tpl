@@ -115,12 +115,12 @@
         </div>
 		
 		<hr />
-		
+
 		<div class="row">
-            <label class="control-label col-lg-3 col-sm-6 col-xs-3">
+            <label class="control-label col-lg-3 col-sm-6 col-xs-4">
                 {l s='Envelopes:' mod='dpdpoland'}
             </label>
-            <div class="col-lg-9 col-sm-6 col-xs-9">
+            <div class="col-lg-9 col-sm-6 col-xs-8">
                 <input type="hidden" name="parcels" value="0" />
 				<input id="toggleEnvelope" type="checkbox" autocomplete="off" name="dox" value="1" {if isset($smarty.post.dox) && $smarty.post.dox == 1} checked="checked"{/if} />
             </div>
@@ -142,10 +142,10 @@
 		<hr />
 		
 		<div class="row">
-            <label class="control-label col-lg-3 col-sm-6 col-xs-3">
+            <label class="control-label col-lg-3 col-sm-6 col-xs-4">
                 {l s='Parcels:' mod='dpdpoland'}
             </label>
-            <div class="col-lg-9 col-sm-6 col-xs-9">
+            <div class="col-lg-9 col-sm-6 col-xs-8">
                 <input type="hidden" name="parcels" value="0" />
 				<input id="toggleParcel" type="checkbox" autocomplete="off" name="parcels" value="1" {if isset($smarty.post.parcels) && $smarty.post.parcels == 1} checked="checked"{/if} />
             </div>
@@ -212,10 +212,10 @@
 		<hr />
 		
 		<div class="row">
-            <label class="control-label col-lg-3 col-sm-6 col-xs-3">
+            <label class="control-label col-lg-3 col-sm-6 col-xs-4">
                 {l s='Pallets:' mod='dpdpoland'}
             </label>
-            <div class="col-lg-9 col-sm-6 col-xs-9">
+            <div class="col-lg-9 col-sm-6 col-xs-8">
                 <input type="hidden" name="pallet" value="0" />
 				<input id="togglePallet" type="checkbox" name="pallet" value="1" autocomplete="off" {if isset($smarty.post.pallet) && $smarty.post.pallet == 1} checked="checked"{/if} />
             </div>
