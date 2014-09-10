@@ -147,3 +147,8 @@ form table#manifests_list
 	overflow-x: auto;
 	overflow-y: hidden;
 }
+
+#ws_url p.help-block
+{
+	word-break: break-all;
+}

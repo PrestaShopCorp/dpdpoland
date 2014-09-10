@@ -117,10 +117,10 @@
 		<hr />
 		
 		<div class="form-group">
-            <label class="control-label col-lg-3">
+            <label class="control-label col-lg-3 col-sm-3 col-xs-4">
                 {l s='Envelopes:' mod='dpdpoland'}
             </label>
-            <div class="col-lg-9">
+            <div class="col-lg-9 col-sm-9 col-xs-8">
                 <input type="hidden" name="parcels" value="0" />
 				<input id="toggleEnvelope" type="checkbox" autocomplete="off" name="dox" value="1" {if isset($smarty.post.dox) && $smarty.post.dox == 1} checked="checked"{/if} />
             </div>
@@ -141,10 +141,10 @@
 		<hr />
 		
 		<div class="form-group">
-            <label class="control-label col-lg-3">
+            <label class="control-label col-lg-3 col-sm-3 col-xs-4">
                 {l s='Parcels:' mod='dpdpoland'}
             </label>
-            <div class="col-lg-9">
+            <div class="col-lg-9 col-sm-9 col-xs-8">
                 <input type="hidden" name="parcels" value="0" />
 				<input id="toggleParcel" type="checkbox" autocomplete="off" name="parcels" value="1" {if isset($smarty.post.parcels) && $smarty.post.parcels == 1} checked="checked"{/if} />
             </div>
@@ -209,15 +209,13 @@
 		<hr />
 		
 		<div class="form-group">
-            <label class="control-label col-lg-3">
+            <label class="control-label col-lg-3 col-sm-3 col-xs-4">
                 {l s='Pallets:' mod='dpdpoland'}
             </label>
-            <div class="col-lg-9">
+            <div class="col-lg-9 col-sm-9 col-xs-8">
                 <input type="hidden" name="pallet" value="0" />
 				<input id="togglePallet" type="checkbox" name="pallet" value="1" autocomplete="off" {if isset($smarty.post.pallet) && $smarty.post.pallet == 1} checked="checked"{/if} />
             </div>
-			
-			
 			<div id="pallets_container" style="display:none" class="col-lg-12">
 				<br />
 				<label class="control-label col-lg-3">
