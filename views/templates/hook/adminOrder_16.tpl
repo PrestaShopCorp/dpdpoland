@@ -312,63 +312,65 @@
 					<label>{l s='Manage parcels' mod='dpdpoland'}</label>
 					<p>{l s='Here you can change parcel parameters, create new parcels' mod='dpdpoland'}</p>
 				</div>
-				<table width="100%" cellspacing="0" cellpadding="0" class="table row" id="dpdpoland_shipment_parcels">
-					<colgroup>
-						<col width="5%">
-						<col width="">
-						<col width="10%">
-						<col width="10%">
-						<col width="10%">
-						<col width="10%">
-						<col width="10%">
-						<col width="5%">
-					</colgroup>
-					<thead>
-						<tr>
-							<th class="center">{l s='Parcel' mod='dpdpoland'}</th>
-							<th>{l s='Content of parcel' mod='dpdpoland'}</th>
-							<th>{l s='Weight (kg)' mod='dpdpoland'}</th>
-							<th>{l s='Height (cm)' mod='dpdpoland'}</th>
-							<th>{l s='Length (cm)' mod='dpdpoland'}</th>
-							<th>{l s='Width (cm)' mod='dpdpoland'}</th>
-							<th>{l s='Dimension weight' mod='dpdpoland'}</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{foreach from=$parcels item=parcel}
-						<tr>
-							<td class="center">
-								{$parcel.number|escape:'htmlall':'UTF-8'}
-								<input type="hidden" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][number]" value="{$parcel.number|escape:'htmlall':'UTF-8'}" />
-							</td>
-							<td>
-								<input type="hidden" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}" />
-								<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" size="46" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-								<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
-							</td>
-							<td>
-								<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][weight]" size="10" autocomplete="off" value="{$parcel.weight|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-								<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
-							</td>
-							<td>
-								<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][height]" size="10" autocomplete="off" value="{$parcel.height|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-								<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
-							</td>
-							<td>
-								<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][length]" size="10" autocomplete="off" value="{$parcel.length|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-								<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
-							</td>
-							<td>
-								<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][width]" size="10" autocomplete="off" value="{$parcel.width|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-								<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
-							</td>
-							<td class="parcel_dimension_weight">{sprintf('%.3f', $parcel.length|escape:'htmlall':'UTF-8'*$parcel.width|escape:'htmlall':'UTF-8'*$parcel.height|escape:'htmlall':'UTF-8'/$smarty.const._DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_|escape:'htmlall':'UTF-8')}</td>
-							<td></td>
-						</tr>
-						{/foreach}
-					</tbody>
-				</table>
+				<div id="dpdpoland_shipment_parcels_container">
+					<table width="100%" cellspacing="0" cellpadding="0" class="table row" id="dpdpoland_shipment_parcels">
+						<colgroup>
+							<col width="5%">
+							<col width="">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="5%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="center">{l s='Parcel' mod='dpdpoland'}</th>
+								<th>{l s='Content of parcel' mod='dpdpoland'}</th>
+								<th>{l s='Weight (kg)' mod='dpdpoland'}</th>
+								<th>{l s='Height (cm)' mod='dpdpoland'}</th>
+								<th>{l s='Length (cm)' mod='dpdpoland'}</th>
+								<th>{l s='Width (cm)' mod='dpdpoland'}</th>
+								<th>{l s='Dimension weight' mod='dpdpoland'}</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=$parcels item=parcel}
+							<tr>
+								<td class="center">
+									{$parcel.number|escape:'htmlall':'UTF-8'}
+									<input type="hidden" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][number]" value="{$parcel.number|escape:'htmlall':'UTF-8'}" />
+								</td>
+								<td>
+									<input type="hidden" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}" />
+									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" size="46" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+								</td>
+								<td>
+									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][weight]" size="10" autocomplete="off" value="{$parcel.weight|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+								</td>
+								<td>
+									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][height]" size="10" autocomplete="off" value="{$parcel.height|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+								</td>
+								<td>
+									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][length]" size="10" autocomplete="off" value="{$parcel.length|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+								</td>
+								<td>
+									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][width]" size="10" autocomplete="off" value="{$parcel.width|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+								</td>
+								<td class="parcel_dimension_weight">{sprintf('%.3f', $parcel.length|escape:'htmlall':'UTF-8'*$parcel.width|escape:'htmlall':'UTF-8'*$parcel.height|escape:'htmlall':'UTF-8'/$smarty.const._DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_|escape:'htmlall':'UTF-8')}</td>
+								<td></td>
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
 				{if !$package->id_package}
 				<br />
 				<div class="row" id="parcel_addition_container">

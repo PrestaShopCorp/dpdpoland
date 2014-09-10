@@ -82,119 +82,121 @@
                 <b>{l s='Parcel price' mod='dpdpoland'}</b> {l s='- in this column the user enters the price in PLN which will be charged to the client for dispatch of one parcel with the weight within the specified weight range.' mod='dpdpoland'}
             </p>
             <hr />
-            <table name="list_table" class="table_grid col-lg-12">
-                <tbody>
-                    <tr>
-                        <td style="vertical-align: bottom;">
-                            <span style="float: left;">
-                                {if $page > 1}
-                                    <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page=1&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
-                                        <img class="pagination_image" src="../img/admin/list-prev2.gif" alt="{l s='First page' mod='dpdpoland'}" />
-                                    </a>
-                                    <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page={$page|escape:'htmlall':'UTF-8' - 1}&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
-                                        <img class="pagination_image" src="../img/admin/list-prev.gif" alt="{l s='Previous page' mod='dpdpoland'}" />
-                                    </a>
-                                {/if}
-                                {l s='Page' mod='dpdpoland'} <b>{$page|escape:'htmlall':'UTF-8'}</b> / {$total_pages|escape:'htmlall':'UTF-8'}
-                                {if $page < $total_pages}
-                                    <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page={$page|escape:'htmlall':'UTF-8' + 1}&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
-                                        <img class="pagination_image" src="../img/admin/list-next.gif" alt="{l s='Next page' mod='dpdpoland'}" />
-                                    </a>
-                                    <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page={$total_pages|escape:'htmlall':'UTF-8'}&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
-                                        <img class="pagination_image" src="../img/admin/list-next2.gif" alt="{l s='Last page' mod='dpdpoland'}" />
-                                    </a>
-                                {/if}
-                                | {l s='Display' mod='dpdpoland'}
-                            </span>
-                            <span style="float: left;">
-                                <select name="pagination" onchange="submit()">
-                                    {foreach $pagination AS $value}
-                                        <option value="{$value|intval|escape:'htmlall':'UTF-8'}"{if $selected_pagination == $value} selected="selected" {elseif $selected_pagination == NULL && $value == $pagination[1]} selected="selected2"{/if}>{$value|intval|escape:'htmlall':'UTF-8'}</option>
-                                    {/foreach}
-                                </select>
-                            </span>
-                            <span style="float: left;">
-                                / {$list_total|escape:'htmlall':'UTF-8'} {l s='result(s)' mod='dpdpoland'}
-                            </span>
-                            <span class="clear"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border:none;">
-                            <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table document">
-                                <colgroup>
-                                    <col>
-                                    <col>
-                                    <col>
-                                    <col>
-                                    <col>
-                                    <col>
-                                </colgroup>
-                                <thead>
-                                    <tr style="height: 40px" class="nodrag nodrop">
-                                        <th class="center">
-                                            <span class="title_box">{l s='Country' mod='dpdpoland'}</span>
-                                        </th>
-                                        <th class="center">
-                                            <span class="title_box">{l s='Parcel weight from (kg)' mod='dpdpoland'}</span>
-                                        </th>
-                                        <th class="center">
-                                            <span class="title_box">{l s='Parcel weight to (kg)' mod='dpdpoland'}</span>
-                                        </th>
-                                        <th class="center">
-                                            <span class="title_box">{l s='Parcel price (PLN)' mod='dpdpoland'}</span>
-                                        </th>
-                                        <th class="center">
-                                            <span class="title_box">{l s='Carrier' mod='dpdpoland'}</span>
-                                        </th>
-                                        <th class="center">
-                                            <span class="title_box">{l s='COD cost (PLN)' mod='dpdpoland'}</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-            
-                                <tbody>
-                                    {if isset($csv_data) && !empty($csv_data)}
-                                        {section name=ii loop=$csv_data}
+            <div id="csv_list_table_container">
+                <table name="list_table" class="table_grid col-lg-12">
+                    <tbody>
+                        <tr>
+                            <td style="vertical-align: bottom;">
+                                <span style="float: left;">
+                                    {if $page > 1}
+                                        <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page=1&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
+                                            <img class="pagination_image" src="../img/admin/list-prev2.gif" alt="{l s='First page' mod='dpdpoland'}" />
+                                        </a>
+                                        <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page={$page|escape:'htmlall':'UTF-8' - 1}&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
+                                            <img class="pagination_image" src="../img/admin/list-prev.gif" alt="{l s='Previous page' mod='dpdpoland'}" />
+                                        </a>
+                                    {/if}
+                                    {l s='Page' mod='dpdpoland'} <b>{$page|escape:'htmlall':'UTF-8'}</b> / {$total_pages|escape:'htmlall':'UTF-8'}
+                                    {if $page < $total_pages}
+                                        <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page={$page|escape:'htmlall':'UTF-8' + 1}&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
+                                            <img class="pagination_image" src="../img/admin/list-next.gif" alt="{l s='Next page' mod='dpdpoland'}" />
+                                        </a>
+                                        <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page={$total_pages|escape:'htmlall':'UTF-8'}&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
+                                            <img class="pagination_image" src="../img/admin/list-next2.gif" alt="{l s='Last page' mod='dpdpoland'}" />
+                                        </a>
+                                    {/if}
+                                    | {l s='Display' mod='dpdpoland'}
+                                </span>
+                                <span style="float: left;">
+                                    <select name="pagination" onchange="submit()">
+                                        {foreach $pagination AS $value}
+                                            <option value="{$value|intval|escape:'htmlall':'UTF-8'}"{if $selected_pagination == $value} selected="selected" {elseif $selected_pagination == NULL && $value == $pagination[1]} selected="selected2"{/if}>{$value|intval|escape:'htmlall':'UTF-8'}</option>
+                                        {/foreach}
+                                    </select>
+                                </span>
+                                <span style="float: left;">
+                                    / {$list_total|escape:'htmlall':'UTF-8'} {l s='result(s)' mod='dpdpoland'}
+                                </span>
+                                <span class="clear"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:none;">
+                                <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table document">
+                                    <colgroup>
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr style="height: 40px" class="nodrag nodrop">
+                                            <th class="center">
+                                                <span class="title_box">{l s='Country' mod='dpdpoland'}</span>
+                                            </th>
+                                            <th class="center">
+                                                <span class="title_box">{l s='Parcel weight from (kg)' mod='dpdpoland'}</span>
+                                            </th>
+                                            <th class="center">
+                                                <span class="title_box">{l s='Parcel weight to (kg)' mod='dpdpoland'}</span>
+                                            </th>
+                                            <th class="center">
+                                                <span class="title_box">{l s='Parcel price (PLN)' mod='dpdpoland'}</span>
+                                            </th>
+                                            <th class="center">
+                                                <span class="title_box">{l s='Carrier' mod='dpdpoland'}</span>
+                                            </th>
+                                            <th class="center">
+                                                <span class="title_box">{l s='COD cost (PLN)' mod='dpdpoland'}</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                
+                                    <tbody>
+                                        {if isset($csv_data) && !empty($csv_data)}
+                                            {section name=ii loop=$csv_data}
+                                                <tr>
+                                                    <td class="center">
+                                                        {$csv_data[ii].iso_country|escape:'htmlall':'UTF-8'}
+                                                    </td>
+                                                    <td class="center">
+                                                        {$csv_data[ii].weight_from|escape:'htmlall':'UTF-8'}
+                                                    </td>
+                                                    <td class="center">
+                                                        {$csv_data[ii].weight_to|escape:'htmlall':'UTF-8'}
+                                                    </td>
+                                                    <td class="center">
+                                                        {$csv_data[ii].parcel_price|escape:'htmlall':'UTF-8'}
+                                                    </td>
+                                                    <td class="center">
+                                                        {$csv_data[ii].id_carrier|escape:'htmlall':'UTF-8'}
+                                                    </td>
+                                                    <td class="center">
+                                                        {$csv_data[ii].cod_price|escape:'htmlall':'UTF-8'}
+                                                    </td>
+                                                </tr>
+                                            {/section}
+                                        {else}
                                             <tr>
-                                                <td class="center">
-                                                    {$csv_data[ii].iso_country|escape:'htmlall':'UTF-8'}
-                                                </td>
-                                                <td class="center">
-                                                    {$csv_data[ii].weight_from|escape:'htmlall':'UTF-8'}
-                                                </td>
-                                                <td class="center">
-                                                    {$csv_data[ii].weight_to|escape:'htmlall':'UTF-8'}
-                                                </td>
-                                                <td class="center">
-                                                    {$csv_data[ii].parcel_price|escape:'htmlall':'UTF-8'}
-                                                </td>
-                                                <td class="center">
-                                                    {$csv_data[ii].id_carrier|escape:'htmlall':'UTF-8'}
-                                                </td>
-                                                <td class="center">
-                                                    {$csv_data[ii].cod_price|escape:'htmlall':'UTF-8'}
+                                                <td colspan="6" class="center">
+                                                    {l s='No prices' mod='dpdpoland'}
                                                 </td>
                                             </tr>
-                                        {/section}
-                                    {else}
-                                        <tr>
-                                            <td colspan="6" class="center">
-                                                {l s='No prices' mod='dpdpoland'}
-                                            </td>
-                                        </tr>
-                                    {/if}
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="submit" {if !isset($csv_data) || isset($csv_data) && empty($csv_data)}disabled="disabled"{/if} class="btn btn-default" name="{DpdPolandCSVController::SETTINGS_DELETE_CSV_ACTION}" value="{l s='Delete all prices' mod='dpdpoland'}" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                        {/if}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" {if !isset($csv_data) || isset($csv_data) && empty($csv_data)}disabled="disabled"{/if} class="btn btn-default" name="{DpdPolandCSVController::SETTINGS_DELETE_CSV_ACTION}" value="{l s='Delete all prices' mod='dpdpoland'}" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="clearfix"></div>
     </div>

@@ -270,3 +270,9 @@ label.printout_format_label
 {
 	margin-top: 5px;
 }
+
+#dpdpoland_shipment_parcels_container
+{
+	overflow-x: auto;
+	overflow-y: hidden;
+}

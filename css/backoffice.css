@@ -142,7 +142,9 @@ form table#manifests_list
 	text-decoration: none;
 }
 
-#zones_table_container, #client_numbers_table_container
+#zones_table_container,
+#client_numbers_table_container,
+#csv_list_table_container
 {
 	overflow-x: auto;
 	overflow-y: hidden;
