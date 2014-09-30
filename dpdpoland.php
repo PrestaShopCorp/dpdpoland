@@ -50,7 +50,7 @@ require_once(_DPDPOLAND_MODELS_DIR_.'Carrier.php');
 if (version_compare(_PS_VERSION_, '1.5', '<'))
 	require_once(dirname(__FILE__).'/backward_compatibility/backward.php');
 
-class DpdPoland extends Module
+class DpdPoland extends CarrierModule
 {
 	private $html = '';
 	public $module_url;
