@@ -1578,7 +1578,7 @@ class DpdPoland extends CarrierModule
 		$dpdpoland_carrier->save();
 	}
 
-	public function getOrderShippingCost($cart)
+	public function getOrderShippingCost($cart, $shipping_cost)
 	{
 		return $this->getOrderShippingCostExternal($cart);
 	}
