@@ -155,20 +155,34 @@ class DpdPolandCountryListController extends DpdPolandController
 	public static function disableDefaultCountries()
 	{
 		$context = Context::getContext();
+
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 		{
 			foreach (Country::getCountries((int)$context->language->id) as $country)
-				if (!in_array($country['iso_code'], DpdPolandCountry::$default_enabled_countries) &&
-					!DpdPolandCountry::addCountry($country['id_country'], (int)$context->shop->id, 0))
+				if (!in_array($country['iso_code'], DpdPolandCountry::$default_enabled_countries)
+					&& !self::disableCountryById($context, (int)$country['id_country']))
 					return false;
 		}
 		else
 			foreach (array_keys(Shop::getShops()) as $id_shop)
 				foreach (Country::getCountriesByIdShop($id_shop, Configuration::get('PS_LANG_DEFAULT')) as $country)
-					if (!in_array($country['iso_code'], DpdPolandCountry::$default_enabled_countries) &&
-						!DpdPolandCountry::addCountry($country['id_country'], (int)$id_shop, 0))
+					if (!in_array($country['iso_code'], DpdPolandCountry::$default_enabled_countries)
+						&& !self::disableCountryById($context, (int)$country['id_country'], (int)$id_shop))
 						return false;
 
 		return true;
+	}
+
+	private static function disableCountryById($context, $id_country, $id_shop = null)
+	{
+		if ($id_shop === null)
+			$id_shop = (int)$context->shop->id;
+
+		$dpdpoland_country = new DpdPolandCountry();
+		$dpdpoland_country->id_country = (int)$id_country;
+		$dpdpoland_country->id_shop = (int)$id_shop;
+		$dpdpoland_country->enabled = 0;
+
+		return $dpdpoland_country->save();
 	}
 }

@@ -52,11 +52,11 @@ class DpdPolandCountry extends DpdPolandObjectModel
 		'multilang_shop' => true,
 		'multishop' => true,
 		'fields' => array(
-			'id_country'			=>	array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
-			'id_shop'				=>	array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
-			'enabled'				=>	array('type' => self::TYPE_INT, 'validate' => 'isInt'),
-			'date_add' 				=> 	array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
-			'date_upd' 				=> 	array('type' => self::TYPE_DATE, 'validate' => 'isDate')
+			'id_country' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
+			'id_shop' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
+			'enabled' => array('type' => self::TYPE_INT, 'validate' => 'isInt'),
+			'date_add' => array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
+			'date_upd' => array('type' => self::TYPE_DATE, 'validate' => 'isDate')
 		)
 	);
 
@@ -70,33 +70,32 @@ class DpdPolandCountry extends DpdPolandObjectModel
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 			$countries = DB::getInstance()->executeS('
 				SELECT
-					c.`id_country`									AS `id_country`,
-					cl.`name` 										AS `name`,
-					c.`iso_code` 									AS `iso_code`,
-					IF(dpdc.`enabled` IS NULL, 1, dpdc.`enabled`) 	AS `enabled`
+					c.`id_country` AS `id_country`,
+					cl.`name` AS `name`,
+					c.`iso_code` AS `iso_code`,
+					IF(dpdc.`enabled` IS NULL, 1, dpdc.`enabled`) AS `enabled`
 				FROM `'._DB_PREFIX_.'country` c
 				LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_COUNTRY_DB_.'` dpdc ON (dpdc.`id_country` = c.`id_country` AND dpdc.`id_shop` = "'.(int)$id_shop.'")
-				LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (cl.`id_country` = c.`id_country` AND cl.`id_lang` = "'.(int)$id_lang.'")
-				 '.
-				$filter.
-				($order_by && $order_way ? ' ORDER BY '.bqSQL($order_by).' '.pSQL($order_way) : '').
-				($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
+				LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (cl.`id_country` = c.`id_country` AND cl.`id_lang` = "'.(int)$id_lang.'")'
+				.$filter
+				.($order_by && $order_way ? ' ORDER BY '.bqSQL($order_by).' '.pSQL($order_way) : '')
+				.($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 			);
 		else
 			$countries = DB::getInstance()->executeS('
 				SELECT
-					c.`id_country`									AS `id_country`,
-					cl.`name` 										AS `name`,
-					c.`iso_code` 									AS `iso_code`,
-					IF(dpdc.`enabled` IS NULL, 1, dpdc.`enabled`) 	AS `enabled`
+					c.`id_country` AS `id_country`,
+					cl.`name` AS `name`,
+					c.`iso_code` AS `iso_code`,
+					IF(dpdc.`enabled` IS NULL, 1, dpdc.`enabled`) AS `enabled`
 				FROM `'._DB_PREFIX_.'country` c
 				LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_COUNTRY_DB_.'` dpdc ON (dpdc.`id_country` = c.`id_country` AND dpdc.`id_shop` = "'.(int)$id_shop.'")
 				LEFT JOIN `'._DB_PREFIX_.'country_shop` cs ON (cs.`id_country` = c.`id_country`)
 				LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (cl.`id_country` = c.`id_country` AND cl.`id_lang` = "'.(int)$id_lang.'")
-				WHERE cs.`id_shop` = "'.(int)$id_shop.'" '.
-				$filter.
-				($order_by && $order_way ? ' ORDER BY `'.bqSQL($order_by).'` '.pSQL($order_way) : '').
-				($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
+				WHERE cs.`id_shop` = "'.(int)$id_shop.'" '
+				.$filter
+				.($order_by && $order_way ? ' ORDER BY `'.bqSQL($order_by).'` '.pSQL($order_way) : '')
+				.($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
 			);
 
 		if (!$countries)
@@ -137,15 +136,5 @@ class DpdPolandCountry extends DpdPolandObjectModel
 			$countries_array[] = $country['id_country'];
 
 		return $countries_array;
-	}
-
-	public static function addCountry($id_country, $id_shop, $enabled = 0)
-	{
-		return DB::getInstance()->Execute('
-			INSERT INTO `'._DB_PREFIX_._DPDPOLAND_COUNTRY_DB_.'`
-				(`id_shop`, `id_country`, `enabled`, `date_add`, `date_upd`)
-			VALUES
-				("'.(int)$id_shop.'", "'.(int)$id_country.'", "'.(int)$enabled.'", "'.date('Y-m-d H:i:s').'", "'.date('Y-m-d H:i:s').'")
-		');
 	}
 }
