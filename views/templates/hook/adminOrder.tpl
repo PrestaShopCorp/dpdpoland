@@ -104,7 +104,7 @@
 		<div id="dpdpoland_sender_address_container">
 			<label><h3>{l s='Sender:' mod='dpdpoland'}</h3></label>
 			<div class="clear"></div>
-			<div class="info">
+			<div class="info hint clear visible-element relative">
 				{l s='Sender address can be changed in module settings page.' mod='dpdpoland'}
 			</div>
 			
@@ -329,7 +329,7 @@
 		<div id="parcel_addition_container">
 			<br />
 			<div class="infoContainer first">
-				<div class="info">
+				<div class="info hint clear visible-element relative">
 					{l s='When adding new parcel: Additional fee will be charged by DPD PL depending on your DPD PL contract. Price for shipment that was shown to your customer always includes only one parcel per order.' mod='dpdpoland'}
 				</div>
 			</div>
@@ -338,7 +338,7 @@
 			<div class="separation"></div>
 			
 			<div class="infoContainer">
-				<div class="info">
+				<div class="info hint clear visible-element relative">
 					{l s='It will not be possible to edit shipment after printintig labels.' mod='dpdpoland'}
 				</div>
 			</div>
