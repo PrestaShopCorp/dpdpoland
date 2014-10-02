@@ -41,8 +41,8 @@
     <table id="packages_list" name="list_table" class="table_grid">
         <tbody>
             <tr>
-                <td style="vertical-align: bottom;">
-                    <span style="float: left;">
+                <td class="bottom">
+                    <span class="float-left">
                         {if $page > 1}
                             <input type="image" src="../img/admin/list-prev2.gif" onclick="getE('submitFilterPackages').value=1"/>&nbsp;
                             <input type="image" src="../img/admin/list-prev.gif" onclick="getE('submitFilterPackages').value={$page|escape:'htmlall':'UTF-8' - 1}"/>
@@ -60,7 +60,7 @@
                         </select>
                         / {$list_total|escape:'htmlall':'UTF-8'} {l s='result(s)' mod='dpdpoland'}
                     </span>
-                    <span style="float: right;">
+                    <span class="float-right">
                         <input type="submit" class="button" value="{l s='Filter' mod='dpdpoland'}" name="submitFilterButtonPackages" id="submitFilterButtonPackages">
                         <input type="submit" class="button" value="{l s='Reset' mod='dpdpoland'}" name="submitResetPackages">
                     </span>
@@ -69,7 +69,7 @@
             </tr>
             <tr>
                 <td>
-                    <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table Packages">
+                    <table cellspacing="0" cellpadding="0" class="table Packages">
                         <colgroup>
                             <col width="10px">
                             <col width="140px">
@@ -84,7 +84,7 @@
                             <col width="30px">
                         </colgroup>
                         <thead>
-                            <tr style="height: 40px" class="nodrag nodrop">
+                            <tr class="nodrag nodrop titles-row">
                                 <th class="center">
                                     <input type="checkbox" onclick="checkDelBoxes(this.form, 'PackagesBox[]', this.checked)" class="noborder" name="checkme">
                                 </th>
@@ -275,38 +275,38 @@
                                     <br>
                                 </th>
                             </tr>
-                            <tr style="height: 35px;" class="nodrag nodrop filter row_hover">
+                            <tr class="nodrag nodrop filter row_hover filter-row">
                                 <td class="center">
                                     --
                                 </td>
 								<td class="right">
-                                    {l s='From' mod='dpdpoland'} <input type="text" style="width:70px" value="" name="PackagesFilter_date_add[0]" id="PackagesFilter_date_add_0" class="filter datepicker">
+                                    {l s='From' mod='dpdpoland'} <input type="text" value="" name="PackagesFilter_date_add[0]" id="PackagesFilter_date_add_0" class="filter datepicker">
                                     <br>
-                                    {l s='To' mod='dpdpoland'} <input type="text" style="width:70px" value="" name="PackagesFilter_date_add[1]" id="PackagesFilter_date_add_1" class="filter datepicker">
+                                    {l s='To' mod='dpdpoland'} <input type="text" value="" name="PackagesFilter_date_add[1]" id="PackagesFilter_date_add_1" class="filter datepicker">
                                 </td>
                                 <td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_id_order') && Context::getContext()->cookie->PackagesFilter_id_order}{Context::getContext()->cookie->PackagesFilter_id_order}{/if}" name="PackagesFilter_id_order" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_id_order') && Context::getContext()->cookie->PackagesFilter_id_order}{Context::getContext()->cookie->PackagesFilter_id_order}{/if}" name="PackagesFilter_id_order" class="filter">
                                 </td>
 								<td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_package_number') && Context::getContext()->cookie->PackagesFilter_package_number}{Context::getContext()->cookie->PackagesFilter_package_number}{/if}" name="PackagesFilter_package_number" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_package_number') && Context::getContext()->cookie->PackagesFilter_package_number}{Context::getContext()->cookie->PackagesFilter_package_number}{/if}" name="PackagesFilter_package_number" class="filter">
                                 </td>
                                 <td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_count_parcel') && Context::getContext()->cookie->PackagesFilter_count_parcel}{Context::getContext()->cookie->PackagesFilter_count_parcel}{/if}" name="PackagesFilter_count_parcel" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_count_parcel') && Context::getContext()->cookie->PackagesFilter_count_parcel}{Context::getContext()->cookie->PackagesFilter_count_parcel}{/if}" name="PackagesFilter_count_parcel" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_receiver') && Context::getContext()->cookie->PackagesFilter_receiver}{Context::getContext()->cookie->PackagesFilter_receiver}{/if}" name="PackagesFilter_receiver" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_receiver') && Context::getContext()->cookie->PackagesFilter_receiver}{Context::getContext()->cookie->PackagesFilter_receiver}{/if}" name="PackagesFilter_receiver" class="filter">
                                 </td>
 								<td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_country') && Context::getContext()->cookie->PackagesFilter_country}{Context::getContext()->cookie->PackagesFilter_country}{/if}" name="PackagesFilter_country" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_country') && Context::getContext()->cookie->PackagesFilter_country}{Context::getContext()->cookie->PackagesFilter_country}{/if}" name="PackagesFilter_country" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_postcode') && Context::getContext()->cookie->PackagesFilter_postcode}{Context::getContext()->cookie->PackagesFilter_postcode}{/if}" name="PackagesFilter_postcode" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_postcode') && Context::getContext()->cookie->PackagesFilter_postcode}{Context::getContext()->cookie->PackagesFilter_postcode}{/if}" name="PackagesFilter_postcode" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_city') && Context::getContext()->cookie->PackagesFilter_city}{Context::getContext()->cookie->PackagesFilter_city}{/if}" name="PackagesFilter_city" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_city') && Context::getContext()->cookie->PackagesFilter_city}{Context::getContext()->cookie->PackagesFilter_city}{/if}" name="PackagesFilter_city" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('PackagesFilter_address') && Context::getContext()->cookie->PackagesFilter_address}{Context::getContext()->cookie->PackagesFilter_address}{/if}" name="PackagesFilter_address" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('PackagesFilter_address') && Context::getContext()->cookie->PackagesFilter_address}{Context::getContext()->cookie->PackagesFilter_address}{/if}" name="PackagesFilter_address" class="filter">
                                 </td>
                                 <td class="center">
                                     --
@@ -383,7 +383,7 @@
                                                 --
                                             {/if}
                                         </td>
-                                        <td style="white-space: nowrap;" class="center">
+                                        <td class="center packages-list-buttons">
                                             <a title="{l s='View' mod='dpdpoland'}" href="{$order_link|escape:'htmlall':'UTF-8'}&id_order={$table_data[ii].id_order|escape:'htmlall':'UTF-8'}">
                                                 <img alt="{l s='View' mod='dpdpoland'}" src="../img/admin/details.gif">
                                             </a>

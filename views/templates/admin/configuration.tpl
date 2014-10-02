@@ -43,10 +43,10 @@
         
         <div class="separation"></div>
         
-        <div id="error_message" class="error" style="display: none;"></div>
-        <div id="success_message" class="conf" style="display: none;"></div>
+        <div id="error_message" class="error hidden-element"></div>
+        <div id="success_message" class="conf hidden-element"></div>
         
-        <div style="float: left;">
+        <div class="float-left">
             <label>
                 {l s='DPD client number:' mod='dpdpoland'}
             </label>
@@ -56,7 +56,7 @@
             </div>
         </div>
         
-        <div style="float: left;">
+        <div class="float-left">
             <label>
                 {l s='Client name:' mod='dpdpoland'}
             </label>
@@ -66,7 +66,7 @@
             </div>
         </div>
         
-        <div style="float: left; margin-left: 20px;">
+        <div class="add-client-number-button-container">
             <input id="addClientNumber" type="button" class="button" value="{l s='Add' mod='dpdpoland'}" />
         </div>
         <div class="clear"></div>

@@ -67,7 +67,7 @@
 		</div>
 	{/if}
 	
-	<div id="dpdpoland_shipment_creation"{if isset($smarty.get.scrollToShipment)} style="display:block"{/if}>
+	<div id="dpdpoland_shipment_creation"{if isset($smarty.get.scrollToShipment)} class="displayed-element"{/if}>
 		<div id="dpdpoland_msg_container">{if isset($errors) && $errors}{include file=$smarty.const._PS_MODULE_DIR_|cat:'dpdpoland/views/templates/admin/errors.tpl'}{/if}</div>
 		{if isset($compatibility_warning_message) && $compatibility_warning_message}
 			<div class="warning warn">
@@ -104,7 +104,7 @@
 		<div id="dpdpoland_sender_address_container">
 			<label><h3>{l s='Sender:' mod='dpdpoland'}</h3></label>
 			<div class="clear"></div>
-			<div class="info" style="display:block">
+			<div class="info">
 				{l s='Sender address can be changed in module settings page.' mod='dpdpoland'}
 			</div>
 			
@@ -141,7 +141,7 @@
 		<div class="separation"></div>
 		
 		<div>
-			<div id="dpdpoland_cod_amount_container"{if ($package->sessionType && $package->sessionType != 'domestic_with_cod') || (!$package->sessionType && $selected_id_method != $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} style="display:none"{/if}>
+			<div id="dpdpoland_cod_amount_container"{if ($package->sessionType && $package->sessionType != 'domestic_with_cod') || (!$package->sessionType && $selected_id_method != $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} class="hidden-element"{/if}>
 				<label>{l s='COD:' mod='dpdpoland'}</label>
 				<div class="margin-form">
 					<input type="text" name="dpdpoland_COD_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');"
@@ -301,23 +301,23 @@
                     <td>
 						<input type="hidden" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}" />
 						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" size="46" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+						<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
                     <td>
 						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][weight]" size="10" autocomplete="off" value="{$parcel.weight|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+						<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
                     <td>
 						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][height]" size="10" autocomplete="off" value="{$parcel.height|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+						<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
 					<td>
 						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][length]" size="10" autocomplete="off" value="{$parcel.length|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+						<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
 					<td>
 						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][width]" size="10" autocomplete="off" value="{$parcel.width|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
-						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+						<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
 					<td class="parcel_dimension_weight">{sprintf('%.3f', $parcel.length|escape:'htmlall':'UTF-8'*$parcel.width|escape:'htmlall':'UTF-8'*$parcel.height|escape:'htmlall':'UTF-8'/$smarty.const._DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_|escape:'htmlall':'UTF-8')}</td>
 					<td></td>
@@ -328,8 +328,8 @@
 		{if !$package->id_package}
 		<div id="parcel_addition_container">
 			<br />
-			<div class="infoContainer">
-				<div class="info" style="display:block; width: 751px">
+			<div class="infoContainer first">
+				<div class="info">
 					{l s='When adding new parcel: Additional fee will be charged by DPD PL depending on your DPD PL contract. Price for shipment that was shown to your customer always includes only one parcel per order.' mod='dpdpoland'}
 				</div>
 			</div>
@@ -338,16 +338,16 @@
 			<div class="separation"></div>
 			
 			<div class="infoContainer">
-				<div class="info" style="display:block;">
+				<div class="info">
 					{l s='It will not be possible to edit shipment after printintig labels.' mod='dpdpoland'}
 				</div>
 			</div>
 		</div>
 		{/if}
-		
+
 		<div id="dpdgeopost_actions">
-			<input type="button" id="save_and_print_labels" class="button" value="{l s='Save and print labels' mod='dpdpoland'}"{if $package->id_package} style="display:none"{/if} />
-			<input type="button" id="print_labels" class="button" value="{l s='Print labels' mod='dpdpoland'}"{if !$package->id_package} style="display:none"{/if} />
+			<input type="button" id="save_and_print_labels" class="button{if $package->id_package} hidden-element{/if}" value="{l s='Save and print labels' mod='dpdpoland'}" />
+			<input type="button" id="print_labels" class="button{if !$package->id_package} hidden-element{/if}" value="{l s='Print labels' mod='dpdpoland'}" />
 			<div id="printout_format_container">
 				<input id="printout_format_a4" type="radio" name="dpdpoland_printout_format" checked="checked" value="{DpdPolandConfiguration::PRINTOUT_FORMAT_A4|escape:'htmlall':'UTF-8'}" />
 				<label class="t" for="printout_format_a4">
@@ -365,8 +365,12 @@
 		<div class="separation"></div>
 	</div>
 	
-	<div style="margin-top:10px;" id="dpdpoland_current_status_accordion">
-		<h3 style="margin-bottom:0;"><a href="#">{l s='Current status' mod='dpdpoland'}</a></h3>
+	<div id="dpdpoland_current_status_accordion">
+		<h3>
+			<a href="#">
+				{l s='Current status' mod='dpdpoland'}
+			</a>
+		</h3>
 		<div>
 			<table cellspacing="0" cellpadding="10" class="table">
 				<thead>

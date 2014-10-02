@@ -154,3 +154,102 @@ form table#manifests_list
 {
 	word-break: break-all;
 }
+
+.hidden-element
+{
+	display: none;
+}
+
+.float-left
+{
+	float: left;
+}
+
+.add-client-number-button-container
+{
+	float: left;
+	margin-left: 20px;
+}
+
+#configuration_form #zones_table
+{
+	max-width:100%;
+}
+
+.bottom
+{
+	vertical-align: bottom;
+}
+
+.float-right
+{
+	float: right;
+}
+
+table.table.Countries,
+table.table.document,
+table.table.Manifests,
+table.table.Packages,
+table.table.ParcelHistories
+{
+	width: 100%;
+	margin-bottom:10px;
+}
+
+table.table.document.numbers-table
+{
+	width: 90%;
+	margin-bottom:10px;
+}
+
+table tr.titles-row
+{
+	height: 40px;
+}
+
+table tr.filter-row
+{
+	height: 35px;
+}
+
+table tr.filter-row input
+{
+	width: 95%;
+}
+
+table tr.filter-row .right input
+{
+	width: 70px;
+}
+
+td.no-border
+{
+	border: none;
+}
+
+.manifest-list-buttons,
+.packages-list-buttons,
+.parcel-history-list-buttons
+{
+	white-space: nowrap;
+}
+
+#current_obj
+{
+	font-weight: normal;
+}
+
+#current_obj img
+{
+	margin-right:5px;
+}
+
+#navbar-collapse ul li a span
+{
+	margin-right: 5px;
+}
+
+.payer-number-delete-button
+{
+	cursor: pointer;
+}

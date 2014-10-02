@@ -157,7 +157,7 @@
 								--
 							{/if}
 						</td>
-						<td style="white-space: nowrap;" class="text-right">
+						<td class="text-right manifest-list-buttons">
 							<a title="{l s='Print manifest' mod='dpdpoland'}" href="{$full_url|escape:'htmlall':'UTF-8'}&printManifest&id_manifest={$table_data[ii].id_manifest|escape:'htmlall':'UTF-8'}">
 								<img alt="{l s='Print manifest' mod='dpdpoland'}" src="../img/admin/pdf.gif">
 							</a>

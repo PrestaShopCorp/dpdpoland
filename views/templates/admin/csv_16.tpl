@@ -86,8 +86,8 @@
                 <table name="list_table" class="table_grid col-lg-12">
                     <tbody>
                         <tr>
-                            <td style="vertical-align: bottom;">
-                                <span style="float: left;">
+                            <td class="bottom">
+                                <span class="float-left">
                                     {if $page > 1}
                                         <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page=1&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
                                             <img class="pagination_image" src="../img/admin/list-prev2.gif" alt="{l s='First page' mod='dpdpoland'}" />
@@ -107,22 +107,22 @@
                                     {/if}
                                     | {l s='Display' mod='dpdpoland'}
                                 </span>
-                                <span style="float: left;">
+                                <span class="float-left">
                                     <select name="pagination" onchange="submit()">
                                         {foreach $pagination AS $value}
                                             <option value="{$value|intval|escape:'htmlall':'UTF-8'}"{if $selected_pagination == $value} selected="selected" {elseif $selected_pagination == NULL && $value == $pagination[1]} selected="selected2"{/if}>{$value|intval|escape:'htmlall':'UTF-8'}</option>
                                         {/foreach}
                                     </select>
                                 </span>
-                                <span style="float: left;">
+                                <span class="float-left">
                                     / {$list_total|escape:'htmlall':'UTF-8'} {l s='result(s)' mod='dpdpoland'}
                                 </span>
                                 <span class="clear"></span>
                             </td>
                         </tr>
                         <tr>
-                            <td style="border:none;">
-                                <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table document">
+                            <td class="no-border">
+                                <table cellspacing="0" cellpadding="0" class="table document">
                                     <colgroup>
                                         <col>
                                         <col>
@@ -132,7 +132,7 @@
                                         <col>
                                     </colgroup>
                                     <thead>
-                                        <tr style="height: 40px" class="nodrag nodrop">
+                                        <tr class="nodrag nodrop titles-row">
                                             <th class="center">
                                                 <span class="title_box">{l s='Country' mod='dpdpoland'}</span>
                                             </th>

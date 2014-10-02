@@ -70,11 +70,11 @@
             </ul>
             <div class="pageTitle">
                 <h3>
-                    <span id="current_obj" style="font-weight: normal;">
+                    <span id="current_obj">
                         <span class="breadcrumb item-0 ">
                             {section name=breadcrumb_iteration loop=$breadcrumb}
                                 {if $smarty.section.breadcrumb_iteration.index != 0}
-                                    <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}/separator_breadcrumb.png" style="margin-right:5px" alt=">">
+                                    <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}/separator_breadcrumb.png" alt=">">
                                 {/if}
                                 <span class="breadcrumb item-1">
                                     {$breadcrumb[breadcrumb_iteration]|escape:'htmlall':'UTF-8'}
@@ -89,7 +89,7 @@
 {else}
     <nav class="navbar navbar-default" role="navigation">
        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" style="float: left;">
+          <button type="button" class="navbar-toggle float-left" data-toggle="collapse" data-target="#navbar-collapse">
              <span class="sr-only"></span>
              <span class="icon-bar"></span>
              <span class="icon-bar"></span>
@@ -100,7 +100,11 @@
           <ul class="nav navbar-nav">
             {if isset($meniutabs)}
               {foreach $meniutabs key=numStep item=tab}
-                <li class="{if $tab.active}active{/if}"><a id="{$tab.short|escape:'htmlall':'utf-8'}" href="{$tab.href|escape:'htmlall':'utf-8'}"><span class="{$tab.imgclass|escape:'htmlall':'utf-8'}" style="margin-right: 5px;"></span>{$tab.desc|escape:'htmlall':'utf-8'}</a></li>
+                <li class="{if $tab.active}active{/if}">
+                    <a id="{$tab.short|escape:'htmlall':'utf-8'}" href="{$tab.href|escape:'htmlall':'utf-8'}">
+                        <span class="{$tab.imgclass|escape:'htmlall':'utf-8'}"></span>{$tab.desc|escape:'htmlall':'utf-8'}
+                    </a>
+                </li>
               {/foreach}
             {/if}
           </ul>

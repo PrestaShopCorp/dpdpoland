@@ -16,6 +16,10 @@
  * International Registered Trademark & Property of DPD Polska Sp. z o.o.
  *}
 
+<script>
+	var dpdpoland_16 = true;
+</script>
+
 <form id="configuration_form" class="form-horizontal" action="{$saveAction|escape:'htmlall':'UTF-8'}&menu=configuration" method="post" enctype="multipart/form-data">
     <div id="credentials" class="panel">
         <div class="panel-heading">
@@ -45,8 +49,8 @@
 
         <div class="form-group">
             <div class="bootstrap">
-                <div id="error_message" class="alert alert-danger" style="display: none;"></div>
-                <div id="success_message" class="alert alert-success" style="display: none;"></div>
+                <div id="error_message" class="alert alert-danger hidden-element"></div>
+                <div id="success_message" class="alert alert-success hidden-element"></div>
             </div>
             
             <div class="col-lg-3">
@@ -259,7 +263,7 @@
         </div>
 	
 		<div id="zones_table_container" class="form-group">
-			<table style="max-width:100%" class="table" id="zones_table">
+			<table class="table" id="zones_table">
 				<tbody>
 					<tr>
 						<td>

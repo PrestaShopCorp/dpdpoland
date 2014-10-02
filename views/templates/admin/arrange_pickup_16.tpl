@@ -127,7 +127,7 @@
         </div>
 
 		<div class="row">
-			<div id="envelopes_container" style="display:none" class="col-lg-12">
+			<div id="envelopes_container" class="col-lg-12 hidden-element">
 				<br />
 				<label class="control-label col-lg-3 col-sm-6">
 					{l s='Number of envelopes:' mod='dpdpoland'}
@@ -152,7 +152,7 @@
         </div>
 		
 		<div class="row">
-			<div id="parcels_container" style="display:none" class="col-lg-12">
+			<div id="parcels_container" class="col-lg-12 hidden-element">
 				<br />
 				<label class="control-label col-lg-3 col-sm-6">
 					{l s='Number of parcels:' mod='dpdpoland'}
@@ -222,7 +222,7 @@
         </div>
 
 		<div class="row">
-			<div id="pallets_container" style="display:none" class="col-lg-12">
+			<div id="pallets_container" class="col-lg-12 hidden-element">
 				<br />
 				<label class="control-label col-lg-3 col-sm-6">
 					{l s='Number of pallets:' mod='dpdpoland'}
