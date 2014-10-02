@@ -96,15 +96,15 @@ class DpdPolandService
 		return true;
 	}
 
-	public static function getCarrierById($id_carrier)
+	public static function getCarrierByReference($reference)
 	{
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 		{
-			$id_carrier = (int)DpdPolandCarrier::getIdCarrierByReference($id_carrier);
+			$id_carrier = (int)DpdPolandCarrier::getIdCarrierByReference($reference);
 			$carrier = new Carrier((int)$id_carrier);
 		}
 		else
-			$carrier = Carrier::getCarrierByReference((int)$id_carrier);
+			$carrier = Carrier::getCarrierByReference((int)$reference);
 
 		return $carrier;
 	}

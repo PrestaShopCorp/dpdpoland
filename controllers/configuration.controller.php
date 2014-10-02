@@ -70,7 +70,7 @@ class DpdPolandConfigurationController extends DpdPolandController
 		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'service.php');
 
 		$id_carrier = (int)Configuration::get($carrier_type);
-		$carrier = DpdPolandService::getCarrierById((int)$id_carrier);
+		$carrier = DpdPolandService::getCarrierByReference((int)$id_carrier);
 
 		if (Validate::isLoadedObject($carrier))
 			$id_carrier = $carrier->id;
