@@ -32,8 +32,8 @@ class DpdPolandPackageListController extends DpdPolandController
 		if (Tools::isSubmit('printManifest'))
 		{
 			$cookie = Context::getContext()->cookie;
-			$isset_package_ids = isset($cookie->dpdpoland_packages_ids);
-			if ($isset_package_ids)
+
+			if (isset($cookie->dpdpoland_packages_ids))
 			{
 				if (version_compare(_PS_VERSION_, '1.5', '<'))
 					$package_ids = unserialize(Context::getContext()->cookie->dpdpoland_packages_ids);
