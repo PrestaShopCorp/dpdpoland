@@ -326,8 +326,8 @@ class DpdPoland extends CarrierModule
 		$this->setGlobalVariablesForAjax();
 		$this->html .= $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/global_variables.tpl');
 
-		$country_currency_warning_message_text = $this->l('PL country and PLN currency must be installed; CURL must be enabled');
-		$configuration_warning_message_text = $this->l('Module is not configured yet. Please check required settings');
+		$country_currency_error_message_text = $this->l('PL country and PLN currency must be installed; CURL must be enabled');
+		$configuration_error_message_text = $this->l('Module is not configured yet. Please check required settings');
 
 		switch (Tools::getValue('menu'))
 		{
@@ -340,10 +340,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				$puckup_controller = new DpdPolandArrangePickUpController();
 				$this->html .= $puckup_controller->getPage();
@@ -356,10 +356,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					$this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					$this->html .= $this->displayErrors(array($configuration_error_message_text));
 				if (!version_compare(_PS_VERSION_, '1.5', '<'))
 					$this->displayShopRestrictionWarning();
 
@@ -374,10 +374,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -398,10 +398,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -420,10 +420,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -442,10 +442,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -464,10 +464,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
