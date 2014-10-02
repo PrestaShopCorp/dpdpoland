@@ -50,7 +50,6 @@ class DpdPolandCSVController extends DpdPolandController
 			'id_carrier' 		=> $this->l('Carrier'),
 			'cod_price' 		=> $this->l('COD cost (PLN)')
 		);
-
 	}
 
 	public function getCSVPage()
@@ -84,36 +83,7 @@ class DpdPolandCSVController extends DpdPolandController
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/csv.tpl');
 	}
 
-	public static function init()
-	{
-		$controller = new DpdPolandCSVController;
-
-		if (Tools::isSubmit(DpdPolandCSVController::SETTINGS_SAVE_CSV_ACTION))
-		{
-			$csv_data = $controller->readCSVData();
-			if ($csv_data === false)
-			{
-				DpdPoland::addFlashError($controller->l('Wrong CSV file'));
-				Tools::redirectAdmin($controller->module_instance->module_url.'&menu=csv');
-			}
-
-			$message = $controller->validateCSVData($csv_data);
-			if ($message !== true)
-				return $controller->module_instance->outputHTML($controller->module_instance->displayErrors($message));
-
-			if ($controller->saveCSVData($csv_data))
-				DpdPoland::addFlashMessage($controller->l('CSV data was successfully saved'));
-			else
-				DpdPoland::addFlashError($controller->l('CSV data could not be saved'));
-
-			Tools::redirectAdmin($controller->module_instance->module_url.'&menu=csv');
-		}
-
-		if (Tools::isSubmit(DpdPolandCSVController::SETTINGS_DELETE_CSV_ACTION))
-			$controller->deleteCSV();
-	}
-
-	private function deleteCSV()
+	public function deleteCSV()
 	{
 		if (DpdPolandCSV::deleteAllData())
 			DpdPoland::addFlashMessage($this->l('Price rules deleted successfully'));

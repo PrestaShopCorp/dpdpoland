@@ -213,38 +213,6 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 		return $extra_time_from.'-'.$extra_time_to;
 	}
 
-	public static function init($module_instance)
-	{
-		if (Tools::isSubmit('requestPickup'))
-		{
-			$controller = new DpdPolandArrangePickUpController;
-
-			$data = $controller->getData();
-
-			if ($controller->validate())
-			{
-				$pickup = new DpdPolandPickup;
-
-				foreach ($data as $element => $value)
-					$pickup->$element = $value;
-
-				if (!$pickup->arrange())
-					$module_instance->outputHTML($module_instance->displayError(reset(DpdPolandPickup::$errors)));
-				else
-				{
-					$error_message = sprintf($module_instance->l('Pickup was successfully arranged. Number of order is: %d', self::FILENAME),
-						$pickup->id_pickup);
-					DpdPoland::addFlashMessage($error_message);
-
-					$redirect_uri = $module_instance->module_url.'&menu=arrange_pickup';
-					die(Tools::redirectAdmin($redirect_uri));
-				}
-			}
-			else
-				$module_instance->outputHTML($module_instance->displayError(reset(self::$errors)));
-		}
-	}
-
 	public function getData()
 	{
 		if (!$this->data)

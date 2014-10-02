@@ -84,23 +84,7 @@ class DpdPolandConfigurationController extends DpdPolandController
 		return $carrier_zones_list;
 	}
 
-	public static function init()
-	{
-		$controller = new DpdPolandConfigurationController;
-
-		if (Tools::isSubmit(self::SETTINGS_SAVE_ACTION))
-		{
-			$controller->validateSettings();
-			$controller->createDeleteCarriers();
-
-			if (!self::$errors)
-				$controller->saveSettings();
-			else
-				$controller->module_instance->outputHTML($controller->module_instance->displayErrors(self::$errors));
-		}
-	}
-
-	private function createDeleteCarriers()
+	public function createDeleteCarriers()
 	{
 		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'service.php');
 		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'dpd_classic.service.php');
@@ -141,7 +125,7 @@ class DpdPolandConfigurationController extends DpdPolandController
 		}
 	}
 
-	private function validateSettings()
+	public function validateSettings()
 	{
 		if (!Tools::getValue(DpdPolandConfiguration::LOGIN))
 			self::$errors[] = $this->l('Login can not be empty');
@@ -242,7 +226,7 @@ class DpdPolandConfigurationController extends DpdPolandController
 			self::$errors[] = $this->l('Web Services URL is not valid');
 	}
 
-	private function saveSettings()
+	public function saveSettings()
 	{
 		if (DpdPolandConfiguration::saveConfiguration())
 		{

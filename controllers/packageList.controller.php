@@ -27,90 +27,81 @@ class DpdPolandPackageListController extends DpdPolandController
 	const DEFAULT_ORDER_WAY = 'desc';
 	const FILENAME = 'packageList.controller';
 
-	public static function init($module_instance)
+	public static function printManifest($module_instance)
 	{
-		if (Tools::isSubmit('printManifest'))
+		$cookie = Context::getContext()->cookie;
+
+		if (isset($cookie->dpdpoland_packages_ids))
 		{
-			$cookie = Context::getContext()->cookie;
+			if (version_compare(_PS_VERSION_, '1.5', '<'))
+				$package_ids = unserialize(Context::getContext()->cookie->dpdpoland_packages_ids);
+			else
+				$package_ids = Tools::unSerialize(Context::getContext()->cookie->dpdpoland_packages_ids);
 
-			if (isset($cookie->dpdpoland_packages_ids))
+			unset($cookie->dpdpoland_packages_ids);
+			$cookie->write();
+
+			$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
+			$international_packages = $separated_packages['INTERNATIONAL'];
+			$domestic_packages = $separated_packages['DOMESTIC'];
+			$manifest_ids = array();
+
+			if ($international_packages)
+				$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($international_packages[0]);
+
+			if ($domestic_packages)
+				$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($domestic_packages[0]);
+
+			require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifestList.controller.php');
+
+			$manifest_controller = new DpdPolandManifestListController();
+
+			return $manifest_controller->printManifest($manifest_ids);
+		}
+
+		if ($package_ids = Tools::getValue('PackagesBox'))
+		{
+			if (!DpdPolandManifest::validateSenderAddresses($package_ids))
 			{
-				if (version_compare(_PS_VERSION_, '1.5', '<'))
-					$package_ids = unserialize(Context::getContext()->cookie->dpdpoland_packages_ids);
-				else
-					$package_ids = Tools::unSerialize(Context::getContext()->cookie->dpdpoland_packages_ids);
+				$error_message = $module_instance->l('Manifests can not have different sender addresses', self::FILENAME);
+				$error = $module_instance->displayError($error_message);
 
-				unset($cookie->dpdpoland_packages_ids);
-				$cookie->write();
-
-				$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
-				$international_packages = $separated_packages['INTERNATIONAL'];
-				$domestic_packages = $separated_packages['DOMESTIC'];
-				$manifest_ids = array();
-
-				if ($international_packages)
-					$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($international_packages[0]);
-
-				if ($domestic_packages)
-					$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($domestic_packages[0]);
-
-				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifestList.controller.php');
-
-				$manifest_controller = new DpdPolandManifestListController();
-
-				return $manifest_controller->printManifest($manifest_ids);
+				return $module_instance->outputHTML($error);
 			}
 
-			if ($package_ids = Tools::getValue('PackagesBox'))
+			$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
+			$international_packages = $separated_packages['INTERNATIONAL'];
+			$domestic_packages = $separated_packages['DOMESTIC'];
+
+			if ($international_packages)
 			{
-				if (!DpdPolandManifest::validateSenderAddresses($package_ids))
+				$manifest = new DpdPolandManifest;
+
+				if (!$manifest->generateMultiple($international_packages))
 				{
-					$error_message = $module_instance->l('Manifests can not have different sender addresses', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
+					$error = $module_instance->displayError(reset(DpdPolandManifest::$errors));
 
 					return $module_instance->outputHTML($error);
 				}
-
-				$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
-				$international_packages = $separated_packages['INTERNATIONAL'];
-				$domestic_packages = $separated_packages['DOMESTIC'];
-
-				if ($international_packages)
-				{
-					$manifest = new DpdPolandManifest;
-
-					if (!$manifest->generateMultiple($international_packages))
-					{
-						$error = $module_instance->displayError(reset(DpdPolandManifest::$errors));
-
-						return $module_instance->outputHTML($error);
-					}
-				}
-
-				if ($domestic_packages)
-				{
-					$manifest = new DpdPolandManifest;
-
-					if (!$manifest->generateMultiple($domestic_packages))
-					{
-						$error = $module_instance->displayError(reset(DpdPolandManifest::$errors));
-
-						return $module_instance->outputHTML($error);
-					}
-				}
-
-				$cookie->dpdpoland_packages_ids = serialize($package_ids);
-				$redirect_uri = $module_instance->module_url.'&menu=packages_list';
-
-				die(Tools::redirectAdmin($redirect_uri));
 			}
+
+			if ($domestic_packages)
+			{
+				$manifest = new DpdPolandManifest;
+
+				if (!$manifest->generateMultiple($domestic_packages))
+				{
+					$error = $module_instance->displayError(reset(DpdPolandManifest::$errors));
+
+					return $module_instance->outputHTML($error);
+				}
+			}
+
+			$cookie->dpdpoland_packages_ids = serialize($package_ids);
+			$redirect_uri = $module_instance->module_url.'&menu=packages_list';
+
+			die(Tools::redirectAdmin($redirect_uri));
 		}
-
-		if (Tools::isSubmit('printLabelsA4Format'))
-			self::printLabels(DpdPolandConfiguration::PRINTOUT_FORMAT_A4);
-
-		if (Tools::isSubmit('printLabelsLabelFormat'))
-			self::printLabels(DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL);
 	}
 
 	private static function createLabelPDFDocument($package, $module_instance, $packages, $printout_format, $filename)
@@ -146,7 +137,7 @@ class DpdPolandPackageListController extends DpdPolandController
 		return true;
 	}
 
-	private static function printLabels($printout_format)
+	public static function printLabels($printout_format)
 	{
 		$module_instance = Module::getinstanceByName('dpdpoland');
 
