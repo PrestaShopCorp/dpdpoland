@@ -21,7 +21,7 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-require_once dirname(__FILE__).'/dpdpoland.lang.php';
+require_once(_PS_MODULE_DIR_.'dpdpoland/dpdpoland.lang.php');
 
 class DpdPolandWS extends DpdPolandController
 {
@@ -44,7 +44,7 @@ class DpdPolandWS extends DpdPolandController
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$settings = new DpdPolandConfiguration;
 
 		$this->params = array(

@@ -31,20 +31,22 @@ if (!function_exists('bqSQL'))
 
 require_once(dirname(__FILE__).'/config.api.php');
 require_once(_DPDPOLAND_CONTROLLERS_DIR_.'controller.php');
-require_once(dirname(__FILE__).'/dpdpoland.ws.php');
+
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'webservice.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifest.webservice.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'package.webservice.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'pickup.webservice.php');
+
 require_once(_DPDPOLAND_CONTROLLERS_DIR_.'messages.controller.php');
 require_once(_DPDPOLAND_CONTROLLERS_DIR_.'configuration.controller.php');
 
 require_once(_DPDPOLAND_CLASSES_DIR_.'ObjectModel.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'CSV.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Configuration.php');
-require_once(_DPDPOLAND_CLASSES_DIR_.'Package.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Parcel.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'ParcelProduct.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'PayerNumber.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Country.php');
-require_once(_DPDPOLAND_CLASSES_DIR_.'Pickup.php');
-require_once(_DPDPOLAND_CLASSES_DIR_.'Manifest.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Carrier.php');
 
 if (version_compare(_PS_VERSION_, '1.5', '<'))

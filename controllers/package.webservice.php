@@ -170,8 +170,6 @@ class DpdPolandPackage extends DpdPolandWS
 					$errors = $result['faultcode'].' : '.$result['faultstring'];
 				elseif (isset($result['Packages']['Package']['ValidationDetails']['ValidationInfo']['ErrorId']))
 				{
-					require_once(_PS_MODULE_DIR_.'dpdpoland/dpdpoland.lang.php');
-
 					$language = new DpdPolandLanguage();
 					$error_message = $language->getTranslation($result['Packages']['Package']['ValidationDetails']['ValidationInfo']['ErrorId']);
 
@@ -184,8 +182,6 @@ class DpdPolandPackage extends DpdPolandWS
 				}
 				elseif (isset($result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']))
 				{
-					require_once(_PS_MODULE_DIR_.'dpdpoland/dpdpoland.lang.php');
-
 					$language = new DpdPolandLanguage();
 					$error_message = $language->getTranslation(
 						$result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']
