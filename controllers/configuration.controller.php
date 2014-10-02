@@ -52,7 +52,11 @@ class DpdPolandConfigurationController extends DpdPolandController
 			'payer_numbers' => DpdPolandPayerNumber::getPayerNumbers(),
 			'payment_modules' => $payment_modules,
 			'zones' => Zone::getZones(),
-			'carrier_zones' => $this->getZonesForCarriers()
+			'carrier_zones' => array(
+				'classic' => $this->getZonesForCarrier(DpdPolandConfiguration::CARRIER_CLASSIC_ID),
+				'standard' => $this->getZonesForCarrier(DpdPolandConfiguration::CARRIER_STANDARD_ID),
+				'standard_cod' => $this->getZonesForCarrier(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID)
+			)
 		));
 
 		if (version_compare(_PS_VERSION_, '1.6', '>='))
@@ -61,49 +65,23 @@ class DpdPolandConfigurationController extends DpdPolandController
 		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/configuration.tpl');
 	}
 
-	private function getZonesForCarriers()
+	private function getZonesForCarrier($carrier_type)
 	{
 		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'service.php');
 
-		$id_carrier_classic = (int)Configuration::get(DpdPolandConfiguration::CARRIER_CLASSIC_ID);
-		$id_carrier_standard = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_ID);
-		$id_carrier_standard_cod = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID);
+		$id_carrier = (int)Configuration::get($carrier_type);
+		$carrier = DpdPolandService::getCarrierById((int)$id_carrier);
 
-		$classic_carrier_obj = DpdPolandService::getCarrierById((int)$id_carrier_classic);
-		$carrier_standard_obj = DpdPolandService::getCarrierById((int)$id_carrier_standard);
-		$carrier_standard_cod_obj = DpdPolandService::getCarrierById((int)$id_carrier_standard_cod);
+		if (Validate::isLoadedObject($carrier))
+			$id_carrier = $carrier->id;
 
-		if (Validate::isLoadedObject($classic_carrier_obj))
-			$id_carrier_classic = $classic_carrier_obj->id;
+		$carrier_zones = DpdPolandConfiguration::getCarrierZones((int)$id_carrier);
+		$carrier_zones_list = array();
 
-		if (Validate::isLoadedObject($carrier_standard_obj))
-			$id_carrier_standard = $carrier_standard_obj->id;
+		foreach ($carrier_zones as $zone)
+			$carrier_zones_list[] = $zone['id_zone'];
 
-		if (Validate::isLoadedObject($carrier_standard_cod_obj))
-			$id_carrier_standard_cod = $carrier_standard_cod_obj->id;
-
-		$carrier_classic_zones = DpdPolandConfiguration::getCarrierZones((int)$id_carrier_classic);
-		$carrier_standard_zones = DpdPolandConfiguration::getCarrierZones((int)$id_carrier_standard);
-		$carrier_standard_cod_zones = DpdPolandConfiguration::getCarrierZones((int)$id_carrier_standard_cod);
-
-		$carrier_classic_zones_array = array();
-		$carrier_standard_zones_array = array();
-		$carrier_standard_cod_zones_array = array();
-
-		foreach ($carrier_classic_zones as $zone)
-			$carrier_classic_zones_array[] = $zone['id_zone'];
-
-		foreach ($carrier_standard_zones as $zone)
-			$carrier_standard_zones_array[] = $zone['id_zone'];
-
-		foreach ($carrier_standard_cod_zones as $zone)
-			$carrier_standard_cod_zones_array[] = $zone['id_zone'];
-
-		return array(
-			'classic' => $carrier_classic_zones_array,
-			'standard' => $carrier_standard_zones_array,
-			'standard_cod' => $carrier_standard_cod_zones_array
-		);
+		return $carrier_zones_list;
 	}
 
 	public static function init()
