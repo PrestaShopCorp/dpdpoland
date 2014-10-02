@@ -54,7 +54,7 @@ class DpdPolandPackageListController extends DpdPolandController
 				if ($domestic_packages)
 					$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($domestic_packages[0]);
 
-				require_once(_DPDPOLAND_CLASSES_DIR_.'manifestList.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifestList.controller.php');
 
 				$manifest_controller = new DpdPolandManifestListController();
 

@@ -46,14 +46,14 @@ if (!defined('_DPDPOLAND_PDF_URI_'))
 
 /* Directories constants */
 
-if (!defined('_DPDPOLAND_CLASSES_DIR_'))
-	define('_DPDPOLAND_CLASSES_DIR_', dirname(__FILE__).'/classes/');
+if (!defined('_DPDPOLAND_CONTROLLERS_DIR_'))
+	define('_DPDPOLAND_CONTROLLERS_DIR_', dirname(__FILE__).'/controllers/');
 
 if (!defined('_DPDPOLAND_TPL_DIR_'))
 	define('_DPDPOLAND_TPL_DIR_', dirname(__FILE__).'/views/templates/');
 
-if (!defined('_DPDPOLAND_MODELS_DIR_'))
-	define('_DPDPOLAND_MODELS_DIR_', dirname(__FILE__).'/models/');
+if (!defined('_DPDPOLAND_CLASSES_DIR_'))
+	define('_DPDPOLAND_CLASSES_DIR_', dirname(__FILE__).'/classes/');
 
 if (!defined('_DPDPOLAND_MODULE_DIR_'))
 	define('_DPDPOLAND_MODULE_DIR_', _PS_MODULE_DIR_.'dpdpoland/');

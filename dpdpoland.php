@@ -30,22 +30,24 @@ if (!function_exists('bqSQL'))
 }
 
 require_once(dirname(__FILE__).'/config.api.php');
-require_once(_DPDPOLAND_CLASSES_DIR_.'controller.php');
-require_once(dirname(__FILE__).'/dpdpoland.ws.php');
-require_once(_DPDPOLAND_CLASSES_DIR_.'messages.controller.php');
-require_once(_DPDPOLAND_CLASSES_DIR_.'configuration.controller.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'controller.php');
 
-require_once(_DPDPOLAND_MODELS_DIR_.'ObjectModel.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'CSV.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'Configuration.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'Package.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'Parcel.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'ParcelProduct.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'PayerNumber.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'Country.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'Pickup.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'Manifest.php');
-require_once(_DPDPOLAND_MODELS_DIR_.'Carrier.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'webservice.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifest.webservice.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'package.webservice.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'pickup.webservice.php');
+
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'messages.controller.php');
+require_once(_DPDPOLAND_CONTROLLERS_DIR_.'configuration.controller.php');
+
+require_once(_DPDPOLAND_CLASSES_DIR_.'ObjectModel.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'CSV.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'Configuration.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'Parcel.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'ParcelProduct.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'PayerNumber.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'Country.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'Carrier.php');
 
 if (version_compare(_PS_VERSION_, '1.5', '<'))
 	require_once(dirname(__FILE__).'/backward_compatibility/backward.php');
@@ -255,7 +257,7 @@ class DpdPoland extends CarrierModule
 			if (!$this->registerHook('paymentTop'))
 				return false;
 
-		require_once(_DPDPOLAND_CLASSES_DIR_.'countryList.controller.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'countryList.controller.php');
 		if (!DpdPolandCountryListController::disableDefaultCountries())
 			return false;
 
@@ -264,10 +266,10 @@ class DpdPoland extends CarrierModule
 
 	public function uninstall()
 	{
-		require_once(_DPDPOLAND_CLASSES_DIR_.'service.php');
-		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_classic.service.php');
-		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_standard.service.php');
-		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_standard_cod.service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'dpd_classic.service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'dpd_standard.service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'dpd_standard_cod.service.php');
 
 		return
 			parent::uninstall() &&
@@ -331,7 +333,7 @@ class DpdPoland extends CarrierModule
 		{
 			case 'arrange_pickup':
 				$this->addDateTimePickerPlugins();
-				require_once(_DPDPOLAND_CLASSES_DIR_.'arrange_pickup.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'arrange_pickup.controller.php');
 
 				DpdPolandArrangePickUpController::init($this);
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Arrange PickUp')));
@@ -347,7 +349,7 @@ class DpdPoland extends CarrierModule
 				$this->html .= $puckup_controller->getPage();
 				break;
 			case 'configuration':
-				require_once(_DPDPOLAND_CLASSES_DIR_.'configuration.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'configuration.controller.php');
 				DpdPolandConfigurationController::init();
 
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Settings')));
@@ -365,7 +367,7 @@ class DpdPoland extends CarrierModule
 				$this->html .= $configuration_controller->getSettingsPage();
 				break;
 			case 'csv':
-				require_once(_DPDPOLAND_CLASSES_DIR_.'csv.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'csv.controller.php');
 				DpdPolandCSVController::init();
 
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('CSV prices import')));
@@ -409,7 +411,7 @@ class DpdPoland extends CarrierModule
 				}
 
 				$this->addDateTimePickerPlugins();
-				require_once(_DPDPOLAND_CLASSES_DIR_.'manifestList.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifestList.controller.php');
 				$manifest_list_controller = new DpdPolandManifestListController();
 				$this->html .= $manifest_list_controller->getListHTML();
 				break;
@@ -431,7 +433,7 @@ class DpdPoland extends CarrierModule
 				}
 
 				$this->addDateTimePickerPlugins();
-				require_once(_DPDPOLAND_CLASSES_DIR_.'parcelHistoryList.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'parcelHistoryList.controller.php');
 				$parcel_history_list_controller = new DpdPolandParcelHistoryController();
 				$this->html .= $parcel_history_list_controller->getList();
 				break;
@@ -452,7 +454,7 @@ class DpdPoland extends CarrierModule
 					break;
 				}
 
-				require_once(_DPDPOLAND_CLASSES_DIR_.'countryList.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'countryList.controller.php');
 				$country_list_controller = new DpdPolandCountryListController();
 				$this->html .= $country_list_controller->getListHTML();
 				break;
@@ -475,7 +477,7 @@ class DpdPoland extends CarrierModule
 				}
 
 				$this->addDateTimePickerPlugins();
-				require_once(_DPDPOLAND_CLASSES_DIR_.'packageList.controller.php');
+				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'packageList.controller.php');
 
 				DpdPolandPackageListController::init($this);
 				$package_list_controller = new DpdPolandPackageListController();
@@ -1192,7 +1194,7 @@ class DpdPoland extends CarrierModule
 
 		if (empty($error))
 		{
-			require_once(_DPDPOLAND_MODELS_DIR_.'PayerNumber.php');
+			require_once(_DPDPOLAND_CLASSES_DIR_.'PayerNumber.php');
 
 			if (DpdPolandPayerNumber::payerNumberExists($number, $id_shop))
 				$error .= $this->l('DPD client number already exists').'<br />';
@@ -1300,7 +1302,7 @@ class DpdPoland extends CarrierModule
 
 	public function getTimeFrames()
 	{
-		require_once(_DPDPOLAND_CLASSES_DIR_.'arrange_pickup.controller.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'arrange_pickup.controller.php');
 
 		$current_date = Tools::getValue('date');
 

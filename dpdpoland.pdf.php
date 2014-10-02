@@ -69,7 +69,7 @@ if (Tools::isSubmit('printLabels'))
 
 if (Tools::isSubmit('downloadModuleCSVSettings'))
 {
-	include_once(dirname(__FILE__).'/classes/csv.controller.php');
+	include_once(_DPDPOLAND_CONTROLLERS_DIR_.'csv.controller.php');
 	$controller = new DpdPolandCSVController;
 	$controller->generateCSV();
 }

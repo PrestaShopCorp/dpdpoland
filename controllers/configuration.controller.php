@@ -63,7 +63,7 @@ class DpdPolandConfigurationController extends DpdPolandController
 
 	private function getZonesForCarriers()
 	{
-		require_once(_DPDPOLAND_CLASSES_DIR_.'service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'service.php');
 
 		$id_carrier_classic = (int)Configuration::get(DpdPolandConfiguration::CARRIER_CLASSIC_ID);
 		$id_carrier_standard = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_ID);
@@ -124,10 +124,10 @@ class DpdPolandConfigurationController extends DpdPolandController
 
 	private function createDeleteCarriers()
 	{
-		require_once(_DPDPOLAND_CLASSES_DIR_.'service.php');
-		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_classic.service.php');
-		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_standard.service.php');
-		require_once(_DPDPOLAND_CLASSES_DIR_.'dpd_standard_cod.service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'dpd_classic.service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'dpd_standard.service.php');
+		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'dpd_standard_cod.service.php');
 
 		if (Tools::getValue(DpdPolandConfiguration::CARRIER_CLASSIC))
 		{
