@@ -197,9 +197,10 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 			if (isset($frame['range']))
 			{
 				list($pickup_time_from, $pickup_time_to) = explode('-', $frame['range']);
-				if (!$extra_time_from || $extra_time_from && (str_replace(':', '', $pickup_time_from) < str_replace(':', '', $extra_time_from)))
+
+				if (!$extra_time_from || (str_replace(':', '', $pickup_time_from) < str_replace(':', '', $extra_time_from)))
 					$extra_time_from = $pickup_time_from;
-				if (!$extra_time_to || $pickup_time_to && (str_replace(':', '', $pickup_time_to) > str_replace(':', '', $extra_time_to)))
+				if (!$extra_time_to || (str_replace(':', '', $pickup_time_to) > str_replace(':', '', $extra_time_to)))
 					$extra_time_to = $pickup_time_to;
 			}
 		}
