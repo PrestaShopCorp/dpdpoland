@@ -113,6 +113,39 @@ class DpdPolandPackageListController extends DpdPolandController
 			self::printLabels(DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL);
 	}
 
+	private static function createLabelPDFDocument($package, $module_instance, $packages, $printout_format, $filename)
+	{
+		if (!$pdf_file_contents = $package->generateLabelsForMultiplePackages($packages, 'PDF', $printout_format))
+		{
+			$error = $module_instance->displayError(reset(DpdPolandPackage::$errors));
+
+			return $error;
+		}
+
+		if (file_exists(_PS_MODULE_DIR_.'dpdpoland/'.$filename) && !unlink(_PS_MODULE_DIR_.'dpdpoland/'.$filename))
+		{
+			$error_message = $module_instance->l('Could not delete old PDF file. Please check module folder permissions', self::FILENAME);
+			$error = $module_instance->displayError($error_message);
+
+			return $error;
+		}
+
+		$international_pdf = fopen(_PS_MODULE_DIR_.'dpdpoland/'.$filename, 'w');
+
+		if (!$international_pdf)
+		{
+			$error_message = $module_instance->l('Could not create PDF file. Please check module folder permissions', self::FILENAME);
+			$error = $module_instance->displayError($error_message);
+
+			return $error;
+		}
+
+		fwrite($international_pdf, $pdf_file_contents);
+		fclose($international_pdf);
+
+		return true;
+	}
+
 	private static function printLabels($printout_format)
 	{
 		$module_instance = Module::getinstanceByName('dpdpoland');
@@ -127,67 +160,18 @@ class DpdPolandPackageListController extends DpdPolandController
 
 			if ($international_packages)
 			{
-				$package = new DpdPolandPackage;
-				if (!$pdf_file_contents_international = $package->generateLabelsForMultiplePackages($international_packages, 'PDF', $printout_format))
-				{
-					$error = $module_instance->displayError(reset(DpdPolandPackage::$errors));
+				$result = self::createLabelPDFDocument($package, $module_instance, $international_packages, $printout_format, 'international_labels.pdf');
 
-					return $module_instance->outputHTML($error);
-				}
-
-				if (file_exists(_PS_MODULE_DIR_.'dpdpoland/international_labels.pdf') &&
-					!unlink(_PS_MODULE_DIR_.'dpdpoland/international_labels.pdf'))
-				{
-					$error_message = $module_instance->l('Could not delete old PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
-
-					return $module_instance->outputHTML($error);
-				}
-
-				$international_pdf = fopen(_PS_MODULE_DIR_.'dpdpoland/international_labels.pdf', 'w');
-
-				if (!$international_pdf)
-				{
-					$error_message = $module_instance->l('Could not create PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError();
-
-					return $module_instance->outputHTML($error);
-				}
-
-				fwrite($international_pdf, $pdf_file_contents_international);
-				fclose($international_pdf);
+				if ($result !== true)
+					return $module_instance->outputHTML($result);
 			}
 
 			if ($domestic_packages)
 			{
-				$package = new DpdPolandPackage;
-				if (!$pdf_file_contents_domestic = $package->generateLabelsForMultiplePackages($domestic_packages, 'PDF', $printout_format))
-				{
-					$error = $module_instance->displayError(reset(DpdPolandPackage::$errors));
+				$result = self::createLabelPDFDocument($package, $module_instance, $domestic_packages, $printout_format, 'domestic_labels.pdf');
 
-					return $module_instance->outputHTML($error);
-				}
-
-				if (file_exists(_PS_MODULE_DIR_.'dpdpoland/domestic_labels.pdf') && !unlink(_PS_MODULE_DIR_.'dpdpoland/domestic_labels.pdf'))
-				{
-					$error_message = $module_instance->l('Could not delete old PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
-
-					return $module_instance->outputHTML($error);
-				}
-
-				$domestic_pdf = fopen(_PS_MODULE_DIR_.'dpdpoland/domestic_labels.pdf', 'w');
-
-				if (!$domestic_pdf)
-				{
-					$error_message = $module_instance->l('Could not create PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
-
-					return $module_instance->outputHTML($error);
-				}
-
-				fwrite($domestic_pdf, $pdf_file_contents_domestic);
-				fclose($domestic_pdf);
+				if ($result !== true)
+					return $module_instance->outputHTML($result);
 			}
 
 			include_once(_PS_MODULE_DIR_.'dpdpoland/libraries/PDFMerger/PDFMerger.php');
