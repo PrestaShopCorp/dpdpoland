@@ -242,20 +242,16 @@ class DpdPoland extends CarrierModule
 			if (!Db::getInstance()->execute($sql)) return false;
 		}
 
-		if (!parent::install() || !$this->registerHook('adminOrder'))
+		if (!parent::install() || !$this->registerHook('adminOrder') || !$this->registerHook('paymentTop'))
 			return false;
 
-		if (version_compare(_PS_VERSION_, '1.5', '<'))
-		{
-			if (!$this->registerHook('paymentTop'))
-				return false;
-
-			if (!$this->registerHook('updateCarrier'))
-				return false;
-		}
-		else
-			if (!$this->registerHook('paymentTop'))
-				return false;
+		/**
+		 * this hook is needed only in PS 1.4
+		 * used to track DpdPoland carriers references
+		 * higher versions than 1.4 alredy have this functionality
+		 */
+		if (version_compare(_PS_VERSION_, '1.5', '<') && !$this->registerHook('updateCarrier'))
+			return false;
 
 		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'countryList.controller.php');
 		if (!DpdPolandCountryListController::disableDefaultCountries())
