@@ -52,6 +52,18 @@ class DpdPolandPackageWS extends DpdPolandWS
 		$this->parcels[] = $parcel;
 	}
 
+	private function getErrorsByKey($response, $error_key, $errors = array())
+	{
+		if (!empty($response))
+			foreach ($response as $key => $value)
+				if (is_object($value) || is_array($value))
+					$errors = $this->getErrorsByKey($value, $error_key, $errors);
+				elseif ($key == $error_key)
+					$errors[] = $value;
+		
+		return $errors;
+	}
+
 	public function create(DpdPolandPackage $package_obj)
 	{
 		if ($result = $this->createRemotely($package_obj))
@@ -73,34 +85,28 @@ class DpdPolandPackageWS extends DpdPolandWS
 					$errors = $result['Packages']['InvalidFields'];
 				elseif (isset($result['faultcode']) && isset($result['faultstring']))
 					$errors = $result['faultcode'].' : '.$result['faultstring'];
-				elseif (isset($result['Packages']['Package']['ValidationDetails']['ValidationInfo']['ErrorId']))
-				{
-					$language = new DpdPolandLanguage();
-					$error_message = $language->getTranslation($result['Packages']['Package']['ValidationDetails']['ValidationInfo']['ErrorId']);
-
-					if ($error_message && Tools::strtolower($this->context->language->iso_code) != 'pl')
-						$errors = $error_message;
-					elseif (isset($result['Packages']['Package']['ValidationDetails']['ValidationInfo']['Info']))
-						$errors = $result['Packages']['Package']['ValidationDetails']['ValidationInfo']['Info'];
-					else
-						$errors = $this->module_instance->displayName.' : '.$this->l('Unknown error');
-				}
-				elseif (isset($result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']))
-				{
-					$language = new DpdPolandLanguage();
-					$error_message = $language->getTranslation(
-						$result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['ErrorId']
-					);
-
-					if ($error_message && Tools::strtolower($this->context->language->iso_code) != 'pl')
-						$errors = $error_message;
-					elseif (isset($result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['Info']))
-						$errors = $result['Packages']['Package']['Parcels']['Parcel']['ValidationDetails']['ValidationInfo']['Info'];
-					else
-						$errors = $this->module_instance->displayName.' : '.$this->l('Unknown error');
-				}
 				else
-					$errors = $this->module_instance->displayName.' : '.$this->l('Unknown error');
+				{
+					$errors = array();
+
+					if ($error_ids = $this->getErrorsByKey($result, 'ErrorId'))
+					{
+						$language = new DpdPolandLanguage();
+						
+						foreach ($error_ids as $id_error)
+							$errors[] = $language->getTranslation($id_error);
+					}
+					elseif ($error_messages = $this->getErrorsByKey($result, 'Info'))
+					{
+						foreach ($error_messages as $message)
+							$errors[] = $message;
+					}
+
+					$errors = reset($errors);
+
+					if (!$errors)
+						$errors = $this->module_instance->displayName.' : '.$this->l('Unknown error');
+				}
 
 				if (is_array($errors))
 				{
