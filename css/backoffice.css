@@ -227,3 +227,9 @@ td.no-border
 {
 	cursor: pointer;
 }
+
+.list-style-type-circle
+{
+	list-style-type: disc;
+	padding-left: 40px;
+}

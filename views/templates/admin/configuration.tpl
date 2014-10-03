@@ -16,13 +16,28 @@
  * International Registered Trademark & Property of DPD Polska Sp. z o.o.
  *}
 <form id="configuration_form" class="defaultForm" action="{$saveAction|escape:'htmlall':'UTF-8'}&menu=configuration" method="post" enctype="multipart/form-data">
-    
+    <fieldset id="configuration_about">
+        <legend>
+            <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='About' mod='dpdpoland'}" />
+            {l s='About' mod='dpdpoland'}
+        </legend>
+        <p>{l s='As leading provider of standard and express shipping services in Poland, DPD does not only operate a highly efficient transport network with over 500 depots in more than 40 countries, DPD also develops individual solutions so that you have quick access to all the world\'s major business regions.' mod='dpdpoland'}</p>
+		<p>{l s='DPD offers the right solutions for every possible shipping requirement.' mod='dpdpoland'} </p>
+        <ul class="list-style-type-circle">
+            <li>{l s='From the domestic standard parcel, all the way to time-definite delivery the following day, DPD will bring your shipment quickly and reliably to your customer.' mod='dpdpoland'}</li>
+            <li>{l s='International delivery? Trust the DPD international service. You can reach many countries around the world quickly and reliably!' mod='dpdpoland'}</li>
+            <li>{l s='Maybe C.O.D.? In our domestic service you can use our cash-on-delivery option. We will only deliver your parcel in return for immediate payment. We collect the payment before handing over the parcel, and send it securely to you on the receiver’s behalf.' mod='dpdpoland'}</li>
+        </ul>
+    </fieldset>
+
+    <br />
+
     <fieldset id="credentials">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='DPD credentials' mod='dpdpoland'}
         </legend>
-        
+
         <label>
             {l s='Login:' mod='dpdpoland'}
         </label>
@@ -31,7 +46,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Password:' mod='dpdpoland'}
         </label>
@@ -40,12 +55,12 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <div class="separation"></div>
-        
+
         <div id="error_message" class="error hidden-element"></div>
         <div id="success_message" class="conf hidden-element"></div>
-        
+
         <div class="float-left">
             <label>
                 {l s='DPD client number:' mod='dpdpoland'}
@@ -55,7 +70,7 @@
                 <sup>*</sup>
             </div>
         </div>
-        
+
         <div class="float-left">
             <label>
                 {l s='Client name:' mod='dpdpoland'}
@@ -65,12 +80,12 @@
                 <sup>*</sup>
             </div>
         </div>
-        
+
         <div class="add-client-number-button-container">
             <input id="addClientNumber" type="button" class="button" value="{l s='Add' mod='dpdpoland'}" />
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Default client number:' mod='dpdpoland'}
         </label>
@@ -80,24 +95,24 @@
             </div>
             <sup>*</sup>
         </div>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
-        
+
         <div class="small">
             <sup>*</sup> {l s='Required field' mod='dpdpoland'}
         </div>
     </fieldset>
-    
+
     <br />
-    
+
     <fieldset id="senders">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='Senders data' mod='dpdpoland'}
         </legend>
-        
+
         <label>
             {l s='Company name:' mod='dpdpoland'}
         </label>
@@ -106,7 +121,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Name and surname:' mod='dpdpoland'}
         </label>
@@ -115,7 +130,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Address:' mod='dpdpoland'}
         </label>
@@ -124,7 +139,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Postal code:' mod='dpdpoland'}
         </label>
@@ -133,7 +148,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='City:' mod='dpdpoland'}
         </label>
@@ -142,7 +157,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Country' mod='dpdpoland'}
         </label>
@@ -151,7 +166,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='E-mail:' mod='dpdpoland'}
         </label>
@@ -160,7 +175,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Tel. No.:' mod='dpdpoland'}
         </label>
@@ -169,16 +184,16 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
-        
+
         <div class="small">
             <sup>*</sup> {l s='Required field' mod='dpdpoland'}
         </div>
     </fieldset>
-    
+
     <br />
 
     <fieldset id="shipping">
@@ -186,7 +201,7 @@
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='Active shiping services' mod='dpdpoland'}
         </legend>
-        
+
         <label for="dpd_standard">
             {l s='DPD domestic shipment - Standard:' mod='dpdpoland'}
         </label>
@@ -197,7 +212,7 @@
             </p>
         </div>
         <div class="clear"></div>
-        
+
         <label for="dpd_standard_cod">
             {l s='DPD domestic shipment - Standard with COD:' mod='dpdpoland'}
         </label>
@@ -224,11 +239,11 @@
             {/if}
         </div>
         <div class="clear"></div>
-        
+
         <p class="clear hint list info visible-element relative">
             {l s='RULE: DPD Polska Sp. z o.o. allows payment on the delivery ONLY by cash. In your payment modules you have available this types of payment, please mark those payment methods that support this rule.' mod='dpdpoland'}
         </p>
-        
+
         <label for="dpd_classic">
             {l s='DPD international shipment (DPD Classic):' mod='dpdpoland'}
         </label>
@@ -239,11 +254,11 @@
             </p>
         </div>
         <div class="clear"></div>
-        
+
         <p class="clear list info hint visible-element relative">
             {l s='Please note that after module installation carriers are not created.' mod='dpdpoland'}
         </p>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
@@ -261,19 +276,19 @@
             <table cellspacing="0" cellpadding="5" id="zones_table">
                 <thead>
                     <th>
-                        
+
                     </th>
                     <th>
                         {l s='DPD domestic shipment - Standard' mod='dpdpoland'}
                     </th>
                     <th>
-                        
+
                     </th>
                     <th>
                         {l s='DPD domestic shipment - Standard with COD' mod='dpdpoland'}
                     </th>
                     <th>
-                        
+
                     </th>
                     <th>
                         {l s='DPD international shipment (DPD Classic)' mod='dpdpoland'}
@@ -289,13 +304,13 @@
                                 <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard'])} checked="checked"{/if} name="standard_{$zones[ii].id_zone|intval}" class="form-control domestic_zone" value="1" />
                             </td>
                             <td>
-                                
+
                             </td>
                             <td class="center">
                                 <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['standard_cod'])} checked="checked"{/if} name="standard_cod_{$zones[ii].id_zone|intval}" class="form-control domestic_cod_zone" value="1" />
                             </td>
                             <td>
-                                
+
                             </td>
                             <td class="center">
                                 <input type="checkbox"{if in_array($zones[ii].id_zone, $carrier_zones['classic'])} checked="checked"{/if} name="classic_{$zones[ii].id_zone|intval}" class="form-control classic_zone" value="1">
@@ -316,13 +331,13 @@
     </fieldset>
 
     <br />
-    
+
     <fieldset id="price_calculation">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='Price calculation' mod='dpdpoland'}
         </legend>
-        
+
         <label>
             {l s='Shipping price calculation method:' mod='dpdpoland'}
         </label>
@@ -337,20 +352,20 @@
             </label>
         </div>
         <div class="clear"></div>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
     </fieldset>
-    
+
     <br />
-    
+
     <fieldset id="weight_measurement">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='Weight measurement units conversation' mod='dpdpoland'}
         </legend>
-        
+
         <label>
             {l s='System default weight units:' mod='dpdpoland'}
         </label>
@@ -358,7 +373,7 @@
             {Configuration::get('PS_WEIGHT_UNIT')|escape:'htmlall':'UTF-8'}
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='DPD weight units:' mod='dpdpoland'}
         </label>
@@ -366,7 +381,7 @@
             {$smarty.const._DPDPOLAND_DEFAULT_WEIGHT_UNIT_|escape:'htmlall':'UTF-8'}
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Conversation rate:' mod='dpdpoland'}
         </label>
@@ -379,24 +394,24 @@
             </p>
         </div>
         <div class="clear"></div>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
-        
+
         <div class="small">
             <sup>*</sup> {l s='Required field' mod='dpdpoland'}
         </div>
     </fieldset>
-    
+
     <br />
-    
+
     <fieldset id="dimension_measurement">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='Dimension measurement units conversation' mod='dpdpoland'}
         </legend>
-        
+
         <label>
             {l s='System default dimension units:' mod='dpdpoland'}
         </label>
@@ -404,7 +419,7 @@
             {Configuration::get('PS_DIMENSION_UNIT')|escape:'htmlall':'UTF-8'}
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='DPD dimension units:' mod='dpdpoland'}
         </label>
@@ -412,7 +427,7 @@
             {$smarty.const._DPDPOLAND_DEFAULT_DIMENSION_UNIT_|escape:'htmlall':'UTF-8'}
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Conversation rate:' mod='dpdpoland'}
         </label>
@@ -425,24 +440,24 @@
             </p>
         </div>
         <div class="clear"></div>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
-        
+
         <div class="small">
             <sup>*</sup> {l s='Required field' mod='dpdpoland'}
         </div>
     </fieldset>
-    
+
     <br />
-    
+
     <fieldset id="customer_data">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='General WS parameters' mod='dpdpoland'}
         </legend>
-        
+
         <label>
             {l s='Customer company name:' mod='dpdpoland'}
         </label>
@@ -451,7 +466,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Customer name and surname:' mod='dpdpoland'}
         </label>
@@ -460,7 +475,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Customer tel. No.:' mod='dpdpoland'}
         </label>
@@ -469,7 +484,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Customer FID:' mod='dpdpoland'}
         </label>
@@ -478,7 +493,7 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <label>
             {l s='Master FID:' mod='dpdpoland'}
         </label>
@@ -487,24 +502,24 @@
             <sup>*</sup>
         </div>
         <div class="clear"></div>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
-        
+
         <div class="small">
             <sup>*</sup> {l s='Required field' mod='dpdpoland'}
         </div>
     </fieldset>
-    
+
     <br />
-    
+
     <fieldset id="ws_url">
         <legend>
             <img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" alt="{l s='Settings' mod='dpdpoland'}" />
             {l s='Web Services URL' mod='dpdpoland'}
         </legend>
-        
+
         <label>
             {l s='Web Services URL:' mod='dpdpoland'}
         </label>
@@ -516,11 +531,11 @@
             </p>
         </div>
         <div class="clear"></div>
-        
+
         <div class="margin-form">
             <input type="submit" class="button" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" value="{l s='Save' mod='dpdpoland'}" />
         </div>
-        
+
         <div class="small">
             <sup>*</sup> {l s='Required field' mod='dpdpoland'}
         </div>
