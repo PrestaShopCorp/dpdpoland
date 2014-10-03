@@ -55,7 +55,7 @@ class DpdPolandPackage extends DpdPolandObjectModel
 
 	public $date_upd;
 
-	private $webservice; // manifest webservices instance
+	private $webservice; // package webservices instance
 
 	public static $definition = array(
 		'table' => _DPDPOLAND_PACKAGE_DB_,
@@ -82,6 +82,9 @@ class DpdPolandPackage extends DpdPolandObjectModel
 		)
 	);
 
+	/* Object identified by id_package_ws rather than id_package
+	 * $id_package is used only as a primary field by ObjectModel
+	 */
 	public function __construct($id_package_ws = null)
 	{
 		$id_package = $this->getPackageIdByPackageIdWs($id_package_ws);
