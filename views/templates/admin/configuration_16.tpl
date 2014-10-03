@@ -21,12 +21,26 @@
 </script>
 
 <form id="configuration_form" class="form-horizontal" action="{$saveAction|escape:'htmlall':'UTF-8'}&menu=configuration" method="post" enctype="multipart/form-data">
+    <div id="configuration_about" class="panel">
+        <div class="panel-heading">
+            <i class="icon-cogs"></i>
+            {l s='About' mod='dpdpoland'}
+        </div>
+        <p>{l s='As leading provider of standard and express shipping services in Poland, DPD does not only operate a highly efficient transport network with over 500 depots in more than 40 countries, DPD also develops individual solutions so that you have quick access to all the world\'s major business regions.' mod='dpdpoland'}</p>
+		<p>{l s='DPD offers the right solutions for every possible shipping requirement.' mod='dpdpoland'} <br />
+			<ul>
+				<li>{l s='From the domestic standard parcel, all the way to time-definite delivery the following day, DPD will bring your shipment quickly and reliably to your customer.' mod='dpdpoland'}</li>
+				<li>{l s='International delivery? Trust the DPD international service. You can reach many countries around the world quickly and reliably!' mod='dpdpoland'}</li>
+				<li>{l s='Maybe C.O.D.? In our domestic service you can use our cash-on-delivery option. We will only deliver your parcel in return for immediate payment. We collect the payment before handing over the parcel, and send it securely to you on the receiver’s behalf.' mod='dpdpoland'}</li>
+			</ul>
+		</p>
+    </div>
     <div id="credentials" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='DPD credentials' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3 required" for="login_input">
                 {l s='Login:' mod='dpdpoland'}
@@ -52,9 +66,9 @@
                 <div id="error_message" class="alert alert-danger hidden-element"></div>
                 <div id="success_message" class="alert alert-success hidden-element"></div>
             </div>
-            
+
             <div class="col-lg-3">
-                
+
             </div>
             <div class="col-lg-9">
                 <div class="col-lg-5">
@@ -79,7 +93,7 @@
 					</a>
                 </div>
             </div>
-            
+
             <label class="control-label col-lg-3 required" for="password">
                 {l s='Default client number:' mod='dpdpoland'}
             </label>
@@ -89,7 +103,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
@@ -97,13 +111,13 @@
             </button>
         </div>
     </div>
-    
+
     <div id="senders" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='Senders data' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3 required">
                 {l s='Company name:' mod='dpdpoland'}
@@ -168,7 +182,7 @@
                 <input type="text" name="{DpdPolandConfiguration::PHONE|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::PHONE, $settings->phone)|escape:'htmlall':'UTF-8'}" />
             </div>
         </div>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
@@ -176,13 +190,13 @@
             </button>
         </div>
     </div>
-    
+
     <div id="shipping" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='Active shiping services' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3" for="dpd_standard">
                 {l s='DPD domestic shipment - Standard:' mod='dpdpoland'}
@@ -225,11 +239,11 @@
                 </div>
             {/if}
         </div>
-        
+
         <p class="alert alert-info">
             {l s='RULE: DPD Polska Sp. z o.o. allows payment on the delivery ONLY by cash. In your payment modules you have available this types of payment, please mark those payment methods that support this rule.' mod='dpdpoland'}
         </p>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3" for="dpd_classic">
                 {l s='DPD international shipment (DPD Classic):' mod='dpdpoland'}
@@ -243,11 +257,11 @@
                 </p>
             </div>
         </div>
-        
+
         <p class="alert alert-info">
             {l s='Please note that after module installation carriers are not created.' mod='dpdpoland'}
         </p>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
@@ -261,13 +275,13 @@
             <i class="icon-cogs"></i>
             {l s='Active zones' mod='dpdpoland'}
         </div>
-	
+
 		<div id="zones_table_container" class="form-group">
 			<table class="table" id="zones_table">
 				<tbody>
 					<tr>
 						<td>
-							
+
 						</td>
 						<td class="border_bottom text-center">
 							<label>{l s='DPD domestic shipment - Standard' mod='dpdpoland'}</label>
@@ -310,13 +324,13 @@
             </button>
         </div>
 	</div>
-    
+
     <div id="price_calculation" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='Price calculation' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3" for="price_calculation_csv">
                 {l s='Shipping price calculation method:' mod='dpdpoland'}
@@ -336,7 +350,7 @@
                 </p>
             </div>
         </div>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
@@ -344,13 +358,13 @@
             </button>
         </div>
     </div>
-    
+
     <div id="weight_measurement" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='Weight measurement units conversation' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3">
                 {l s='System default weight units:' mod='dpdpoland'}
@@ -383,7 +397,7 @@
                 </p>
             </div>
         </div>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
@@ -391,13 +405,13 @@
             </button>
         </div>
     </div>
-    
+
     <div id="dimension_measurement" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='Dimension measurement units conversation' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3">
                 {l s='System default dimension units:' mod='dpdpoland'}
@@ -430,7 +444,7 @@
                 </p>
             </div>
         </div>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
@@ -438,13 +452,13 @@
             </button>
         </div>
     </div>
-    
+
     <div id="customer_data" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='General WS parameters' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3 required">
                 {l s='Customer company name:' mod='dpdpoland'}
@@ -485,7 +499,7 @@
                 <input type="text" name="{DpdPolandConfiguration::MASTER_FID|escape:'htmlall':'UTF-8'}" value="{DpdPoland::getInputValue(DpdPolandConfiguration::MASTER_FID, $settings->master_fid)|escape:'htmlall':'UTF-8'}" />
             </div>
         </div>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
@@ -493,13 +507,13 @@
             </button>
         </div>
     </div>
-    
+
     <div id="ws_url" class="panel">
         <div class="panel-heading">
             <i class="icon-cogs"></i>
             {l s='Web Services URL' mod='dpdpoland'}
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-lg-3 required">
                 {l s='Web Services URL:' mod='dpdpoland'}
@@ -513,7 +527,7 @@
                 </p>
             </div>
         </div>
-        
+
         <div class="panel-footer">
             <button class="btn btn-default pull-right" name="{DpdPolandConfigurationController::SETTINGS_SAVE_ACTION|escape:'htmlall':'UTF-8'}" type="submit">
                 <i class="process-icon-save"></i>
