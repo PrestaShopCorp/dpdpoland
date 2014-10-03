@@ -93,7 +93,7 @@ class DpdPolandManifestListController extends DpdPolandController
 			header('Content-type: application/pdf');
 			header('Content-Disposition: attachment; filename="manifests_'.time().'.pdf"');
 			readfile(_PS_MODULE_DIR_.'dpdpoland/manifest_duplicated.pdf');
-
+			$this->deletePDFFiles($id_manifest_ws);
 			exit;
 		}
 
@@ -137,10 +137,27 @@ class DpdPolandManifestListController extends DpdPolandController
 			header('Content-type: application/pdf');
 			header('Content-Disposition: attachment; filename="manifests_'.time().'.pdf"');
 			readfile(_PS_MODULE_DIR_.'dpdpoland/manifest_duplicated.pdf');
+
+			$this->deletePDFFiles($id_manifest_ws);
 			exit;
 		}
 		else
 			$this->module_instance->outputHTML($this->module_instance->displayError(reset(DpdPolandManifestWS::$errors)));
+	}
+
+	private function deletePDFFiles($id_manifest_ws)
+	{
+		$manifests = array('manifest', 'manifest_duplicated');
+
+		if (is_array($id_manifest_ws))
+			foreach ($id_manifest_ws as $id)
+				$manifests[] = 'manifest_'.(int)$id;
+		else
+			$manifests[] = 'manifest_'.(int)$id_manifest_ws;
+
+		foreach ($manifests as $manifest)
+			if (file_exists(_PS_MODULE_DIR_.'dpdpoland/'.$manifest.'.pdf') && is_writable(_PS_MODULE_DIR_.'dpdpoland/'.$manifest.'.pdf'))
+				unlink(_PS_MODULE_DIR_.'dpdpoland/'.$manifest.'.pdf');
 	}
 
 	public function getListHTML()

@@ -201,7 +201,18 @@ class DpdPolandPackageListController extends DpdPolandController
 				$error = $module_instance->displayError($error_message);
 				return $module_instance->outputHTML($error);
 			}
+
+			self::deletePDFFiles();
 		}
+	}
+
+	private static function deletePDFFiles()
+	{
+		$labels = array('labels_multisession', 'international_labels', 'domestic_labels');
+
+		foreach ($labels as $label)
+			if (file_exists(_PS_MODULE_DIR_.'dpdpoland/'.$label.'.pdf') && is_writable(_PS_MODULE_DIR_.'dpdpoland/'.$label.'.pdf'))
+				unlink(_PS_MODULE_DIR_.'dpdpoland/'.$label.'.pdf');
 	}
 
 	public function getList()
