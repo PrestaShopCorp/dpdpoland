@@ -34,8 +34,8 @@
     <table id="manifests_list" name="list_table" class="table_grid">
         <tbody>
             <tr>
-                <td style="vertical-align: bottom;">
-                    <span style="float: left;">
+                <td class="bottom">
+                    <span class="float-left">
                         {if $page > 1}
                             <input type="image" src="../img/admin/list-prev2.gif" onclick="getE('submitFilterManifests').value=1"/>&nbsp;
                             <input type="image" src="../img/admin/list-prev.gif" onclick="getE('submitFilterManifests').value={$page|escape:'htmlall':'UTF-8' - 1}"/>
@@ -53,7 +53,7 @@
                         </select>
                         / {$list_total|escape:'htmlall':'UTF-8'} {l s='result(s)' mod='dpdpoland'}
                     </span>
-                    <span style="float: right;">
+                    <span class="float-right">
                         <input type="submit" class="button" value="{l s='Filter' mod='dpdpoland'}" name="submitFilterButtonManifests" id="submitFilterButtonManifests">
                         <input type="submit" class="button" value="{l s='Reset' mod='dpdpoland'}" name="submitResetManifests">
                     </span>
@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <td>
-                    <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table Manifests">
+                    <table cellspacing="0" cellpadding="0" class="table Manifests">
                         <colgroup>
                             <col>
                             <col>
@@ -71,7 +71,7 @@
 							<col width="30px">
                         </colgroup>
                         <thead>
-                            <tr style="height: 40px" class="nodrag nodrop">
+                            <tr class="nodrag nodrop titles-row">
                                 <th class="center">
                                     <span class="title_box">
                                         {l s='Manifest Number' mod='dpdpoland'}
@@ -159,20 +159,20 @@
                                     <br>
                                 </th>
                             </tr>
-                            <tr style="height: 35px;" class="nodrag nodrop filter row_hover">
+                            <tr class="nodrag nodrop filter row_hover filter-row">
 								<td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_id_manifest_ws') && Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{/if}" name="ManifestsFilter_id_manifest_ws" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_id_manifest_ws') && Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{/if}" name="ManifestsFilter_id_manifest_ws" class="filter">
                                 </td>
                                 <td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_count_parcels') && Context::getContext()->cookie->ManifestsFilter_count_parcels}{Context::getContext()->cookie->ManifestsFilter_count_parcels}{/if}" name="ManifestsFilter_count_parcels" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_count_parcels') && Context::getContext()->cookie->ManifestsFilter_count_parcels}{Context::getContext()->cookie->ManifestsFilter_count_parcels}{/if}" name="ManifestsFilter_count_parcels" class="filter">
                                 </td>
                                 <td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_count_orders') && Context::getContext()->cookie->ManifestsFilter_count_orders}{Context::getContext()->cookie->ManifestsFilter_count_orders}{/if}" name="ManifestsFilter_count_orders" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_count_orders') && Context::getContext()->cookie->ManifestsFilter_count_orders}{Context::getContext()->cookie->ManifestsFilter_count_orders}{/if}" name="ManifestsFilter_count_orders" class="filter">
                                 </td>
                                 <td class="right">
-                                    {l s='From' mod='dpdpoland'} <input type="text" style="width:70px" value="" name="ManifestsFilter_date_add[0]" id="ManifestsFilter_date_add_0" class="filter datepicker">
+                                    {l s='From' mod='dpdpoland'} <input type="text" value="" name="ManifestsFilter_date_add[0]" id="ManifestsFilter_date_add_0" class="filter datepicker">
                                     <br>
-                                    {l s='To' mod='dpdpoland'} <input type="text" style="width:70px" value="" name="ManifestsFilter_date_add[1]" id="ManifestsFilter_date_add_1" class="filter datepicker">
+                                    {l s='To' mod='dpdpoland'} <input type="text" value="" name="ManifestsFilter_date_add[1]" id="ManifestsFilter_date_add_1" class="filter datepicker">
                                 </td>
 								<td class="center">
                                     --
@@ -211,7 +211,7 @@
                                                 --
                                             {/if}
                                         </td>
-										<td style="white-space: nowrap;" class="center">
+										<td class="center manifest-list-buttons">
                                             <a title="{l s='Print manifest' mod='dpdpoland'}" href="{$full_url|escape:'htmlall':'UTF-8'}&printManifest&id_manifest_ws={$table_data[ii].id_manifest_ws|escape:'htmlall':'UTF-8'}">
                                                 <img alt="{l s='Print manifest' mod='dpdpoland'}" src="../img/admin/pdf.gif">
                                             </a>

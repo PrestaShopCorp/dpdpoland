@@ -187,7 +187,9 @@ function showHideCODModulesList() {
 }
 
 function addClientNumber() {
-    $('#ajax_running').slideDown();
+	if (typeof(dpdpoland_16) == 'undefined') {
+		$('#ajax_running').slideDown();
+	}
     
     $('#error_message').slideUp();
     $('#success_message').slideUp();
@@ -217,11 +219,15 @@ function addClientNumber() {
                 $('#success_message').html(resp.message).slideDown('fast');
             
             displayPayerNumbersTable();
-            $('#ajax_running').slideUp();
+			if (typeof(dpdpoland_16) == 'undefined') {
+				$('#ajax_running').slideUp();
+			}
         },
         error: function()
         {
-            $('#ajax_running').slideUp();
+			if (typeof(dpdpoland_16) == 'undefined') {
+				$('#ajax_running').slideUp();
+			}
         }
     });
 }

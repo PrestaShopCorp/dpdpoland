@@ -27,52 +27,7 @@ class DpdPolandCountryListController extends DpdPolandController
 	const DEFAULT_ORDER_WAY = 'asc';
 	const FILENAME = 'countryList.controller';
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->init();
-	}
-
-	private function init()
-	{
-		if (Tools::getValue('disable_country') && $id_country = Tools::getValue('id_country'))
-			if ($this->changeEnabled((int)$id_country, true))
-				$this->displaySuccessStatusChangingMessage();
-			else
-				$this->module_instance->displayError($this->l('Could not change country status'));
-
-		if (Tools::getValue('enable_country') && $id_country = Tools::getValue('id_country'))
-			if ($this->changeEnabled((int)$id_country))
-				$this->displaySuccessStatusChangingMessage();
-			else
-				$this->module_instance->displayError($this->l('Could not change country status'));
-
-		if (Tools::isSubmit('disableCountries'))
-		{
-			if ($countries = Tools::getValue('CountriesBox'))
-				$this->changeEnabledMultipleCountries($countries, true);
-			else
-			{
-				$this->module_instance->outputHTML(
-					$this->module_instance->displayError($this->l('No selected countries'))
-				);
-			}
-		}
-
-		if (Tools::isSubmit('enableCountries'))
-		{
-			if ($countries = Tools::getValue('CountriesBox'))
-				$this->changeEnabledMultipleCountries($countries);
-			else
-			{
-				$this->module_instance->outputHTML(
-					$this->module_instance->displayError($this->l('No selected countries'))
-				);
-			}
-		}
-	}
-
-	private function displaySuccessStatusChangingMessage()
+	public function displaySuccessStatusChangingMessage()
 	{
 		$page = (int)Tools::getValue('submitFilterCountries');
 
@@ -94,7 +49,7 @@ class DpdPolandCountryListController extends DpdPolandController
 		die(Tools::redirectAdmin($redirect_url));
 	}
 
-	private function changeEnabledMultipleCountries($countries = array(), $disable = false)
+	public function changeEnabledMultipleCountries($countries = array(), $disable = false)
 	{
 		foreach ($countries as $id_country)
 			if (!$this->changeEnabled((int)$id_country, $disable))
@@ -133,7 +88,7 @@ class DpdPolandCountryListController extends DpdPolandController
 		}
 	}
 
-	private function changeEnabled($id_country, $disable = false)
+	public function changeEnabled($id_country, $disable = false)
 	{
 		$country_obj = new DpdPolandCountry(DpdPolandCountry::getIdByCountry((int)$id_country));
 		$country_obj->enabled = $disable ? 0 : 1;

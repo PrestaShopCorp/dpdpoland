@@ -16,7 +16,7 @@
  * International Registered Trademark & Property of DPD Polska Sp. z o.o.
  *}
 {if $timeFrames === false}
-	<p class="warn warning">{DpdPolandPickup::$errors|reset}</p>
+	<p class="warn warning alert alert-warning">{DpdPolandPickup::$errors|reset}</p>
 {else}
 	<select name="pickupTime">
 		{if isset($extra_timeframe)}

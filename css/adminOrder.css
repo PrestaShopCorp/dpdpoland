@@ -276,3 +276,44 @@ label.printout_format_label
 	overflow-x: auto;
 	overflow-y: hidden;
 }
+
+#dpdpoland_sender_address_container .info
+{
+	display:block;
+}
+
+#dpdpoland .hidden-element
+{
+	display: none;
+}
+
+#dpdpoland.dpdpoland-ps14 .displayed-element
+{
+	display: block;
+}
+
+#dpdpoland .preference_description
+{
+	display: none;
+	width: auto;
+}
+
+#dpdpoland.dpdpoland-ps14 #parcel_addition_container .infoContainer
+{
+	display:block;
+}
+
+#dpdpoland.dpdpoland-ps14 #parcel_addition_container .infoContainer.first
+{
+	width: 751px;
+}
+
+#dpdpoland #dpdpoland_current_status_accordion
+{
+	margin-top:10px;
+}
+
+#dpdpoland.dpdpoland-ps14 #dpdpoland_current_status_accordion h3
+{
+	margin-bottom:0;
+}

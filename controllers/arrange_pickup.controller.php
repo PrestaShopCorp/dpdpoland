@@ -197,9 +197,10 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 			if (isset($frame['range']))
 			{
 				list($pickup_time_from, $pickup_time_to) = explode('-', $frame['range']);
-				if (!$extra_time_from || $extra_time_from && (str_replace(':', '', $pickup_time_from) < str_replace(':', '', $extra_time_from)))
+
+				if (!$extra_time_from || (str_replace(':', '', $pickup_time_from) < str_replace(':', '', $extra_time_from)))
 					$extra_time_from = $pickup_time_from;
-				if (!$extra_time_to || $pickup_time_to && (str_replace(':', '', $pickup_time_to) > str_replace(':', '', $extra_time_to)))
+				if (!$extra_time_to || (str_replace(':', '', $pickup_time_to) > str_replace(':', '', $extra_time_to)))
 					$extra_time_to = $pickup_time_to;
 			}
 		}
@@ -211,38 +212,6 @@ class DpdPolandArrangePickUpController extends DpdPolandController
 			return false;
 
 		return $extra_time_from.'-'.$extra_time_to;
-	}
-
-	public static function init($module_instance)
-	{
-		if (Tools::isSubmit('requestPickup'))
-		{
-			$controller = new DpdPolandArrangePickUpController;
-
-			$data = $controller->getData();
-
-			if ($controller->validate())
-			{
-				$pickup = new DpdPolandPickup;
-
-				foreach ($data as $element => $value)
-					$pickup->$element = $value;
-
-				if (!$pickup->arrange())
-					$module_instance->outputHTML($module_instance->displayError(reset(DpdPolandPickup::$errors)));
-				else
-				{
-					$error_message = sprintf($module_instance->l('Pickup was successfully arranged. Number of order is: %d', self::FILENAME),
-						$pickup->id_pickup);
-					DpdPoland::addFlashMessage($error_message);
-
-					$redirect_uri = $module_instance->module_url.'&menu=arrange_pickup';
-					die(Tools::redirectAdmin($redirect_uri));
-				}
-			}
-			else
-				$module_instance->outputHTML($module_instance->displayError(reset(self::$errors)));
-		}
 	}
 
 	public function getData()

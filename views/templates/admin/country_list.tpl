@@ -34,8 +34,8 @@
 	<table id="country_list" name="list_table" class="table_grid">
 		<tbody>
 			<tr>
-				<td style="vertical-align: bottom;">
-					<span style="float: left;">
+				<td class="bottom">
+					<span class="float-left">
 						{if $page > 1}
 							<input type="image" src="../img/admin/list-prev2.gif" onclick="getE('submitFilterCountries').value=1"/>&nbsp;
 							<input type="image" src="../img/admin/list-prev.gif" onclick="getE('submitFilterCountries').value={$page|escape:'htmlall':'UTF-8' - 1}"/>
@@ -53,7 +53,7 @@
 						</select>
 						/ {$list_total|escape:'htmlall':'UTF-8'} {l s='result(s)' mod='dpdpoland'}
 					</span>
-					<span style="float: right;">
+					<span class="float-right">
 						<input type="submit" class="button" value="{l s='Filter' mod='dpdpoland'}" name="submitFilterButtonCountries" id="submitFilterButtonCountries">
 						<input type="submit" class="button" value="{l s='Reset' mod='dpdpoland'}" name="submitResetCountries">
 					</span>
@@ -62,7 +62,7 @@
 			</tr>
 			<tr>
 				<td>
-					<table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table Countries">
+					<table cellspacing="0" cellpadding="0" class="table Countries">
 						<colgroup>
 							<col width="10px">
 							<col width="80px">
@@ -71,7 +71,7 @@
 							<col width="70px">
 						</colgroup>
 						<thead>
-							<tr style="height: 40px" class="nodrag nodrop">
+							<tr class="nodrag nodrop titles-row">
 								<th class="center">
 									<input type="checkbox" onclick="checkDelBoxes(this.form, 'CountriesBox[]', this.checked)" class="noborder" name="checkme">
 								</th>
@@ -142,18 +142,18 @@
 									<br>
 								</th>
 							</tr>
-							<tr style="height: 35px;" class="nodrag nodrop filter row_hover">
+							<tr class="nodrag nodrop filter row_hover filter-row">
 								<td class="center">
 									--
 								</td>
 								<td class="center">
-									<input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('CountriesFilter_id_country') && Context::getContext()->cookie->CountriesFilter_id_country}{Context::getContext()->cookie->CountriesFilter_id_country}{/if}" name="CountriesFilter_id_country" class="filter">
+									<input type="text" value="{if Context::getContext()->cookie->__isset('CountriesFilter_id_country') && Context::getContext()->cookie->CountriesFilter_id_country}{Context::getContext()->cookie->CountriesFilter_id_country}{/if}" name="CountriesFilter_id_country" class="filter">
 								</td>
 								<td class="center">
-									<input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('CountriesFilter_name') && Context::getContext()->cookie->CountriesFilter_name}{Context::getContext()->cookie->CountriesFilter_name}{/if}" name="CountriesFilter_name" class="filter">
+									<input type="text" value="{if Context::getContext()->cookie->__isset('CountriesFilter_name') && Context::getContext()->cookie->CountriesFilter_name}{Context::getContext()->cookie->CountriesFilter_name}{/if}" name="CountriesFilter_name" class="filter">
 								</td>
 								<td class="right">
-									<input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('CountriesFilter_iso_code') && Context::getContext()->cookie->CountriesFilter_iso_code}{Context::getContext()->cookie->CountriesFilter_iso_code}{/if}" name="CountriesFilter_iso_code" class="filter">
+									<input type="text" value="{if Context::getContext()->cookie->__isset('CountriesFilter_iso_code') && Context::getContext()->cookie->CountriesFilter_iso_code}{Context::getContext()->cookie->CountriesFilter_iso_code}{/if}" name="CountriesFilter_iso_code" class="filter">
 								</td>
 								<td class="center">
 									<select name="CountriesFilter_enabled" onchange="$('input#submitFilterButtonCountries').click();">

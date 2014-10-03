@@ -44,34 +44,6 @@ li.help-context-AdminModules, li.help-context-adminmodules
     display: none !important;
 }
 
-#ajax_running {
-    background-color: #FFF1A8;
-    border: 1px solid #FFD96F;
-    border-radius: 0 0 3px 3px;
-    color: #000000;
-    display: none;
-    font-size: 14px;
-    font-weight: bold;
-    left: 40%;
-    padding: 5px 20px;
-    position: fixed;
-    top: 0;
-    width: 300px;
-    z-index: 10000;
-}
-
-fieldset .optionsDescription, fieldset p.description, .info {
-    background: url("../img/icon-info.png") no-repeat scroll 6px 6px #BDE5F8;
-    border: 1px solid #00529B;
-    border-radius: 3px 3px 3px 3px;
-    color: #00529B;
-    font-family: Arial,Verdana,Helvetica,sans-serif;
-    font-size: 12px;
-    margin-bottom: 15px;
-    min-height: 32px;
-    padding: 10px 5px 5px 40px;
-}
-
 #custom_web_service_container
 {
 	display: none;
@@ -124,14 +96,6 @@ form table#manifests_list
 	width: 100%;
 }
 
-.separation {
-    background-color: #CCCCCC;
-    border-bottom: 1px solid #FFFFFF;
-    height: 1px;
-    margin: 10px 0;
-    width: 100%;
-}
-
 #help_container a
 {
 	text-decoration: underline;
@@ -153,4 +117,113 @@ form table#manifests_list
 #ws_url p.help-block
 {
 	word-break: break-all;
+}
+
+.relative
+{
+	position: relative;
+}
+
+.hidden-element
+{
+	display: none;
+}
+
+.visible-element
+{
+	display: block;
+}
+
+.float-left
+{
+	float: left;
+}
+
+.add-client-number-button-container
+{
+	float: left;
+	margin-left: 20px;
+}
+
+#configuration_form #zones_table
+{
+	max-width:100%;
+}
+
+.bottom
+{
+	vertical-align: bottom;
+}
+
+.float-right
+{
+	float: right;
+}
+
+table.table.Countries,
+table.table.document,
+table.table.Manifests,
+table.table.Packages,
+table.table.ParcelHistories
+{
+	width: 100%;
+	margin-bottom:10px;
+}
+
+table.table.document.numbers-table
+{
+	width: 90%;
+	margin-bottom:10px;
+}
+
+table tr.titles-row
+{
+	height: 40px;
+}
+
+table tr.filter-row
+{
+	height: 35px;
+}
+
+table tr.filter-row input
+{
+	width: 95%;
+}
+
+table tr.filter-row .right input
+{
+	width: 70px;
+}
+
+td.no-border
+{
+	border: none;
+}
+
+.manifest-list-buttons,
+.packages-list-buttons,
+.parcel-history-list-buttons
+{
+	white-space: nowrap;
+}
+
+#current_obj
+{
+	font-weight: normal;
+}
+
+#current_obj img
+{
+	margin-right:5px;
+}
+
+#navbar-collapse ul li a span
+{
+	margin-right: 5px;
+}
+
+.payer-number-delete-button
+{
+	cursor: pointer;
 }

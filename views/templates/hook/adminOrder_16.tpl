@@ -64,7 +64,7 @@
 				</div>
 			{/if}
 
-			<div id="dpdpoland_shipment_creation"{if isset($smarty.get.scrollToShipment)} style="display:block"{/if}>
+			<div id="dpdpoland_shipment_creation"{if isset($smarty.get.scrollToShipment)} class="displayed-element"{/if}>
 				<div id="dpdpoland_msg_container">{if isset($errors) && $errors}{include file=$smarty.const._PS_MODULE_DIR_|cat:'dpdpoland/views/templates/admin/errors.tpl'}{/if}</div>
 				{if isset($compatibility_warning_message) && $compatibility_warning_message}
 					<div class="alert alert-warning">
@@ -154,7 +154,7 @@
 				<hr />
 
 				<div class="row form-horizontal">
-					<div class="form-group col-lg-6" id="dpdpoland_cod_amount_container"{if ($package->sessionType && $package->sessionType != 'domestic_with_cod') || (!$package->sessionType && $selected_id_method != $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} style="display:none"{/if}>
+					<div class="form-group col-lg-6{if ($package->sessionType && $package->sessionType != 'domestic_with_cod') || (!$package->sessionType && $selected_id_method != $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} hidden-element{/if}" id="dpdpoland_cod_amount_container">
 						<label for="dpdpoland_COD_amount" class="control-label col-lg-3">
 							<span title="" data-toggle="tooltip" class="label-tooltip" data-original-title="{l s='Enter the amount of COD' mod='dpdpoland'}">
 								{l s='COD:' mod='dpdpoland'}
@@ -346,23 +346,23 @@
 								<td>
 									<input type="hidden" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}" />
 									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" size="46" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
-									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+									<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 								</td>
 								<td>
 									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][weight]" size="10" autocomplete="off" value="{$parcel.weight|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
-									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+									<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 								</td>
 								<td>
 									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][height]" size="10" autocomplete="off" value="{$parcel.height|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
-									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+									<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 								</td>
 								<td>
 									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][length]" size="10" autocomplete="off" value="{$parcel.length|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
-									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+									<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 								</td>
 								<td>
 									<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][width]" size="10" autocomplete="off" value="{$parcel.width|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
-									<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
+									<p class="preference_description clear">{l s='Modified field' mod='dpdpoland'}</p>
 								</td>
 								<td class="parcel_dimension_weight">{sprintf('%.3f', $parcel.length|escape:'htmlall':'UTF-8'*$parcel.width|escape:'htmlall':'UTF-8'*$parcel.height|escape:'htmlall':'UTF-8'/$smarty.const._DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_|escape:'htmlall':'UTF-8')}</td>
 								<td></td>
@@ -415,14 +415,14 @@
 							</div>
 						</div>
 						<div class="col-lg-2">
-							<button class="btn btn-default pull-right" id="save_and_print_labels" type="button"{if $package->id_package_ws} style="display:none"{/if}><i class="process-icon-save"></i> {l s='Save and print labels' mod='dpdpoland'}</button>
-							<button class="btn btn-default pull-right" id="print_labels" type="button"{if !$package->id_package_ws} style="display:none"{/if}><i class="process-icon-save"></i> {l s='Print labels' mod='dpdpoland'}</button>
+							<button class="btn btn-default pull-right{if $package->id_package_ws} hidden-element{/if}" id="save_and_print_labels" type="button"><i class="process-icon-save"></i> {l s='Save and print labels' mod='dpdpoland'}</button>
+							<button class="btn btn-default pull-right{if !$package->id_package_ws} hidden-element{/if}" id="print_labels" type="button"><i class="process-icon-save"></i> {l s='Print labels' mod='dpdpoland'}</button>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div style="margin-top:10px;" id="dpdpoland_current_status_accordion" class="panel-group">
+			<div id="dpdpoland_current_status_accordion" class="panel-group">
 				<div class="panel">
 					<div class="panel-heading">
 						<a class="accordion-toggle" data-toggle="collapse" data-parent="#dpdpoland_current_status_accordion" href="#dpdpoland-status">{l s='Current status' mod='dpdpoland'}</a>

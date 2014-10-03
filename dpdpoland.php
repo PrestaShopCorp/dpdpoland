@@ -231,43 +231,45 @@ class DpdPoland extends CarrierModule
 
 		foreach (array_keys($shops) as $id_shop)
 		{
-			$sql = '
-				INSERT INTO `'._DB_PREFIX_._DPDPOLAND_PRICE_RULE_DB_.'`
-					(`id_shop`, `date_add`, `date_upd`, `iso_country`, `weight_from`, `weight_to`, `parcel_price`, `cod_price`, `id_carrier`)
-				VALUES
-					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "PL", "0", "0.5", "0", "", "'.
-						(int)_DPDPOLAND_STANDARD_ID_.'"),
-					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "PL", "0", "0.5", "0", "0", "'.
-						(int)_DPDPOLAND_STANDARD_COD_ID_.'"),
-					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "GB", "0", "0.5", "0", "", "'.
-						(int)_DPDPOLAND_CLASSIC_ID_.'"),
-					("'.(int)$id_shop.'", "'.pSQL($current_date).'", "'.pSQL($current_date).'", "*", "0", "0.5", "0", "", "'.
-						(int)_DPDPOLAND_CLASSIC_ID_.'")
-				';
-
-			if (!Db::getInstance()->execute($sql)) return false;
+			if (!$this->saveCSVRule((int)$id_shop, 'PL', '0', '0.5', '0', '', _DPDPOLAND_STANDARD_ID_, $current_date, $current_date)
+				|| !$this->saveCSVRule((int)$id_shop, 'PL', '0', '0.5', '0', '0', _DPDPOLAND_STANDARD_COD_ID_, $current_date, $current_date)
+				|| !$this->saveCSVRule((int)$id_shop, 'GB', '0', '0.5', '0', '', _DPDPOLAND_CLASSIC_ID_, $current_date, $current_date)
+				|| !$this->saveCSVRule((int)$id_shop, '*', '0', '0.5', '0', '', _DPDPOLAND_CLASSIC_ID_, $current_date, $current_date))
+				return false;
 		}
 
-		if (!parent::install() || !$this->registerHook('adminOrder'))
+		if (!parent::install() || !$this->registerHook('adminOrder') || !$this->registerHook('paymentTop'))
 			return false;
 
-		if (version_compare(_PS_VERSION_, '1.5', '<'))
-		{
-			if (!$this->registerHook('paymentTop'))
-				return false;
-
-			if (!$this->registerHook('updateCarrier'))
-				return false;
-		}
-		else
-			if (!$this->registerHook('paymentTop'))
-				return false;
+		/**
+		 * this hook is needed only in PS 1.4
+		 * used to track DpdPoland carriers references
+		 * higher versions than 1.4 alredy have this functionality
+		 */
+		if (version_compare(_PS_VERSION_, '1.5', '<') && !$this->registerHook('updateCarrier'))
+			return false;
 
 		require_once(_DPDPOLAND_CONTROLLERS_DIR_.'countryList.controller.php');
 		if (!DpdPolandCountryListController::disableDefaultCountries())
 			return false;
 
 		return true;
+	}
+
+	private function saveCSVRule($id_shop, $iso_country, $weight_from, $weight_to, $parcel_price, $cod_price, $id_carrier, $date_add, $date_upd)
+	{
+		$csv = new DpdPolandCSV();
+		$csv->id_shop = (int)$id_shop;
+		$csv->iso_country = $iso_country;
+		$csv->weight_from = $weight_from;
+		$csv->weight_to = $weight_to;
+		$csv->parcel_price = $parcel_price;
+		$csv->cod_price = $cod_price;
+		$csv->id_carrier = $id_carrier;
+		$csv->date_add = $date_add;
+		$csv->date_upd = $date_upd;
+
+		return $csv->add();
 	}
 
 	public function uninstall()
@@ -332,8 +334,8 @@ class DpdPoland extends CarrierModule
 		$this->setGlobalVariablesForAjax();
 		$this->html .= $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/global_variables.tpl');
 
-		$country_currency_warning_message_text = $this->l('PL country and PLN currency must be installed; CURL must be enabled');
-		$configuration_warning_message_text = $this->l('Module is not configured yet. Please check required settings');
+		$country_currency_error_message_text = $this->l('PL country and PLN currency must be installed; CURL must be enabled');
+		$configuration_error_message_text = $this->l('Module is not configured yet. Please check required settings');
 
 		switch (Tools::getValue('menu'))
 		{
@@ -341,49 +343,114 @@ class DpdPoland extends CarrierModule
 				$this->addDateTimePickerPlugins();
 				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'arrange_pickup.controller.php');
 
-				DpdPolandArrangePickUpController::init($this);
+				$controller = new DpdPolandArrangePickUpController;
+
+				if (Tools::isSubmit('requestPickup'))
+				{
+					$data = $controller->getData();
+
+					if ($controller->validate())
+					{
+						$pickup = new DpdPolandPickup;
+
+						foreach ($data as $element => $value)
+							$pickup->$element = $value;
+
+						if (!$pickup->arrange())
+							$this->html .= $this->displayError(reset(DpdPolandPickup::$errors));
+						else
+						{
+							$error_message = sprintf($this->l('Pickup was successfully arranged. Number of order is: %d'), $pickup->id_pickup);
+							self::addFlashMessage($error_message);
+
+							$redirect_uri = $this->module_url.'&menu=arrange_pickup';
+							die(Tools::redirectAdmin($redirect_uri));
+						}
+					}
+					else
+						$this->html .= $this->displayError(reset(DpdPolandArrangePickUpController::$errors));
+				}
+
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Arrange PickUp')));
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
-				$puckup_controller = new DpdPolandArrangePickUpController();
-				$this->html .= $puckup_controller->getPage();
+				$this->html .= $controller->getPage();
 				break;
 			case 'configuration':
 				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'configuration.controller.php');
-				DpdPolandConfigurationController::init();
+
+				$controller = new DpdPolandConfigurationController;
+
+				if (Tools::isSubmit(DpdPolandConfigurationController::SETTINGS_SAVE_ACTION))
+				{
+					$controller->validateSettings();
+					$controller->createDeleteCarriers();
+
+					if (!DpdPolandConfigurationController::$errors)
+						$controller->saveSettings();
+					else
+						$this->html .= $this->displayErrors(DpdPolandConfigurationController::$errors);
+				}
 
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Settings')));
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					$this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					$this->html .= $this->displayErrors(array($configuration_error_message_text));
+
 				if (!version_compare(_PS_VERSION_, '1.5', '<'))
 					$this->displayShopRestrictionWarning();
 
-				$configuration_controller = new DpdPolandConfigurationController();
-				$this->html .= $configuration_controller->getSettingsPage();
+				$this->html .= $controller->getSettingsPage();
 				break;
 			case 'csv':
 				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'csv.controller.php');
-				DpdPolandCSVController::init();
+
+				$controller = new DpdPolandCSVController;
+
+				if (Tools::isSubmit(DpdPolandCSVController::SETTINGS_SAVE_CSV_ACTION))
+				{
+					$csv_data = $controller->readCSVData();
+					if ($csv_data === false)
+					{
+						self::addFlashError($this->l('Wrong CSV file'));
+						Tools::redirectAdmin($this->module_url.'&menu=csv');
+					}
+
+					$message = $controller->validateCSVData($csv_data);
+					if ($message !== true)
+						$this->html .= $this->displayErrors($message);
+					else
+					{
+						if ($controller->saveCSVData($csv_data))
+							self::addFlashMessage($this->l('CSV data was successfully saved'));
+						else
+							self::addFlashError($this->l('CSV data could not be saved'));
+
+						Tools::redirectAdmin($this->module_url.'&menu=csv');
+					}
+				}
+
+				if (Tools::isSubmit(DpdPolandCSVController::SETTINGS_DELETE_CSV_ACTION))
+					$controller->deleteCSV();
 
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('CSV prices import')));
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -391,8 +458,8 @@ class DpdPoland extends CarrierModule
 						$this->l('CSV management is disabled when all shops or group of shops are selected')));
 					break;
 				}
-				$csv_controller = new DpdPolandCSVController();
-				$this->html .= $csv_controller->getCSVPage();
+
+				$this->html .= $controller->getCSVPage();
 				break;
 			case 'help':
 				$this->context->smarty->assign('breadcrumb', array($this->displayName, $this->l('Help')));
@@ -404,10 +471,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -419,6 +486,13 @@ class DpdPoland extends CarrierModule
 				$this->addDateTimePickerPlugins();
 				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifestList.controller.php');
 				$manifest_list_controller = new DpdPolandManifestListController();
+
+				if (Tools::isSubmit('printManifest'))
+				{
+					$id_manifest_ws = (int)Tools::getValue('id_manifest_ws');
+					$manifest_list_controller->printManifest((int)$id_manifest_ws);
+				}
+
 				$this->html .= $manifest_list_controller->getListHTML();
 				break;
 			case 'parcel_history_list':
@@ -426,10 +500,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -448,10 +522,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -462,6 +536,35 @@ class DpdPoland extends CarrierModule
 
 				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'countryList.controller.php');
 				$country_list_controller = new DpdPolandCountryListController();
+
+				if (Tools::getValue('disable_country') && $id_country = Tools::getValue('id_country'))
+					if ($country_list_controller->changeEnabled((int)$id_country, true))
+						$country_list_controller->displaySuccessStatusChangingMessage();
+					else
+						$this->displayError($this->l('Could not change country status'));
+
+				if (Tools::getValue('enable_country') && $id_country = Tools::getValue('id_country'))
+					if ($country_list_controller->changeEnabled((int)$id_country))
+						$country_list_controller->displaySuccessStatusChangingMessage();
+					else
+						$this->displayError($this->l('Could not change country status'));
+
+				if (Tools::isSubmit('disableCountries'))
+				{
+					if ($countries = Tools::getValue('CountriesBox'))
+						$country_list_controller->changeEnabledMultipleCountries($countries, true);
+					else
+						$this->html .= $this->displayError($this->l('No selected countries'));
+				}
+
+				if (Tools::isSubmit('enableCountries'))
+				{
+					if ($countries = Tools::getValue('CountriesBox'))
+						$country_list_controller->changeEnabledMultipleCountries($countries);
+					else
+						$this->html .= $this->displayError($this->l('No selected countries'));
+				}
+
 				$this->html .= $country_list_controller->getListHTML();
 				break;
 			case 'packages_list':
@@ -470,10 +573,10 @@ class DpdPoland extends CarrierModule
 				$this->displayNavigation();
 
 				if (!$this->checkModuleAvailability())
-					return $this->html .= $this->displayWarnings(array($country_currency_warning_message_text));
+					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
 				if (!DpdPolandConfiguration::checkRequiredConfiguration())
-					return $this->html .= $this->displayWarnings(array($configuration_warning_message_text));
+					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
 				{
@@ -485,7 +588,15 @@ class DpdPoland extends CarrierModule
 				$this->addDateTimePickerPlugins();
 				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'packageList.controller.php');
 
-				DpdPolandPackageListController::init($this);
+				if (Tools::isSubmit('printManifest'))
+					DpdPolandPackageListController::printManifest($this);
+
+				if (Tools::isSubmit('printLabelsA4Format'))
+					DpdPolandPackageListController::printLabels(DpdPolandConfiguration::PRINTOUT_FORMAT_A4);
+
+				if (Tools::isSubmit('printLabelsLabelFormat'))
+					DpdPolandPackageListController::printLabels(DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL);
+
 				$package_list_controller = new DpdPolandPackageListController();
 				$this->html .= $package_list_controller->getList();
 				break;

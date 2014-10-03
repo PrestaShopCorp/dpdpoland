@@ -15,7 +15,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * International Registered Trademark & Property of DPD Polska Sp. z o.o.
  *}
-<table cellspacing="0" cellpadding="0" style="width: 90%; margin-bottom:10px;" class="table document">
+<table cellspacing="0" cellpadding="0" class="table document numbers-table">
     <colgroup>
         <col>
         <col>
@@ -23,7 +23,7 @@
         <col>
     </colgroup>
     <thead>
-        <tr style="height: 40px" class="nodrag nodrop">
+        <tr class="nodrag nodrop titles-row">
             <th class="center">
                 <span class="title_box">{l s='Client number' mod='dpdpoland'}</span>
             </th>
@@ -52,7 +52,7 @@
                         <input type="radio" name="{DpdPolandConfiguration::CLIENT_NUMBER|escape:'htmlall':'UTF-8'}" value="{$payer_numbers[ii].payer_number|escape:'htmlall':'UTF-8'}" {if DpdPoland::getInputValue(DpdPolandConfiguration::CLIENT_NUMBER, $settings->client_number) == $payer_numbers[ii].payer_number|escape:'htmlall':'UTF-8'}checked="checked"{/if} />
                     </td>
                     <td class="center">
-                        <img title="{l s='Delete' mod='dpdpoland'}" style="cursor: pointer;" onclick="if (confirm('{l s='Delete selected client numbers?' mod='dpdpoland'}{$payer_numbers[ii].payer_number|escape:'htmlall':'UTF-8'}')){ deleteClientNumber('{$payer_numbers[ii].id_dpdpoland_payer_number|escape:'htmlall':'UTF-8'}'); }else{ return false; }" alt="{l s='Delete' mod='dpdpoland'}" src="../img/admin/delete.gif">
+                        <img class="payer-number-delete-button" title="{l s='Delete' mod='dpdpoland'}" onclick="if (confirm('{l s='Delete selected client numbers?' mod='dpdpoland'}{$payer_numbers[ii].payer_number|escape:'htmlall':'UTF-8'}')){ deleteClientNumber('{$payer_numbers[ii].id_dpdpoland_payer_number|escape:'htmlall':'UTF-8'}'); }else{ return false; }" alt="{l s='Delete' mod='dpdpoland'}" src="../img/admin/delete.gif">
                     </td>
                 </tr>
             {/section}

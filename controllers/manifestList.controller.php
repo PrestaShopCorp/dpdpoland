@@ -27,21 +27,6 @@ class DpdPolandManifestListController extends DpdPolandController
 	const DEFAULT_ORDER_WAY = 'desc';
 	const FILENAME = 'manifestList.controller';
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->init();
-	}
-
-	private function init()
-	{
-		if (Tools::isSubmit('printManifest'))
-		{
-			$id_manifest_ws = (int)Tools::getValue('id_manifest_ws');
-			$this->printManifest((int)$id_manifest_ws);
-		}
-	}
-
 	public function printManifest($id_manifest_ws)
 	{
 		if (is_array($id_manifest_ws))

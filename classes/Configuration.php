@@ -246,7 +246,7 @@ class DpdPolandConfiguration
 		if ($configuration->carrier_classic)
 		{
 			$id_carrier_classic = (int)Configuration::get(DpdPolandConfiguration::CARRIER_CLASSIC_ID);
-			$classic_carrier_obj = DpdPolandService::getCarrierById((int)$id_carrier_classic);
+			$classic_carrier_obj = DpdPolandService::getCarrierByReference((int)$id_carrier_classic);
 
 			if (Validate::isLoadedObject($classic_carrier_obj))
 				$id_carrier_classic = $classic_carrier_obj->id;
@@ -258,7 +258,7 @@ class DpdPolandConfiguration
 		if ($configuration->carrier_standard)
 		{
 			$id_carrier_standard = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_ID);
-			$carrier_standard_obj = DpdPolandService::getCarrierById((int)$id_carrier_standard);
+			$carrier_standard_obj = DpdPolandService::getCarrierByReference((int)$id_carrier_standard);
 
 			if (Validate::isLoadedObject($carrier_standard_obj))
 				$id_carrier_standard = $carrier_standard_obj->id;
@@ -270,7 +270,7 @@ class DpdPolandConfiguration
 		if ($configuration->carrier_standard_cod)
 		{
 			$id_carrier_standard_cod = (int)Configuration::get(DpdPolandConfiguration::CARRIER_STANDARD_COD_ID);
-			$carrier_standard_cod_obj = DpdPolandService::getCarrierById((int)$id_carrier_standard_cod);
+			$carrier_standard_cod_obj = DpdPolandService::getCarrierByReference((int)$id_carrier_standard_cod);
 
 			if (Validate::isLoadedObject($carrier_standard_cod_obj))
 				$id_carrier_standard_cod = $carrier_standard_cod_obj->id;

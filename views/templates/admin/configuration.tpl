@@ -43,10 +43,10 @@
         
         <div class="separation"></div>
         
-        <div id="error_message" class="error" style="display: none;"></div>
-        <div id="success_message" class="conf" style="display: none;"></div>
+        <div id="error_message" class="error hidden-element"></div>
+        <div id="success_message" class="conf hidden-element"></div>
         
-        <div style="float: left;">
+        <div class="float-left">
             <label>
                 {l s='DPD client number:' mod='dpdpoland'}
             </label>
@@ -56,7 +56,7 @@
             </div>
         </div>
         
-        <div style="float: left;">
+        <div class="float-left">
             <label>
                 {l s='Client name:' mod='dpdpoland'}
             </label>
@@ -66,7 +66,7 @@
             </div>
         </div>
         
-        <div style="float: left; margin-left: 20px;">
+        <div class="add-client-number-button-container">
             <input id="addClientNumber" type="button" class="button" value="{l s='Add' mod='dpdpoland'}" />
         </div>
         <div class="clear"></div>
@@ -225,7 +225,7 @@
         </div>
         <div class="clear"></div>
         
-        <p class="clear list info">
+        <p class="clear hint list info visible-element relative">
             {l s='RULE: DPD Polska Sp. z o.o. allows payment on the delivery ONLY by cash. In your payment modules you have available this types of payment, please mark those payment methods that support this rule.' mod='dpdpoland'}
         </p>
         
@@ -240,7 +240,7 @@
         </div>
         <div class="clear"></div>
         
-        <p class="clear list info">
+        <p class="clear list info hint visible-element relative">
             {l s='Please note that after module installation carriers are not created.' mod='dpdpoland'}
         </p>
         
@@ -306,7 +306,7 @@
         </div>
         <div class="clear"></div>
 
-        <p class="clear list info">
+        <p class="clear list info hint visible-element relative">
             {l s='Please define price ranges for each carrier in carrier configuration page or import CSV file with price ranges.' mod='dpdpoland'}
         </p>
 

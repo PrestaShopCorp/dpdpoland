@@ -28,7 +28,7 @@ class DpdPolandCarrierClassicService extends DpdPolandService
 	public static function install()
 	{
 		$id_carrier = (int)Configuration::get(DpdPolandConfiguration::CARRIER_CLASSIC_ID);
-		$carrier = self::getCarrierById((int)$id_carrier);
+		$carrier = self::getCarrierByReference((int)$id_carrier);
 
 		if ($id_carrier && Validate::isLoadedObject($carrier))
 			if (!$carrier->deleted)

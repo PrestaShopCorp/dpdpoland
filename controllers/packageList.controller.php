@@ -27,167 +27,142 @@ class DpdPolandPackageListController extends DpdPolandController
 	const DEFAULT_ORDER_WAY = 'desc';
 	const FILENAME = 'packageList.controller';
 
-	public static function init($module_instance)
+	public static function printManifest($module_instance)
 	{
-		if (Tools::isSubmit('printManifest'))
+		$cookie = Context::getContext()->cookie;
+
+		if (isset($cookie->dpdpoland_packages_ids))
 		{
-			$cookie = Context::getContext()->cookie;
-			$isset_package_ids = isset($cookie->dpdpoland_packages_ids);
-			if ($isset_package_ids)
-			{
-				if (version_compare(_PS_VERSION_, '1.5', '<'))
-					$package_ids = unserialize(Context::getContext()->cookie->dpdpoland_packages_ids);
-				else
-					$package_ids = Tools::unSerialize(Context::getContext()->cookie->dpdpoland_packages_ids);
+			if (version_compare(_PS_VERSION_, '1.5', '<'))
+				$package_ids = unserialize(Context::getContext()->cookie->dpdpoland_packages_ids);
+			else
+				$package_ids = Tools::unSerialize(Context::getContext()->cookie->dpdpoland_packages_ids);
 
-				unset($cookie->dpdpoland_packages_ids);
-				$cookie->write();
+			unset($cookie->dpdpoland_packages_ids);
+			$cookie->write();
 
-				$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
-				$international_packages = $separated_packages['INTERNATIONAL'];
-				$domestic_packages = $separated_packages['DOMESTIC'];
-				$manifest_ids = array();
+			$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
+			$international_packages = $separated_packages['INTERNATIONAL'];
+			$domestic_packages = $separated_packages['DOMESTIC'];
+			$manifest_ids = array();
 
-				if ($international_packages)
-					$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($international_packages[0]);
+			if ($international_packages)
+				$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($international_packages[0]);
 
-				if ($domestic_packages)
-					$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($domestic_packages[0]);
+			if ($domestic_packages)
+				$manifest_ids[] = DpdPolandManifest::getManifestIdByPackageId($domestic_packages[0]);
 
-				require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifestList.controller.php');
+			require_once(_DPDPOLAND_CONTROLLERS_DIR_.'manifestList.controller.php');
 
-				$manifest_controller = new DpdPolandManifestListController();
+			$manifest_controller = new DpdPolandManifestListController();
 
-				return $manifest_controller->printManifest($manifest_ids);
-			}
-
-			if ($package_ids = Tools::getValue('PackagesBox'))
-			{
-				if (!DpdPolandManifest::validateSenderAddresses($package_ids))
-				{
-					$error_message = $module_instance->l('Manifests can not have different sender addresses', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
-
-					return $module_instance->outputHTML($error);
-				}
-
-				$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
-				$international_packages = $separated_packages['INTERNATIONAL'];
-				$domestic_packages = $separated_packages['DOMESTIC'];
-
-				if ($international_packages)
-				{
-					$manifest = new DpdPolandManifest;
-
-					if (!$manifest->generateMultiple($international_packages))
-					{
-						$error = $module_instance->displayError(reset(DpdPolandManifestWS::$errors));
-
-						return $module_instance->outputHTML($error);
-					}
-				}
-
-				if ($domestic_packages)
-				{
-					$manifest = new DpdPolandManifest;
-
-					if (!$manifest->generateMultiple($domestic_packages))
-					{
-						$error = $module_instance->displayError(reset(DpdPolandManifestWS::$errors));
-
-						return $module_instance->outputHTML($error);
-					}
-				}
-
-				$cookie->dpdpoland_packages_ids = serialize($package_ids);
-				$redirect_uri = $module_instance->module_url.'&menu=packages_list';
-
-				die(Tools::redirectAdmin($redirect_uri));
-			}
+			return $manifest_controller->printManifest($manifest_ids);
 		}
-
-		if (Tools::isSubmit('printLabelsA4Format'))
-			self::printLabels(DpdPolandConfiguration::PRINTOUT_FORMAT_A4);
-
-		if (Tools::isSubmit('printLabelsLabelFormat'))
-			self::printLabels(DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL);
-	}
-
-	private static function printLabels($printout_format)
-	{
-		$module_instance = Module::getinstanceByName('dpdpoland');
 
 		if ($package_ids = Tools::getValue('PackagesBox'))
 		{
+			if (!DpdPolandManifest::validateSenderAddresses($package_ids))
+			{
+				$error_message = $module_instance->l('Manifests can not have different sender addresses', self::FILENAME);
+				$error = $module_instance->displayError($error_message);
+
+				return $module_instance->outputHTML($error);
+			}
+
 			$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
 			$international_packages = $separated_packages['INTERNATIONAL'];
 			$domestic_packages = $separated_packages['DOMESTIC'];
 
 			if ($international_packages)
 			{
-				$package = new DpdPolandPackage;
+				$manifest = new DpdPolandManifest;
 
-				if (!$pdf_file_contents_international = $package->generateLabelsForMultiplePackages($international_packages, 'PDF', $printout_format))
+				if (!$manifest->generateMultiple($international_packages))
 				{
-					$error = $module_instance->displayError(reset(DpdPolandPackageWS::$errors));
+					$error = $module_instance->displayError(reset(DpdPolandManifestWS::$errors));
 
 					return $module_instance->outputHTML($error);
 				}
-
-				if (file_exists(_PS_MODULE_DIR_.'dpdpoland/international_labels.pdf') &&
-					!unlink(_PS_MODULE_DIR_.'dpdpoland/international_labels.pdf'))
-				{
-					$error_message = $module_instance->l('Could not delete old PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
-
-					return $module_instance->outputHTML($error);
-				}
-
-				$international_pdf = fopen(_PS_MODULE_DIR_.'dpdpoland/international_labels.pdf', 'w');
-
-				if (!$international_pdf)
-				{
-					$error_message = $module_instance->l('Could not create PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError();
-
-					return $module_instance->outputHTML($error);
-				}
-
-				fwrite($international_pdf, $pdf_file_contents_international);
-				fclose($international_pdf);
 			}
 
 			if ($domestic_packages)
 			{
-				$package = new DpdPolandPackage;
+				$manifest = new DpdPolandManifest;
 
-				if (!$pdf_file_contents_domestic = $package->generateLabelsForMultiplePackages($domestic_packages, 'PDF', $printout_format))
+				if (!$manifest->generateMultiple($domestic_packages))
 				{
-					$error = $module_instance->displayError(reset(DpdPolandPackageWS::$errors));
+					$error = $module_instance->displayError(reset(DpdPolandManifestWS::$errors));
 
 					return $module_instance->outputHTML($error);
 				}
+			}
 
-				if (file_exists(_PS_MODULE_DIR_.'dpdpoland/domestic_labels.pdf') && !unlink(_PS_MODULE_DIR_.'dpdpoland/domestic_labels.pdf'))
-				{
-					$error_message = $module_instance->l('Could not delete old PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
+			$cookie->dpdpoland_packages_ids = serialize($package_ids);
+			$redirect_uri = $module_instance->module_url.'&menu=packages_list';
 
-					return $module_instance->outputHTML($error);
-				}
+			die(Tools::redirectAdmin($redirect_uri));
+		}
+	}
 
-				$domestic_pdf = fopen(_PS_MODULE_DIR_.'dpdpoland/domestic_labels.pdf', 'w');
+	private static function createLabelPDFDocument($package, $module_instance, $packages, $printout_format, $filename)
+	{
+		if (!$pdf_file_contents = $package->generateLabelsForMultiplePackages($packages, 'PDF', $printout_format))
+		{
+			$error = $module_instance->displayError(reset(DpdPolandPackageWS::$errors));
 
-				if (!$domestic_pdf)
-				{
-					$error_message = $module_instance->l('Could not create PDF file. Please check module folder permissions', self::FILENAME);
-					$error = $module_instance->displayError($error_message);
+			return $error;
+		}
 
-					return $module_instance->outputHTML($error);
-				}
+		if (file_exists(_PS_MODULE_DIR_.'dpdpoland/'.$filename) && !unlink(_PS_MODULE_DIR_.'dpdpoland/'.$filename))
+		{
+			$error_message = $module_instance->l('Could not delete old PDF file. Please check module folder permissions', self::FILENAME);
+			$error = $module_instance->displayError($error_message);
 
-				fwrite($domestic_pdf, $pdf_file_contents_domestic);
-				fclose($domestic_pdf);
+			return $error;
+		}
+
+		$international_pdf = fopen(_PS_MODULE_DIR_.'dpdpoland/'.$filename, 'w');
+
+		if (!$international_pdf)
+		{
+			$error_message = $module_instance->l('Could not create PDF file. Please check module folder permissions', self::FILENAME);
+			$error = $module_instance->displayError($error_message);
+
+			return $error;
+		}
+
+		fwrite($international_pdf, $pdf_file_contents);
+		fclose($international_pdf);
+
+		return true;
+	}
+
+	public static function printLabels($printout_format)
+	{
+		$module_instance = Module::getinstanceByName('dpdpoland');
+
+		if ($package_ids = Tools::getValue('PackagesBox'))
+		{
+			$package = new DpdPolandPackage;
+
+			$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
+			$international_packages = $separated_packages['INTERNATIONAL'];
+			$domestic_packages = $separated_packages['DOMESTIC'];
+
+			if ($international_packages)
+			{
+				$result = self::createLabelPDFDocument($package, $module_instance, $international_packages, $printout_format, 'international_labels.pdf');
+
+				if ($result !== true)
+					return $module_instance->outputHTML($result);
+			}
+
+			if ($domestic_packages)
+			{
+				$result = self::createLabelPDFDocument($package, $module_instance, $domestic_packages, $printout_format, 'domestic_labels.pdf');
+
+				if ($result !== true)
+					return $module_instance->outputHTML($result);
 			}
 
 			include_once(_PS_MODULE_DIR_.'dpdpoland/libraries/PDFMerger/PDFMerger.php');
@@ -232,7 +207,7 @@ class DpdPolandPackageListController extends DpdPolandController
 	public function getList()
 	{
 		$keys_array = array('date_add', 'id_order', 'package_number', 'count_parcel', 'receiver', 'country', 'postcode', 'city', 'address');
-		$this->prepareListData($keys_array, 'Packages', new DpdPolandPackage(), self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'packages_list');
+		$this->prepareListData($keys_array, 'Packages', new DpdPolandPackage, self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'packages_list');
 		$this->context->smarty->assign('order_link', 'index.php?controller=AdminOrders&vieworder&token='.Tools::getAdminTokenLite('AdminOrders'));
 
 		if (version_compare(_PS_VERSION_, '1.6', '>='))

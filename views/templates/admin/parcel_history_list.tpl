@@ -34,8 +34,8 @@
     <table id="parcel_history_list" name="list_table" class="table_grid">
         <tbody>
             <tr>
-                <td style="vertical-align: bottom;">
-                    <span style="float: left;">
+                <td class="bottom">
+                    <span class="float-left">
                         {if $page > 1}
                             <input type="image" src="../img/admin/list-prev2.gif" onclick="getE('submitFilterParcelHistories').value=1"/>&nbsp;
                             <input type="image" src="../img/admin/list-prev.gif" onclick="getE('submitFilterParcelHistories').value={$page|escape:'htmlall':'UTF-8' - 1}"/>
@@ -53,7 +53,7 @@
                         </select>
                         / {$list_total|escape:'htmlall':'UTF-8'} {l s='result(s)' mod='dpdpoland'}
                     </span>
-                    <span style="float: right;">
+                    <span class="float-right">
                         <input type="submit" class="button" value="{l s='Filter' mod='dpdpoland'}" name="submitFilterButtonParcelHistories" id="submitFilterButtonParcelHistories">
                         <input type="submit" class="button" value="{l s='Reset' mod='dpdpoland'}" name="submitResetParcelHistories">
                     </span>
@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <td>
-                    <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table ParcelHistories">
+                    <table cellspacing="0" cellpadding="0" class="table ParcelHistories">
                         <colgroup>
                             <col width="100px">
                             <col width="100px">
@@ -75,7 +75,7 @@
                             <col width="30px">
                         </colgroup>
                         <thead>
-                            <tr style="height: 40px" class="nodrag nodrop">
+                            <tr class="nodrag nodrop titles-row">
                                 <th class="center">
 									<span class="title_box">
 										{l s='Order ID' mod='dpdpoland'}
@@ -243,32 +243,32 @@
                                     <br>
                                 </th>
                             </tr>
-                            <tr style="height: 35px;" class="nodrag nodrop filter row_hover">
+                            <tr class="nodrag nodrop filter row_hover filter-row">
                                 <td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_id_order') && Context::getContext()->cookie->ParcelHistoriesFilter_id_order}{Context::getContext()->cookie->ParcelHistoriesFilter_id_order}{/if}" name="ParcelHistoriesFilter_id_order" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_id_order') && Context::getContext()->cookie->ParcelHistoriesFilter_id_order}{Context::getContext()->cookie->ParcelHistoriesFilter_id_order}{/if}" name="ParcelHistoriesFilter_id_order" class="filter">
                                 </td>
                                 <td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_id_parcel') && Context::getContext()->cookie->ParcelHistoriesFilter_id_parcel}{Context::getContext()->cookie->ParcelHistoriesFilter_id_parcel}{/if}" name="ParcelHistoriesFilter_id_parcel" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_id_parcel') && Context::getContext()->cookie->ParcelHistoriesFilter_id_parcel}{Context::getContext()->cookie->ParcelHistoriesFilter_id_parcel}{/if}" name="ParcelHistoriesFilter_id_parcel" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_receiver') && Context::getContext()->cookie->ParcelHistoriesFilter_receiver}{Context::getContext()->cookie->ParcelHistoriesFilter_receiver}{/if}" name="ParcelHistoriesFilter_receiver" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_receiver') && Context::getContext()->cookie->ParcelHistoriesFilter_receiver}{Context::getContext()->cookie->ParcelHistoriesFilter_receiver}{/if}" name="ParcelHistoriesFilter_receiver" class="filter">
                                 </td>
 								<td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_country') && Context::getContext()->cookie->ParcelHistoriesFilter_country}{Context::getContext()->cookie->ParcelHistoriesFilter_country}{/if}" name="ParcelHistoriesFilter_country" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_country') && Context::getContext()->cookie->ParcelHistoriesFilter_country}{Context::getContext()->cookie->ParcelHistoriesFilter_country}{/if}" name="ParcelHistoriesFilter_country" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_postcode') && Context::getContext()->cookie->ParcelHistoriesFilter_postcode}{Context::getContext()->cookie->ParcelHistoriesFilter_postcode}{/if}" name="ParcelHistoriesFilter_postcode" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_postcode') && Context::getContext()->cookie->ParcelHistoriesFilter_postcode}{Context::getContext()->cookie->ParcelHistoriesFilter_postcode}{/if}" name="ParcelHistoriesFilter_postcode" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_city') && Context::getContext()->cookie->ParcelHistoriesFilter_city}{Context::getContext()->cookie->ParcelHistoriesFilter_city}{/if}" name="ParcelHistoriesFilter_city" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_city') && Context::getContext()->cookie->ParcelHistoriesFilter_city}{Context::getContext()->cookie->ParcelHistoriesFilter_city}{/if}" name="ParcelHistoriesFilter_city" class="filter">
                                 </td>
                                 <td class="right">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_address') && Context::getContext()->cookie->ParcelHistoriesFilter_address}{Context::getContext()->cookie->ParcelHistoriesFilter_address}{/if}" name="ParcelHistoriesFilter_address" class="filter">
+                                    <input type="text" value="{if Context::getContext()->cookie->__isset('ParcelHistoriesFilter_address') && Context::getContext()->cookie->ParcelHistoriesFilter_address}{Context::getContext()->cookie->ParcelHistoriesFilter_address}{/if}" name="ParcelHistoriesFilter_address" class="filter">
                                 </td>
 								<td class="right">
-                                    {l s='From' mod='dpdpoland'} <input type="text" style="width:70px" value="" name="ParcelHistoriesFilter_date_add[0]" id="ParcelHistoriesFilter_date_add_0" class="filter datepicker">
+                                    {l s='From' mod='dpdpoland'} <input type="text" value="" name="ParcelHistoriesFilter_date_add[0]" id="ParcelHistoriesFilter_date_add_0" class="filter datepicker">
                                     <br>
-                                    {l s='To' mod='dpdpoland'} <input type="text" style="width:70px" value="" name="ParcelHistoriesFilter_date_add[1]" id="ParcelHistoriesFilter_date_add_1" class="filter datepicker">
+                                    {l s='To' mod='dpdpoland'} <input type="text" value="" name="ParcelHistoriesFilter_date_add[1]" id="ParcelHistoriesFilter_date_add_1" class="filter datepicker">
                                 </td>
                                 <td class="center">
                                     --
@@ -335,7 +335,7 @@
                                                 --
                                             {/if}
                                         </td>
-                                        <td style="white-space: nowrap;" class="center">
+                                        <td class="center parcel-history-list-buttons">
                                             <a target="_blank" title="{l s='View' mod='dpdpoland'}" href="{$tracking_link|escape:'htmlall':'UTF-8'}{$table_data[ii].id_parcel|escape:'htmlall':'UTF-8'}">
                                                 <img alt="{l s='View' mod='dpdpoland'}" src="../img/admin/details.gif">
                                             </a>

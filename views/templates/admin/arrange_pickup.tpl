@@ -59,7 +59,7 @@
         <div class="margin-form">
             <input class="check_product_name  updateCurrentText ac_input" type="text" id="pickupDate" name="pickupDate" value="{if isset($pickupDate)}{$pickupDate|escape:'htmlall':'UTF-8'}{/if}" />
 			<br /><br />
-			<div class="info">
+			<div class="info hint clear visible-element relative">
 				{l s='Order placement is possible only on working days, if you select non working day your order will be realized on first available working day' mod='dpdpoland'}
 			</div>
 		</div>
@@ -109,7 +109,7 @@
         </div>
 		<div class="clear"></div>
 		
-		<div id="envelopes_container" style="display:none">
+		<div id="envelopes_container" class="hidden-element">
 			<label>
 				{l s='Number of envelopes:' mod='dpdpoland'}
 			</label>
@@ -131,7 +131,7 @@
         </div>
 		<div class="clear"></div>
 		
-		<div id="parcels_container" style="display:none">
+		<div id="parcels_container" class="hidden-element">
 			<label>
 				{l s='Number of parcels:' mod='dpdpoland'}
 			</label>
@@ -194,7 +194,7 @@
         </div>
 		<div class="clear"></div>
 		
-		<div id="pallets_container" style="display:none">
+		<div id="pallets_container" class="hidden-element">
 			<label>
 				{l s='Number of pallets:' mod='dpdpoland'}
 			</label>
@@ -234,7 +234,7 @@
     
     <fieldset id="send_pickup_request">
 		<legend><img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}settings.png" /> {l s='Send' mod='dpdpoland'}</legend>
-		<p class="info">
+		<p class="info hint clear visible-element relative">
 			{l s='Some text for merchants information - to be agreed on.' mod='dpdpoland'}
 		</p>
         <div class="margin-form">

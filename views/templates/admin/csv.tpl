@@ -77,8 +77,8 @@
             <table name="list_table" class="table_grid">
                 <tbody>
                     <tr>
-                        <td style="vertical-align: bottom;">
-                            <span style="float: left;">
+                        <td class="bottom">
+                            <span class="float-left">
                                 {if $page > 1}
                                     <a href="{$saveAction|escape:'htmlall':'UTF-8'}&current_page=1&pagination={$selected_pagination|escape:'htmlall':'UTF-8'}">
                                         <img class="pagination_image" src="../img/admin/list-prev2.gif" alt="{l s='First page' mod='dpdpoland'}" />
@@ -108,8 +108,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="border:none;">
-                            <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom:10px;" class="table document">
+                        <td clas="no-border">
+                            <table cellspacing="0" cellpadding="0" class="table document">
                                 <colgroup>
                                     <col>
                                     <col>
@@ -119,7 +119,7 @@
                                     <col>
                                 </colgroup>
                                 <thead>
-                                    <tr style="height: 40px" class="nodrag nodrop">
+                                    <tr class="nodrag nodrop titles-row">
                                         <th class="center">
                                             <span class="title_box">{l s='Country' mod='dpdpoland'}</span>
                                         </th>
