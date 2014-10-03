@@ -42,7 +42,7 @@ require_once(_DPDPOLAND_CONTROLLERS_DIR_.'configuration.controller.php');
 
 require_once(_DPDPOLAND_CLASSES_DIR_.'ObjectModel.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Manifest.php');
-require_once(_DPDPOLAND_CLASSES_DIR_.'Parcel.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'Package.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'CSV.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Configuration.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Parcel.php');
