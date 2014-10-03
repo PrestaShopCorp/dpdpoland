@@ -121,7 +121,7 @@ class DpdPolandManifest extends DpdPolandObjectModel
 		return true;
 	}
 
-	public static function getManifestIdByPackageId($id_package_ws)
+	public static function getManifestIdWsByPackageIdWs($id_package_ws)
 	{
 		return Db::getInstance()->getValue('
 			SELECT `id_manifest_ws`
