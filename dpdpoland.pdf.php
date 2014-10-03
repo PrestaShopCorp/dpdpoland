@@ -40,16 +40,16 @@ if (Tools::isSubmit('printLabels'))
 
 		ob_end_clean();
 		header('Content-type: application/pdf');
-		header('Content-Disposition: attachment; filename="package_labels_'.(int)Tools::getValue('id_package').'.pdf"');
+		header('Content-Disposition: attachment; filename="package_labels_'.(int)Tools::getValue('id_package_ws').'.pdf"');
 		echo $pdf_file_contents;
 		exit;
 	}
 
-	$package = new DpdPolandPackage((int)Tools::getValue('id_package'));
+	$package = new DpdPolandPackage((int)Tools::getValue('id_package_ws'));
 
 	if ($pdf_file_contents = $package->generateLabels())
 	{
-		$cookie->dpdpoland_package_id = (int)Tools::getValue('id_package');
+		$cookie->dpdpoland_package_id = (int)Tools::getValue('id_package_ws');
 
 		$printout_format = Tools::getValue('printout_format');
 		if (!in_array($printout_format, array(DpdPolandConfiguration::PRINTOUT_FORMAT_A4, DpdPolandConfiguration::PRINTOUT_FORMAT_LABEL)))
@@ -61,7 +61,7 @@ if (Tools::isSubmit('printLabels'))
 	}
 	else
 	{
-		DpdPoland::addFlashError(reset(DpdPolandPackage::$errors));
+		DpdPoland::addFlashError(reset(DpdPolandPackageWS::$errors));
 		Tools::redirectAdmin(Tools::getValue('returnOnErrorTo').'&scrollToShipment');
 		exit;
 	}

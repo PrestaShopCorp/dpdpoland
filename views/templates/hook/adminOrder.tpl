@@ -24,24 +24,24 @@
     var dpdpoland_id_shop = '{$dpdpoland_id_shop|escape:'htmlall':'UTF-8'}';
     var dpdpoland_id_lang = '{$dpdpoland_id_lang|escape:'htmlall':'UTF-8'}';
 	var _DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_ = '{$smarty.const._DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_|escape:'htmlall':'UTF-8'}';
-	var id_package = '{$package->id_package|escape:'htmlall':'UTF-8'}';
+	var id_package_ws = '{$package->id_package_ws|escape:'htmlall':'UTF-8'}';
 	var _PS_ADMIN_DIR_ = '{$smarty.const._PS_ADMIN_DIR_|regex_replace:"/\\\/":"\\\\\\"}';
 	var dpdpoland_parcels_error_message = "{l s='All products should be assigned to a particular parcel!' mod='dpdpoland'}";
 	var modified_field_message = "{l s='Modified field' mod='dpdpoland'}";
 	var redirect_and_open = '{$redirect_and_open|escape:'htmlall':'UTF-8'}';
 	var printout_format = '{$printout_format|escape:'htmlall':'UTF-8'}';
-	
+
 	{if isset($ps14) && $ps14}
 	var id_order = '{Tools::getValue('id_order')|escape:'htmlall':'UTF-8'}';
 	{/if}
-	
-	$(document).ready(function(){		
+
+	$(document).ready(function(){
 		$('#dpdpoland_current_status_accordion').accordion({
 			collapsible: true,
 			autoHeight: true,
 			heightStyle: "content"
 		});
-		
+
 		{if isset($smarty.get.scrollToShipment)}
 			$.scrollTo('#dpdpoland', 400, { offset: { top: -100 }});
 			toggleShipmentCreationDisplay();
@@ -54,7 +54,7 @@
         <img src="{$smarty.const._DPDPOLAND_MODULE_URI_|escape:'htmlall':'UTF-8'}logo.gif" width="16" height="16"> {l s='DPD Polska Sp. z o.o. shipping' mod='dpdpoland'}
 		<a href="javascript:toggleShipmentCreationDisplay()" rel="[ {l s='collapse' mod='dpdpoland'} ]">[ {l s='expand' mod='dpdpoland'} ]</a>
     </legend>
-	
+
 	{if $smarty.const._DPDPOLAND_DEBUG_MODE_}
 		<div class="warning warn">
 			{l s='Module is in DEBUG mode' mod='dpdpoland'}
@@ -66,7 +66,7 @@
 			{/if}
 		</div>
 	{/if}
-	
+
 	<div id="dpdpoland_shipment_creation"{if isset($smarty.get.scrollToShipment)} style="display:block"{/if}>
 		<div id="dpdpoland_msg_container">{if isset($errors) && $errors}{include file=$smarty.const._PS_MODULE_DIR_|cat:'dpdpoland/views/templates/admin/errors.tpl'}{/if}</div>
 		{if isset($compatibility_warning_message) && $compatibility_warning_message}
@@ -79,48 +79,48 @@
 				{$address_warning_message|escape:'htmlall':'UTF-8'}
 			</div>
 		{/if}
-		<label>{l s='Shipment mode:' mod='dpdpoland'}</label>							
+		<label>{l s='Shipment mode:' mod='dpdpoland'}</label>
 		<div class="margin-form">
-			<select name="dpdpoland_SessionType" autocomplete="off"{if $package->id_package} disabled="disabled"{/if}>
+			<select name="dpdpoland_SessionType" autocomplete="off"{if $package->id_package_ws} disabled="disabled"{/if}>
 				<option value="domestic"{if (!empty($package->sessionType) && $package->sessionType == 'domestic') || (empty($package->sessionType) && $selected_id_method == $smarty.const._DPDPOLAND_STANDARD_ID_)} selected="selected"{/if}>{l s='DPD domestic shipment - Standard' mod='dpdpoland'}</option>
 				<option value="domestic_with_cod"{if (!empty($package->sessionType) && $package->sessionType == 'domestic_with_cod') || (empty($package->sessionType) && $selected_id_method == $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} selected="selected"{/if}>{l s='DPD domestic shipment - Standard with COD' mod='dpdpoland'}</option>
 				<option value="international"{if (!empty($package->sessionType) && $package->sessionType == 'international') || (empty($package->sessionType) && $selected_id_method == $smarty.const._DPDPOLAND_CLASSIC_ID_)} selected="selected"{/if}>{l s='DPD international shipment (DPD Classic)' mod='dpdpoland'}</option>
 			</select>
 		</div>
 		<div class="clear"></div>
-		
-		<label>{l s='DPD client number (Payer):' mod='dpdpoland'}</label>							
+
+		<label>{l s='DPD client number (Payer):' mod='dpdpoland'}</label>
 		<div class="margin-form">
-			<select class="client_number_select" name="dpdpoland_PayerNumber" autocomplete="off"{if $package->id_package} disabled="disabled"{/if}>
+			<select class="client_number_select" name="dpdpoland_PayerNumber" autocomplete="off"{if $package->id_package_ws} disabled="disabled"{/if}>
 				{foreach from=$payerNumbers item=payerNumber}
 				<option value="{$payerNumber.payer_number|escape:'htmlall':'UTF-8'}"{if $selectedPayerNumber == $payerNumber.payer_number} selected="selected"{/if}>{$payerNumber.payer_number|escape:'UTF-8'}</option>
 				{/foreach}
 			</select>
 		</div>
 		<div class="clear"></div>
-		
+
 		<div class="separation"></div>
-		
+
 		<div id="dpdpoland_sender_address_container">
 			<label><h3>{l s='Sender:' mod='dpdpoland'}</h3></label>
 			<div class="clear"></div>
 			<div class="info" style="display:block">
 				{l s='Sender address can be changed in module settings page.' mod='dpdpoland'}
 			</div>
-			
+
 			<div class="dpdpoland_address">
 				{include file=$smarty.const._DPDPOLAND_TPL_DIR_|cat:'admin/address.tpl' address=$senderAddress}
 			</div>
 		</div>
-		
+
 		<div id="dpdpoland_recipient_address_container">
 			<label><h3>{l s='Recipient:' mod='dpdpoland'}</h3></label>
 			<div class="clear"></div>
-			
+
 			<div id="dpdpoland_recipient_address_selection_container">
-				<label>{l s='Recipient address:' mod='dpdpoland'}</label>							
+				<label>{l s='Recipient address:' mod='dpdpoland'}</label>
 				<div class="margin-form">
-					<select id="dpdpoland_recipient_address_selection" name="dpdpoland_id_address_delivery" autocomplete="off"{if $package->id_package} disabled="disabled"{/if}>
+					<select id="dpdpoland_recipient_address_selection" name="dpdpoland_id_address_delivery" autocomplete="off"{if $package->id_package_ws} disabled="disabled"{/if}>
 						{foreach from=$recipientAddresses item=address}
 						{capture assign=address_title|escape:'htmlall':'UTF-8'}{$address['alias']|escape:'UTF-8'} - {$address['address1']|escape:'UTF-8'} {$address['postcode']|escape:'UTF-8'} {$address['city']|escape:'UTF-8'}{if !empty($address['state'])} {$address['state']|escape:'UTF-8'}{/if}, {$address['country']|escape:'UTF-8'}{/capture}
 						<option value="{$address['id_address']|escape:'htmlall':'UTF-8'}"{if $address['id_address'] == $selectedRecipientIdAddress} selected="selected"{/if}>{$address_title|truncate:45:'...'|escape:'UTF-8'}</option>
@@ -133,64 +133,64 @@
 			<div class="dpdpoland_address">
 				{include file=$smarty.const._DPDPOLAND_TPL_DIR_|cat:'admin/address.tpl' address=$recipientAddress}
 			</div>
-			
+
 		</div>
-		
+
 		<div class="clear"></div>
-		
+
 		<div class="separation"></div>
-		
+
 		<div>
 			<div id="dpdpoland_cod_amount_container"{if ($package->sessionType && $package->sessionType != 'domestic_with_cod') || (!$package->sessionType && $selected_id_method != $smarty.const._DPDPOLAND_STANDARD_COD_ID_)} style="display:none"{/if}>
 				<label>{l s='COD:' mod='dpdpoland'}</label>
 				<div class="margin-form">
 					<input type="text" name="dpdpoland_COD_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');"
 						   value="{if $package->cod_amount}{$package->cod_amount|escape:'htmlall':'UTF-8'}{else}{if isset($ps14) && $ps14}{Tools::convertPrice($order->total_paid_real, $currency_from, $currency_to)}{else}{Tools::convertPriceFull($order->total_paid_tax_incl, $currency_from, $currency_to)}{/if}{/if}"
-						   maxlength="14" size="11"{if $package->id_package} disabled="disabled"{/if}> <span>{$smarty.const._DPDPOLAND_CURRENCY_ISO_}</span>
+						   maxlength="14" size="11"{if $package->id_package_ws} disabled="disabled"{/if}> <span>{$smarty.const._DPDPOLAND_CURRENCY_ISO_}</span>
 					<p>{l s='Enter the amount of COD' mod='dpdpoland'}</p>
 				</div>
 			</div>
-			
+
 			<div id="dpdpoland_declared_value_amount_container">
 				<label>{l s='Valuable parcel:' mod='dpdpoland'}</label>
 				<div class="margin-form">
-					<input type="text" name="dpdpoland_DeclaredValue_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');" value="{$package->declaredValue_amount}" maxlength="14" size="11"{if $package->id_package} disabled="disabled"{/if}> <span>{$smarty.const._DPDPOLAND_CURRENCY_ISO_}</span>
+					<input type="text" name="dpdpoland_DeclaredValue_amount" autocomplete="off" onchange="this.value = this.value.replace(/,/g, '.');" value="{$package->declaredValue_amount}" maxlength="14" size="11"{if $package->id_package_ws} disabled="disabled"{/if}> <span>{$smarty.const._DPDPOLAND_CURRENCY_ISO_}</span>
 					<p>{l s='Leave blank if service is not needed' mod='dpdpoland'}</p>
 				</div>
 			</div>
 			<div class="clear"></div>
 		</div>
-		
+
 		<div class="separation"></div>
-		
+
 		<div>
 			<div id="dpdpoland_additional_info_container">
 				<label>{l s='Additional shipment information:' mod='dpdpoland'}</label>
 				<div class="margin-form">
-					<textarea name="additional_info" autocomplete="off" rows="4" cols="32"{if $package->id_package} disabled="disabled"{/if}>{$package->additional_info|escape:'htmlall':'UTF-8'}</textarea>
+					<textarea name="additional_info" autocomplete="off" rows="4" cols="32"{if $package->id_package_ws} disabled="disabled"{/if}>{$package->additional_info|escape:'htmlall':'UTF-8'}</textarea>
 				</div>
 			</div>
-			
+
 			<div id="dpdpoland_shipment_references_container">
 				<label>{l s='Order ID:' mod='dpdpoland'}</label>
 				<div class="margin-form">
-					<input type="text" name="dpdpoland_ref1" autocomplete="off" value="{if $package->ref1}{$package->ref1|escape:'htmlall':'UTF-8'}{else}{$order->id|escape:'htmlall':'UTF-8'}{/if}"{if $package->id_package} disabled="disabled"{/if} />
+					<input type="text" name="dpdpoland_ref1" autocomplete="off" value="{if $package->ref1}{$package->ref1|escape:'htmlall':'UTF-8'}{else}{$order->id|escape:'htmlall':'UTF-8'}{/if}"{if $package->id_package_ws} disabled="disabled"{/if} />
 					<p>{l s='Reference number 1' mod='dpdpoland'}</p>
 				</div>
 				<div class="clear"></div>
-				
+
 				<label>{l s='Invoice number:' mod='dpdpoland'}</label>
 				<div class="margin-form">
-					<input type="text" name="dpdpoland_ref2" autocomplete="off" value="{if $package->ref2}{$package->ref2|escape:'UTF-8'}{elseif $order->invoice_number}{$order->invoice_number|escape:'htmlall':'UTF-8'}{/if}"{if $package->id_package} disabled="disabled"{/if} />
+					<input type="text" name="dpdpoland_ref2" autocomplete="off" value="{if $package->ref2}{$package->ref2|escape:'UTF-8'}{elseif $order->invoice_number}{$order->invoice_number|escape:'htmlall':'UTF-8'}{/if}"{if $package->id_package_ws} disabled="disabled"{/if} />
 					<p>{l s='Reference number 2' mod='dpdpoland'}</p>
 				</div>
 				<div class="clear"></div>
 			</div>
 			<div class="clear"></div>
 		</div>
-		
+
 		<div class="separation"></div>
-		
+
         <b>{l s='Group the products in your shipment into parcels' mod='dpdpoland'}</b><br />
         {l s='This module lets you organize your products into parcels using the table below. Select parcel number.' mod='dpdpoland'}
         <br /><br />
@@ -225,7 +225,7 @@
 						{$product.weight|string_format:"%.3f"} {$smarty.const._DPDPOLAND_DEFAULT_WEIGHT_UNIT_|escape:'htmlall':'UTF-8'}
 					</td>
                     <td>
-                        <select class="parcel_selection" name="dpdpoland_products[{$smarty.foreach.products.index|escape:'htmlall':'UTF-8'}][parcel]" autocomplete="off"{if $package->id_package} disabled="disabled"{/if}>
+                        <select class="parcel_selection" name="dpdpoland_products[{$smarty.foreach.products.index|escape:'htmlall':'UTF-8'}][parcel]" autocomplete="off"{if $package->id_package_ws} disabled="disabled"{/if}>
 							<option value="0">--</option>
                             {foreach from=$parcels item=parcel}
 								{if isset($parcel.id_parcel) && isset($product.id_parcel)}
@@ -247,8 +247,8 @@
             </tbody>
         </table>
         <br />
-		
-		{if !$package->id_package}
+
+		{if !$package->id_package_ws}
 		<div id="dpdpoland_add_product_container">
 			<input type="text" id="dpdpoland_select_product" size="50" autocomplete="off" />
 			<input type="hidden" id="dpdpoland_selected_product_id_product" value="0" />
@@ -262,7 +262,7 @@
 			</p>
 		</div>
 		{/if}
-		
+
 		<div class="separation"></div>
 
         <b>{l s='Manage parcels' mod='dpdpoland'}</b><br />
@@ -300,23 +300,23 @@
 					</td>
                     <td>
 						<input type="hidden" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}" />
-						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" size="46" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][content]" size="46" autocomplete="off" value="{$parcel.content|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
 						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
                     <td>
-						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][weight]" size="10" autocomplete="off" value="{$parcel.weight|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][weight]" size="10" autocomplete="off" value="{$parcel.weight|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
 						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
                     <td>
-						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][height]" size="10" autocomplete="off" value="{$parcel.height|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][height]" size="10" autocomplete="off" value="{$parcel.height|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
 						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
 					<td>
-						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][length]" size="10" autocomplete="off" value="{$parcel.length|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][length]" size="10" autocomplete="off" value="{$parcel.length|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
 						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
 					<td>
-						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][width]" size="10" autocomplete="off" value="{$parcel.width|escape:'htmlall':'UTF-8'}"{if $package->id_package} disabled="disabled"{/if} />
+						<input type="text" name="parcels[{$parcel.number|escape:'htmlall':'UTF-8'}][width]" size="10" autocomplete="off" value="{$parcel.width|escape:'htmlall':'UTF-8'}"{if $package->id_package_ws} disabled="disabled"{/if} />
 						<p class="preference_description clear" style="display: none; width: auto;">{l s='Modified field' mod='dpdpoland'}</p>
 					</td>
 					<td class="parcel_dimension_weight">{sprintf('%.3f', $parcel.length|escape:'htmlall':'UTF-8'*$parcel.width|escape:'htmlall':'UTF-8'*$parcel.height|escape:'htmlall':'UTF-8'/$smarty.const._DPDPOLAND_DIMENTION_WEIGHT_DIVISOR_|escape:'htmlall':'UTF-8')}</td>
@@ -325,7 +325,7 @@
 				{/foreach}
             </tbody>
         </table>
-		{if !$package->id_package}
+		{if !$package->id_package_ws}
 		<div id="parcel_addition_container">
 			<br />
 			<div class="infoContainer">
@@ -336,7 +336,7 @@
 			<input type="button" id="add_parcel" class="button" value="{l s='Add parcel' mod='dpdpoland'}" />
 			<div class="clear"></div>
 			<div class="separation"></div>
-			
+
 			<div class="infoContainer">
 				<div class="info" style="display:block;">
 					{l s='It will not be possible to edit shipment after printintig labels.' mod='dpdpoland'}
@@ -344,10 +344,10 @@
 			</div>
 		</div>
 		{/if}
-		
+
 		<div id="dpdgeopost_actions">
-			<input type="button" id="save_and_print_labels" class="button" value="{l s='Save and print labels' mod='dpdpoland'}"{if $package->id_package} style="display:none"{/if} />
-			<input type="button" id="print_labels" class="button" value="{l s='Print labels' mod='dpdpoland'}"{if !$package->id_package} style="display:none"{/if} />
+			<input type="button" id="save_and_print_labels" class="button" value="{l s='Save and print labels' mod='dpdpoland'}"{if $package->id_package_ws} style="display:none"{/if} />
+			<input type="button" id="print_labels" class="button" value="{l s='Print labels' mod='dpdpoland'}"{if !$package->id_package_ws} style="display:none"{/if} />
 			<div id="printout_format_container">
 				<input id="printout_format_a4" type="radio" name="dpdpoland_printout_format" checked="checked" value="{DpdPolandConfiguration::PRINTOUT_FORMAT_A4|escape:'htmlall':'UTF-8'}" />
 				<label class="t" for="printout_format_a4">
@@ -364,7 +364,7 @@
 		</div>
 		<div class="separation"></div>
 	</div>
-	
+
 	<div style="margin-top:10px;" id="dpdpoland_current_status_accordion">
 		<h3 style="margin-bottom:0;"><a href="#">{l s='Current status' mod='dpdpoland'}</a></h3>
 		<div>

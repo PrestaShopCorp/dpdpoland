@@ -164,7 +164,7 @@ class DpdPolandParcelProduct extends DpdPolandObjectModel
 		return (bool)DB::getInstance()->getValue('
 			SELECT pac.`labels_printed`
 			FROM `'._DB_PREFIX_._DPDPOLAND_PARCEL_DB_.'` par
-			LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_PACKAGE_DB_.'` pac ON (pac.`id_package` = par.`id_package`)
+			LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_PACKAGE_DB_.'` pac ON (pac.`id_package_ws` = par.`id_package_ws`)
 			WHERE par.`id_parcel` = "'.(int)$id_parcel.'"
 		');
 	}

@@ -81,7 +81,7 @@ class DpdPolandPackageListController extends DpdPolandController
 
 					if (!$manifest->generateMultiple($international_packages))
 					{
-						$error = $module_instance->displayError(reset(DpdPolandManifest::$errors));
+						$error = $module_instance->displayError(reset(DpdPolandManifestWS::$errors));
 
 						return $module_instance->outputHTML($error);
 					}
@@ -93,7 +93,7 @@ class DpdPolandPackageListController extends DpdPolandController
 
 					if (!$manifest->generateMultiple($domestic_packages))
 					{
-						$error = $module_instance->displayError(reset(DpdPolandManifest::$errors));
+						$error = $module_instance->displayError(reset(DpdPolandManifestWS::$errors));
 
 						return $module_instance->outputHTML($error);
 					}
@@ -119,8 +119,6 @@ class DpdPolandPackageListController extends DpdPolandController
 
 		if ($package_ids = Tools::getValue('PackagesBox'))
 		{
-			$package = new DpdPolandPackage;
-
 			$separated_packages = DpdPolandPackage::separatePackagesBySession($package_ids);
 			$international_packages = $separated_packages['INTERNATIONAL'];
 			$domestic_packages = $separated_packages['DOMESTIC'];
@@ -128,9 +126,10 @@ class DpdPolandPackageListController extends DpdPolandController
 			if ($international_packages)
 			{
 				$package = new DpdPolandPackage;
+
 				if (!$pdf_file_contents_international = $package->generateLabelsForMultiplePackages($international_packages, 'PDF', $printout_format))
 				{
-					$error = $module_instance->displayError(reset(DpdPolandPackage::$errors));
+					$error = $module_instance->displayError(reset(DpdPolandPackageWS::$errors));
 
 					return $module_instance->outputHTML($error);
 				}
@@ -161,9 +160,10 @@ class DpdPolandPackageListController extends DpdPolandController
 			if ($domestic_packages)
 			{
 				$package = new DpdPolandPackage;
+
 				if (!$pdf_file_contents_domestic = $package->generateLabelsForMultiplePackages($domestic_packages, 'PDF', $printout_format))
 				{
-					$error = $module_instance->displayError(reset(DpdPolandPackage::$errors));
+					$error = $module_instance->displayError(reset(DpdPolandPackageWS::$errors));
 
 					return $module_instance->outputHTML($error);
 				}

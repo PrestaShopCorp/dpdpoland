@@ -40,7 +40,7 @@ if (Tools::isSubmit('getProducts'))
 
 if (Tools::isSubmit('savePackagePrintLabels'))
 {
-	if (!$id_package = $module_instance->savePackageFromPost())
+	if (!$id_package_ws = $module_instance->savePackageFromPost())
 	{
 		die(Tools::jsonEncode(array(
 			'error' => reset(DpdPoland::$errors)
@@ -54,8 +54,8 @@ if (Tools::isSubmit('savePackagePrintLabels'))
 
 	die(Tools::jsonEncode(array(
 		'error' => false,
-		'id_package' => (int)$id_package,
-		'link_to_labels_pdf' => '?printLabels&id_package='.(int)$id_package.'&printout_format='.$printout_format.'&token='.Tools::getValue('token')
+		'id_package_ws' => (int)$id_package_ws,
+		'link_to_labels_pdf' => '?printLabels&id_package_ws='.(int)$id_package_ws.'&printout_format='.$printout_format.'&token='.Tools::getValue('token')
 	)));
 }
 
@@ -68,7 +68,7 @@ if (Tools::isSubmit('printLabels'))
 
 	die(Tools::jsonEncode(array(
 		'error' => false,
-		'link_to_labels_pdf' => '?printLabels&id_package='.(int)Tools::getValue('id_package').
+		'link_to_labels_pdf' => '?printLabels&id_package_ws='.(int)Tools::getValue('id_package_ws').
 		'&printout_format='.$printout_format.'&token='.Tools::getValue('token')
 	)));
 }

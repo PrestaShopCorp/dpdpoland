@@ -39,19 +39,19 @@
 		String.prototype.splice = function(index, remove, string) {
 			return (this.slice(0, index) + string + this.slice(index + Math.abs(remove)));
 		};
-	
+
 		var form_action = $(form).attr('action');
-		
+
 		form_action = form_action.replace('&printLabelsLabelFormat', '').replace('&printLabelsA4Format', '');
-	
+
 		if (form_action.replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ') == '')
 			return false;
-	
+
 		if (form_action.indexOf('#') == -1)
 			$(form).attr('action', form_action + '&' + action);
 		else
 			$(form).attr('action', form_action.splice(form_action.lastIndexOf('&'), 0, '&' + action));
-	
+
 		$(form).submit();
 	}
 </script>
@@ -250,9 +250,9 @@
 				<tbody>
 					{if isset($table_data) && $table_data}
 						{section name=ii loop=$table_data}
-							<tr id="tr__{$table_data[ii].id_package|escape:'htmlall':'UTF-8'}_0" class="odd">
+							<tr id="tr__{$table_data[ii].id_package_ws|escape:'htmlall':'UTF-8'}_0" class="odd">
 								<td class="text-center fixed-width-xs center">
-									<input class="noborder" type="checkbox" value="{$table_data[ii].id_package|escape:'htmlall':'UTF-8'}" name="PackagesBox[]"{if isset($smarty.post.PackagesBox) && in_array($table_data[ii].id_package, $smarty.post.PackagesBox)} checked="checked"{/if} />
+									<input class="noborder" type="checkbox" value="{$table_data[ii].id_package_ws|escape:'htmlall':'UTF-8'}" name="PackagesBox[]"{if isset($smarty.post.PackagesBox) && in_array($table_data[ii].id_package_ws, $smarty.post.PackagesBox)} checked="checked"{/if} />
 								</td>
 								<td class="pointer">
 									{if $table_data[ii].date_add && $table_data[ii].date_add != '0000-00-00 00:00:00'}

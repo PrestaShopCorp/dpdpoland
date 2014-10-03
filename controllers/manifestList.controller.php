@@ -37,16 +37,16 @@ class DpdPolandManifestListController extends DpdPolandController
 	{
 		if (Tools::isSubmit('printManifest'))
 		{
-			$id_manifest = (int)Tools::getValue('id_manifest');
-			$this->printManifest((int)$id_manifest);
+			$id_manifest_ws = (int)Tools::getValue('id_manifest_ws');
+			$this->printManifest((int)$id_manifest_ws);
 		}
 	}
 
-	public function printManifest($id_manifest)
+	public function printManifest($id_manifest_ws)
 	{
-		if (is_array($id_manifest))
+		if (is_array($id_manifest_ws))
 		{
-			if (empty($id_manifest))
+			if (empty($id_manifest_ws))
 				return false;
 
 			if (file_exists(_PS_MODULE_DIR_.'dpdpoland/manifest_duplicated.pdf') &&
@@ -58,9 +58,10 @@ class DpdPolandManifestListController extends DpdPolandController
 				return $this->module_instance->outputHTML($error);
 			}
 
-			foreach ($id_manifest as $id)
+			foreach ($id_manifest_ws as $id)
 			{
-				$manifest = new DpdPolandManifest((int)$id);
+				$manifest = new DpdPolandManifest;
+				$manifest->id_manifest_ws = $id;
 
 				if ($pdf_file_contents = $manifest->generate())
 				{
@@ -86,7 +87,7 @@ class DpdPolandManifestListController extends DpdPolandController
 				}
 				else
 				{
-					$error_message = $this->module_instance->displayError(reset(DpdPolandManifest::$errors));
+					$error_message = $this->module_instance->displayError(reset(DpdPolandManifestWS::$errors));
 					return $this->module_instance->outputHTML($error_message);
 				}
 			}
@@ -95,7 +96,7 @@ class DpdPolandManifestListController extends DpdPolandController
 
 			$pdf = new PDFMerger;
 
-			foreach ($id_manifest as $id)
+			foreach ($id_manifest_ws as $id)
 			{
 				$manifest_pdf_path = _PS_MODULE_DIR_.'dpdpoland/manifest_'.(int)$id.'.pdf';
 				$pdf->addPDF($manifest_pdf_path, 'all')->addPDF($manifest_pdf_path, 'all');
@@ -111,7 +112,8 @@ class DpdPolandManifestListController extends DpdPolandController
 			exit;
 		}
 
-		$manifest = new DpdPolandManifest($id_manifest);
+		$manifest = new DpdPolandManifest;
+		$manifest->id_manifest_ws = $id_manifest_ws;
 
 		if ($pdf_file_contents = $manifest->generate())
 		{
@@ -153,13 +155,13 @@ class DpdPolandManifestListController extends DpdPolandController
 			exit;
 		}
 		else
-			$this->module_instance->outputHTML($this->module_instance->displayError(reset(DpdPolandManifest::$errors)));
+			$this->module_instance->outputHTML($this->module_instance->displayError(reset(DpdPolandManifestWS::$errors)));
 	}
 
 	public function getListHTML()
 	{
-		$keys_array = array('id_manifest', 'count_parcels', 'count_orders', 'date_add');
-		$this->prepareListData($keys_array, 'Manifests', new DpdPolandManifest(), self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'manifest_list');
+		$keys_array = array('id_manifest_ws', 'count_parcels', 'count_orders', 'date_add');
+		$this->prepareListData($keys_array, 'Manifests', new DpdPolandManifest, self::DEFAULT_ORDER_BY, self::DEFAULT_ORDER_WAY, 'manifest_list');
 
 		if (version_compare(_PS_VERSION_, '1.6', '<'))
 			return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/manifest_list.tpl');

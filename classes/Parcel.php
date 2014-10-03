@@ -25,7 +25,7 @@ class DpdPolandParcel extends DpdPolandObjectModel
 {
 	public $id_parcel;
 
-	public $id_package;
+	public $id_package_ws;
 
 	public $waybill;
 
@@ -52,7 +52,7 @@ class DpdPolandParcel extends DpdPolandObjectModel
 		'multishop' => false,
 		'fields' => array(
 			'id_parcel'		=>	array('type' => self::TYPE_INT, 	'validate' => 'isUnsignedInt'),
-			'id_package'	=>	array('type' => self::TYPE_INT, 	'validate' => 'isUnsignedInt'),
+			'id_package_ws'	=>	array('type' => self::TYPE_INT, 	'validate' => 'isUnsignedInt'),
 			'waybill'		=>	array('type' => self::TYPE_STRING, 	'validate' => 'isAnything'),
 			'content'		=>	array('type' => self::TYPE_STRING, 	'validate' => 'isAnything'),
 			'weight'		=>	array('type' => self::TYPE_FLOAT, 	'validate' => 'isUnsignedFloat'),
@@ -65,14 +65,14 @@ class DpdPolandParcel extends DpdPolandObjectModel
 		)
 	);
 
-	public static function getParcels($id_order, $id_package = null)
+	public static function getParcels($id_order, $id_package_ws = null)
 	{
-		if ($id_package)
+		if ($id_package_ws)
 		{
 			$parcels = Db::getInstance()->executeS('
 				SELECT `id_parcel`, `content`, `weight`, `height`, `length`, `width`, `number`
 				FROM `'.bqSQL(_DB_PREFIX_.self::$definition['table']).'`
-				WHERE `id_package`='.(int)$id_package
+				WHERE `id_package_ws`='.(int)$id_package_ws
 			);
 			return $parcels;
 		}
@@ -133,7 +133,7 @@ class DpdPolandParcel extends DpdPolandObjectModel
 				a.`address1`								AS `address`,
 				p.`date_add` 								AS `date_add`
 			FROM `'._DB_PREFIX_._DPDPOLAND_PARCEL_DB_.'` par
-			LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_PACKAGE_DB_.'` p ON (p.`id_package` = par.`id_package`)
+			LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_PACKAGE_DB_.'` p ON (p.`id_package_ws` = par.`id_package_ws`)
 			LEFT JOIN `'._DB_PREFIX_.'orders` o ON (o.`id_order` = p.`id_order`)
 			LEFT JOIN `'._DB_PREFIX_.'address` a ON (a.`id_address` = p.`id_address_delivery`)
 			LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (cl.`id_country` = a.`id_country` AND cl.`id_lang` = "'.(int)$id_lang.'")'.

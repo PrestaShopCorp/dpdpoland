@@ -21,77 +21,21 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-class DpdPolandManifest extends DpdPolandWS
+class DpdPolandManifestWS extends DpdPolandWS
 {
-	public $id_manifest;
-
-	public $id_package;
-
-	public $date_add;
-
-	public $date_upd;
-
-	public function __construct($id_manifest = null)
+	public function generate(DpdPolandManifest $manifest, $output_doc_format, $output_doc_page_format, $policy)
 	{
-		if ($id_manifest)
-			$this->id_manifest = (int)$id_manifest;
-
-		if ($id_manifest)
-			$this->id_package = (int)$this->getIdPackageByIdManifest((int)$id_manifest);
-
-		if (!$this->date_add)
-			$this->date_add = date('Y-m-d H:i:s');
-
-		if (!$this->date_upd)
-			$this->date_upd = date('Y-m-d H:i:s');
-
-		parent::__construct();
-	}
-
-	private function getIdPackageByIdManifest($id_manifest)
-	{
-		return DB::getInstance()->getValue('
-			SELECT `id_package`
-			FROM `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'`
-			WHERE `id_manifest` = "'.(int)$id_manifest.'"
-		');
-	}
-
-	private function getIdsPackagesByIdManifest($id_manifest)
-	{
-		$packages_ids = array();
-
-		$packages = DB::getInstance()->executeS('
-			SELECT `id_package`
-			FROM `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'`
-			WHERE `id_manifest` = "'.(int)$id_manifest.'"
-		');
-
-		foreach ($packages as $package)
-			$packages_ids[] = $package['id_package'];
-
-		return $packages_ids;
-	}
-
-	public function generate($output_doc_format = 'PDF', $output_doc_page_format = 'LBL_PRINTER', $policy = 'STOP_ON_FIRST_ERROR')
-	{
-		$package = new DpdPolandPackage($this->id_package);
-		$multiple_packages = DpdPolandManifest::getIdsPackagesByIdManifest((int)$this->id_manifest);
+		$packages = $manifest->getPackages();
 		$package_number = null;
 
-		if (count($multiple_packages) > 1)
+		foreach ($packages as $id_package_ws)
 		{
-			foreach ($multiple_packages as $id_package)
-			{
-				$current_package = new DpdPolandPackage((int)$id_package);
-				if ($package_number === null)
-					$package_number = $current_package->payerNumber;
-				elseif ($package_number !== $current_package->payerNumber)
-					$package_number = 'null';
-			}
+			$current_package = new DpdPolandPackage((int)$id_package_ws);
+			if ($package_number === null)
+				$package_number = $current_package->payerNumber;
+			elseif ($package_number !== $current_package->payerNumber)
+				$package_number = 'null';
 		}
-		else
-			$package_number = $package->payerNumber;
 
 		$params = array(
 			'dpdServicesParamsV1' => array(
@@ -106,18 +50,19 @@ class DpdPolandManifest extends DpdPolandWS
 			'outputDocPageFormatV1' => $output_doc_page_format
 		);
 
-		if ($this->id_manifest)
-			$params['dpdServicesParamsV1']['documentId'] = (int)$this->id_manifest;
+		if ($manifest->id_manifest_ws)
+			$params['dpdServicesParamsV1']['documentId'] = (int)$manifest->id_manifest_ws;
 
 		$result = $this->generateProtocolV1($params);
 
 		if (isset($result['documentData']) ||
 			(isset($result['session']) && isset($result['session']['statusInfo']) && $result['session']['statusInfo']['status'] == 'OK'))
 		{
-			if (!$this->id_manifest)
-				$this->id_manifest = (int)$result['documentId'];
+			if (!$manifest->id_manifest_ws)
+				$manifest->id_manifest_ws = (int)$result['documentId'];
 
-			$this->saveManifestLocally();
+			if (!$manifest->save())
+				return false;
 
 			return $result['documentData'];
 		}
@@ -130,9 +75,9 @@ class DpdPolandManifest extends DpdPolandWS
 		$session_type = '';
 		$package_number = null;
 
-		foreach ($package_ids as $id_package)
+		foreach ($package_ids as $id_package_ws)
 		{
-			$package = new DpdPolandPackage((int)$id_package);
+			$package = new DpdPolandPackage((int)$id_package_ws);
 			if (!$session_type || $session_type == $package->getSessionType())
 			{
 				$session_type = $package->getSessionType();
@@ -161,10 +106,10 @@ class DpdPolandManifest extends DpdPolandWS
 			'outputDocPageFormatV1' => $output_doc_page_format
 		);
 
-		foreach ($package_ids as $id_package)
+		foreach ($package_ids as $id_package_ws)
 		{
 			$params['dpdServicesParamsV1']['session']['packages'][] = array(
-				'packageId' => (int)$id_package
+				'packageId' => (int)$id_package_ws
 			);
 		}
 
@@ -172,13 +117,14 @@ class DpdPolandManifest extends DpdPolandWS
 
 		if (isset($result['session']) && isset($result['session']['statusInfo']) && $result['session']['statusInfo']['status'] == 'OK')
 		{
-			if (!$this->id_manifest)
-				$this->id_manifest = (int)$result['documentId'];
-
-			foreach ($package_ids as $id_package)
+			foreach ($package_ids as $id_package_ws)
 			{
-				$this->id_package = (int)$id_package;
-				$this->saveManifestLocally();
+				$manifest = new DpdPolandManifest;
+				$manifest->id_manifest_ws = (int)$result['documentId'];
+				$manifest->id_package_ws = (int)$id_package_ws;
+
+				if (!$manifest->save())
+					return false;
 			}
 
 			return $result['documentData'];
@@ -192,83 +138,5 @@ class DpdPolandManifest extends DpdPolandWS
 
 			return false;
 		}
-	}
-
-	private function saveManifestLocally()
-	{
-		if (!$this->id_package)
-			return false;
-
-		return Db::getInstance()->execute('
-			INSERT IGNORE INTO `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'`
-				(`id_manifest`, `id_package`, `date_add`, `date_upd`)
-			VALUES
-				("'.(int)$this->id_manifest.'", "'.(int)$this->id_package.'", "'.pSQL($this->date_add).'", "'.pSQL($this->date_upd).'")
-		');
-	}
-
-	public function getList($order_by, $order_way, $filter, $start, $pagination)
-	{
-		$order_way = Validate::isOrderWay($order_way) ? $order_way : 'ASC';
-
-		return Db::getInstance()->executeS('
-			SELECT m.`id_manifest` 				AS `id_manifest`,
-				COUNT(p.`id_parcel`) 			AS `count_parcels`,
-				COUNT(DISTINCT m.`id_package`)	AS `count_orders`,
-				m.`date_add` 					AS `date_add`
-			FROM `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'` m
-			LEFT JOIN `'._DB_PREFIX_._DPDPOLAND_PARCEL_DB_.'` p ON (p.`id_package` = m.`id_package`)
-			GROUP BY `id_manifest`
-			'.$filter.'
-			ORDER BY `'.bqSQL($order_by).'` '.pSQL($order_way).
-			($start !== null && $pagination !== null ? ' LIMIT '.(int)$start.', '.(int)$pagination : '')
-		);
-	}
-
-	public static function validateSenderAddresses($package_ids)
-	{
-		if (!is_array($package_ids))
-			return false;
-
-		$first_package = new DpdPolandPackage((int)$package_ids[0]);
-		$first_package_address = new Address((int)$first_package->id_address_sender);
-
-		$address_keys = array('country', 'company', 'lastname', 'firstname', 'address1', 'postcode', 'city', 'phone');
-		$address = array();
-
-		foreach ($address_keys as $key)
-			if (isset($first_package_address->$key))
-				$address[$key] = $first_package_address->$key;
-			else
-				return false;
-
-		foreach ($package_ids as $package_id)
-		{
-			$package = new DpdPolandPackage((int)$package_id);
-			$sender_address = new Address((int)$package->id_address_sender);
-			$current_package_sender_address = array();
-
-			foreach ($address_keys as $key)
-				if (isset($sender_address->$key))
-					$current_package_sender_address[$key] = $sender_address->$key;
-				else
-					return false;
-
-			$differences = array_diff_assoc($address, $current_package_sender_address);
-
-			if (!empty($differences))
-				return false;
-		}
-
-		return true;
-	}
-
-	public static function getManifestIdByPackageId($id_package)
-	{
-		return DB::getInstance()->getValue('
-			SELECT `id_manifest`
-			FROM `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'`
-			WHERE `id_package` = "'.(int)$id_package.'"
-		');
 	}
 }

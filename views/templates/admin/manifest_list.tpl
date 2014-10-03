@@ -22,7 +22,7 @@
 			nextText: '',
 			dateFormat: 'yy-mm-dd'
 		});
-		
+
 		$('table#manifests_list .filter').keypress(function(event){
 			formSubmit(event, 'submitFilterButtonManifests');
 		})
@@ -77,15 +77,15 @@
                                         {l s='Manifest Number' mod='dpdpoland'}
                                     </span>
                                     <br>
-                                    <a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest&ManifestsOrderWay=desc">
-                                        {if $order_by == 'id_manifest' && $order_way == 'desc'}
+                                    <a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest_ws&ManifestsOrderWay=desc">
+                                        {if $order_by == 'id_manifest_ws' && $order_way == 'desc'}
                                             <img border="0" src="../img/admin/down_d.gif">
                                         {else}
                                             <img border="0" src="../img/admin/down.gif">
                                         {/if}
                                     </a>
-                                    <a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest&ManifestsOrderWay=asc">
-                                        {if $order_by == 'id_manifest' && $order_way == 'asc'}
+                                    <a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest_ws&ManifestsOrderWay=asc">
+                                        {if $order_by == 'id_manifest_ws' && $order_way == 'asc'}
                                             <img border="0" src="../img/admin/up_d.gif">
                                         {else}
                                             <img border="0" src="../img/admin/up.gif">
@@ -161,7 +161,7 @@
                             </tr>
                             <tr style="height: 35px;" class="nodrag nodrop filter row_hover">
 								<td class="center">
-                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_id_manifest') && Context::getContext()->cookie->ManifestsFilter_id_manifest}{Context::getContext()->cookie->ManifestsFilter_id_manifest}{/if}" name="ManifestsFilter_id_manifest" class="filter">
+                                    <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_id_manifest_ws') && Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{/if}" name="ManifestsFilter_id_manifest_ws" class="filter">
                                 </td>
                                 <td class="center">
                                     <input type="text" style="width:95%" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_count_parcels') && Context::getContext()->cookie->ManifestsFilter_count_parcels}{Context::getContext()->cookie->ManifestsFilter_count_parcels}{/if}" name="ManifestsFilter_count_parcels" class="filter">
@@ -182,10 +182,10 @@
                         <tbody>
                             {if isset($table_data) && $table_data}
                                 {section name=ii loop=$table_data}
-                                    <tr class="row_hover" id="tr_{$smarty.section.ii.index|escape:'htmlall':'UTF-8' + 1}_{$table_data[ii].id_manifest|escape:'htmlall':'UTF-8'}_0">
+                                    <tr class="row_hover" id="tr_{$smarty.section.ii.index|escape:'htmlall':'UTF-8' + 1}_{$table_data[ii].id_manifest_ws|escape:'htmlall':'UTF-8'}_0">
                                         <td class="center">
-                                            {if $table_data[ii].id_manifest}
-                                                {$table_data[ii].id_manifest|escape:'htmlall':'UTF-8'}
+                                            {if $table_data[ii].id_manifest_ws}
+                                                {$table_data[ii].id_manifest_ws|escape:'htmlall':'UTF-8'}
                                             {else}
                                                 --
                                             {/if}
@@ -212,7 +212,7 @@
                                             {/if}
                                         </td>
 										<td style="white-space: nowrap;" class="center">
-                                            <a title="{l s='Print manifest' mod='dpdpoland'}" href="{$full_url|escape:'htmlall':'UTF-8'}&printManifest&id_manifest={$table_data[ii].id_manifest|escape:'htmlall':'UTF-8'}">
+                                            <a title="{l s='Print manifest' mod='dpdpoland'}" href="{$full_url|escape:'htmlall':'UTF-8'}&printManifest&id_manifest_ws={$table_data[ii].id_manifest_ws|escape:'htmlall':'UTF-8'}">
                                                 <img alt="{l s='Print manifest' mod='dpdpoland'}" src="../img/admin/pdf.gif">
                                             </a>
                                         </td>

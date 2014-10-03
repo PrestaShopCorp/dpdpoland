@@ -17,18 +17,18 @@
  *}
 <script>
 	var dpdpoland_packages_ids = "{Context::getContext()->cookie->dpdpoland_packages_ids|escape:'htmlall':'UTF-8'}";
-	
+
 	$(document).ready(function(){
 		$("table.Packages .datepicker").datepicker({
 			prevText: '',
 			nextText: '',
 			dateFormat: 'yy-mm-dd'
 		});
-		
+
 		$('table#packages_list .filter').keypress(function(event){
 			formSubmit(event, 'submitFilterButtonPackages');
 		})
-		
+
 		if (dpdpoland_packages_ids)
 		{
 			window.location = window.location + '&printManifest';
@@ -316,9 +316,9 @@
                         <tbody>
                             {if isset($table_data) && $table_data}
                                 {section name=ii loop=$table_data}
-                                    <tr class="row_hover" id="tr_{$smarty.section.ii.index|escape:'htmlall':'UTF-8' + 1}_{$table_data[ii].id_package|escape:'htmlall':'UTF-8'}_0">
+                                    <tr class="row_hover" id="tr_{$smarty.section.ii.index|escape:'htmlall':'UTF-8' + 1}_{$table_data[ii].id_package_ws|escape:'htmlall':'UTF-8'}_0">
                                         <td class="center">
-                                            <input type="checkbox" class="noborder" value="{$table_data[ii].id_package|escape:'htmlall':'UTF-8'}" name="PackagesBox[]"{if isset($smarty.post.PackagesBox) && in_array($table_data[ii].id_package, $smarty.post.PackagesBox)} checked="checked"{/if}>
+                                            <input type="checkbox" class="noborder" value="{$table_data[ii].id_package_ws|escape:'htmlall':'UTF-8'}" name="PackagesBox[]"{if isset($smarty.post.PackagesBox) && in_array($table_data[ii].id_package_ws, $smarty.post.PackagesBox)} checked="checked"{/if}>
                                         </td>
                                         <td class="center">
                                             {if $table_data[ii].date_add && $table_data[ii].date_add != '0000-00-00 00:00:00'}

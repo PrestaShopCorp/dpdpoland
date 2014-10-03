@@ -53,9 +53,9 @@
 				<thead>
 					<tr class="nodrag nodrop">
 						<th class="center">
-							<span class="title_box{if $order_by == 'id_manifest'} active{/if}">{l s='Manifest Number' mod='dpdpoland'}
-								<a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest&ManifestsOrderWay=desc"{if $order_by == 'id_manifest' && $order_way == 'desc'} class="active"{/if}><i class="icon-caret-down"></i></a>
-								<a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest&ManifestsOrderWay=asc"{if $order_by == 'id_manifest' && $order_way == 'asc'} class="active"{/if}><i class="icon-caret-up"></i></a>
+							<span class="title_box{if $order_by == 'id_manifest_ws'} active{/if}">{l s='Manifest Number' mod='dpdpoland'}
+								<a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest_ws&ManifestsOrderWay=desc"{if $order_by == 'id_manifest_ws' && $order_way == 'desc'} class="active"{/if}><i class="icon-caret-down"></i></a>
+								<a href="{$full_url|escape:'htmlall':'UTF-8'}&ManifestsOrderBy=id_manifest_ws&ManifestsOrderWay=asc"{if $order_by == 'id_manifest_ws' && $order_way == 'asc'} class="active"{/if}><i class="icon-caret-up"></i></a>
 							</span>
 						</th>
 						<th class="">
@@ -81,7 +81,7 @@
 
 					<tr class="nodrag nodrop filter row_hover">
 						<th class="center">
-							<input type="text" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_id_manifest') && Context::getContext()->cookie->ManifestsFilter_id_manifest}{Context::getContext()->cookie->ManifestsFilter_id_manifest}{/if}" name="ManifestsFilter_id_manifest" class="filter">
+							<input type="text" value="{if Context::getContext()->cookie->__isset('ManifestsFilter_id_manifest_ws') && Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{Context::getContext()->cookie->ManifestsFilter_id_manifest_ws}{/if}" name="ManifestsFilter_id_manifest_ws" class="filter">
 						</th>
 
 						<th class="center">
@@ -128,10 +128,10 @@
 				<tbody>
 				{if isset($table_data) && $table_data}
 					{section name=ii loop=$table_data}
-					<tr class="odd" id="tr_{$smarty.section.ii.index|escape:'htmlall':'UTF-8' + 1}_{$table_data[ii].id_manifest|escape:'htmlall':'UTF-8'}_0">
+					<tr class="odd" id="tr_{$smarty.section.ii.index|escape:'htmlall':'UTF-8' + 1}_{$table_data[ii].id_manifest_ws|escape:'htmlall':'UTF-8'}_0">
 						<td class="center">
-							{if $table_data[ii].id_manifest}
-								{$table_data[ii].id_manifest|escape:'htmlall':'UTF-8'}
+							{if $table_data[ii].id_manifest_ws}
+								{$table_data[ii].id_manifest_ws|escape:'htmlall':'UTF-8'}
 							{else}
 								--
 							{/if}
@@ -158,7 +158,7 @@
 							{/if}
 						</td>
 						<td style="white-space: nowrap;" class="text-right">
-							<a title="{l s='Print manifest' mod='dpdpoland'}" href="{$full_url|escape:'htmlall':'UTF-8'}&printManifest&id_manifest={$table_data[ii].id_manifest|escape:'htmlall':'UTF-8'}">
+							<a title="{l s='Print manifest' mod='dpdpoland'}" href="{$full_url|escape:'htmlall':'UTF-8'}&printManifest&id_manifest_ws={$table_data[ii].id_manifest_ws|escape:'htmlall':'UTF-8'}">
 								<img alt="{l s='Print manifest' mod='dpdpoland'}" src="../img/admin/pdf.gif">
 							</a>
 						</td>

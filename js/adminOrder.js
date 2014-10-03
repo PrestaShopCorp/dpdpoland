@@ -21,7 +21,7 @@ $(document).ready(function(){
 	if (redirect_and_open)
 	{
 		toggleShipmentCreationDisplay();
-		window.location = dpdpoland_pdf_uri + '?printLabels&id_package=' + redirect_and_open + '&printout_format=' + printout_format + '&token=' + encodeURIComponent(dpdpoland_token) +
+		window.location = dpdpoland_pdf_uri + '?printLabels&id_package_ws=' + redirect_and_open + '&printout_format=' + printout_format + '&token=' + encodeURIComponent(dpdpoland_token) +
 			'&_PS_ADMIN_DIR_=' + encodeURIComponent(_PS_ADMIN_DIR_)+'&returnOnErrorTo=' + encodeURIComponent(window.location.href);
 	}
 
@@ -272,7 +272,7 @@ $(document).ready(function(){
 				}
 				else
 				{
-					id_package = resp.id_package;
+					id_package_ws = resp.id_package_ws;
 					window.location = dpdpoland_pdf_uri + resp.link_to_labels_pdf+'&_PS_ADMIN_DIR_='+encodeURIComponent(_PS_ADMIN_DIR_)+'&returnOnErrorTo='+encodeURIComponent(window.location.href);
 				}
 
@@ -301,7 +301,7 @@ $(document).ready(function(){
                   "&id_lang=" + encodeURIComponent(dpdpoland_id_lang) +
                   "&printLabels=true"+
 				  "&dpdpoland_printout_format="+encodeURIComponent($('input[name="dpdpoland_printout_format"]:checked').val()) +
-				  "&id_package="+encodeURIComponent(id_package) +
+				  "&id_package_ws="+encodeURIComponent(id_package_ws) +
 				  "&_PS_ADMIN_DIR_="+encodeURIComponent(_PS_ADMIN_DIR_),
             success: function(resp)
             {

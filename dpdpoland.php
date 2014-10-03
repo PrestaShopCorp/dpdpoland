@@ -41,6 +41,8 @@ require_once(_DPDPOLAND_CONTROLLERS_DIR_.'messages.controller.php');
 require_once(_DPDPOLAND_CONTROLLERS_DIR_.'configuration.controller.php');
 
 require_once(_DPDPOLAND_CLASSES_DIR_.'ObjectModel.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'Manifest.php');
+require_once(_DPDPOLAND_CLASSES_DIR_.'Parcel.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'CSV.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Configuration.php');
 require_once(_DPDPOLAND_CLASSES_DIR_.'Parcel.php');
@@ -143,34 +145,38 @@ class DpdPoland extends CarrierModule
 		if (!Db::getInstance()->execute($sql)) return false;
 
 		$sql = '
-			CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'` (
-				`id_manifest` int(11) NOT NULL,
-				`id_package` int(11) NOT NULL,
-				`date_add` datetime NOT NULL,
-				`date_upd` datetime NOT NULL,
-				PRIMARY KEY (`id_package`)
+			CREATE TABLE `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'` (
+			  `id_manifest` int(11) NOT NULL,
+			  `id_manifest_ws` int(11) NOT NULL,
+			  `id_package_ws` int(11) NOT NULL,
+			  `date_add` datetime NOT NULL,
+			  `date_upd` datetime NOT NULL,
+			  PRIMARY KEY (`id_manifest`),
+			  UNIQUE KEY `id_manifest_ws` (`id_manifest_ws`,`id_package_ws`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8';
 
 		if (!Db::getInstance()->execute($sql)) return false;
 
 		$sql = '
-			CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_._DPDPOLAND_PACKAGE_DB_.'` (
-				`id_package` int(11) NOT NULL,
-				`id_order` int(10) NOT NULL,
-				`sessionId` int(11) NOT NULL,
-				`sessionType` varchar(50) NOT NULL,
-				`payerNumber` varchar(255) NOT NULL,
-				`id_address_sender` int(10) NOT NULL,
-				`id_address_delivery` int(10) NOT NULL,
-				`cod_amount` decimal(17,2) DEFAULT NULL,
-				`declaredValue_amount` decimal(17,2) DEFAULT NULL,
-				`ref1` varchar(255) DEFAULT NULL,
-				`ref2` varchar(255) DEFAULT NULL,
-				`additional_info` text,
-				`labels_printed` tinyint(1) NOT NULL DEFAULT "0",
-				`date_add` datetime NOT NULL,
-				`date_upd` datetime NOT NULL,
-				PRIMARY KEY (`id_package`)
+			CREATE TABLE `'._DB_PREFIX_._DPDPOLAND_PACKAGE_DB_.'` (
+			  `id_package` int(11) NOT NULL AUTO_INCREMENT,
+			  `id_package_ws` int(11) NOT NULL,
+			  `id_order` int(10) NOT NULL,
+			  `sessionId` int(11) NOT NULL,
+			  `sessionType` varchar(50) NOT NULL,
+			  `payerNumber` varchar(255) NOT NULL,
+			  `id_address_sender` int(10) NOT NULL,
+			  `id_address_delivery` int(10) NOT NULL,
+			  `cod_amount` decimal(17,2) DEFAULT NULL,
+			  `declaredValue_amount` decimal(17,2) DEFAULT NULL,
+			  `ref1` varchar(255) DEFAULT NULL,
+			  `ref2` varchar(255) DEFAULT NULL,
+			  `additional_info` text,
+			  `labels_printed` tinyint(1) NOT NULL DEFAULT "0",
+			  `date_add` datetime NOT NULL,
+			  `date_upd` datetime NOT NULL,
+			  PRIMARY KEY (`id_package`),
+			  UNIQUE KEY `id_package_ws` (`id_package_ws`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8';
 
 		if (!Db::getInstance()->execute($sql)) return false;
@@ -178,7 +184,7 @@ class DpdPoland extends CarrierModule
 		$sql = '
 			CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_._DPDPOLAND_PARCEL_DB_.'` (
 				`id_parcel` int(11) NOT NULL,
-				`id_package` int(11) NOT NULL,
+				`id_package_ws` int(11) NOT NULL,
 				`waybill` varchar(50) NOT NULL,
 				`content` text NOT NULL,
 				`weight` decimal(20,6) NOT NULL,
@@ -619,10 +625,10 @@ class DpdPoland extends CarrierModule
 
 		if (!$result = $package->create())
 		{
-			self::$errors = DpdPolandPackage::$errors;
+			self::$errors = DpdPolandPackageWS::$errors;
 			return false;
 		}
-		elseif (!$this->saveParcelsIntoPackage($package->id_package,
+		elseif (!$this->saveParcelsIntoPackage($package->id_package_ws,
 			Tools::getValue('parcels'), $result['Parcels'], Tools::getValue('dpdpoland_products')))
 			return false;
 
@@ -631,7 +637,7 @@ class DpdPoland extends CarrierModule
 		if (!$this->addTrackingNumber($id_current_order, $waybill))
 			return false;
 
-		return $package->id_package;
+		return $package->id_package_ws;
 	}
 
 	private function getMethodBySessionType($session_type)
@@ -757,12 +763,12 @@ class DpdPoland extends CarrierModule
 	}
 
 	/*
-	* $id_package - what package will parcels be saved to
+	* $id_package_ws - what package will parcels be saved to
 	* $parcels - parcels data from POST
 	* $parcels_ws - parcels data from webservices
 	* $parcelProducts - parcels content
 	**/
-	private function saveParcelsIntoPackage($id_package, $parcels, $parcels_ws, $parcelProducts)
+	private function saveParcelsIntoPackage($id_package_ws, $parcels, $parcels_ws, $parcelProducts)
 	{
 		$parcels_ws = $parcels_ws['Parcel'];
 		$parcels_ws = isset($parcels_ws[0]) ? $parcels_ws : array($parcels_ws); // array must be multidimentional
@@ -782,7 +788,7 @@ class DpdPoland extends CarrierModule
 			{
 				$parcel = new DpdPolandParcel;
 				$parcel->id_parcel = (int)$parcel_data['ParcelId'];
-				$parcel->id_package = (int)$id_package;
+				$parcel->id_package_ws = (int)$id_package_ws;
 				$parcel->waybill = $parcel_data['Waybill'];
 				$parcel->content = $parcels[$parcel_number]['content'];
 				$parcel->weight = (float)$parcels[$parcel_number]['weight'];
@@ -1404,7 +1410,7 @@ class DpdPoland extends CarrierModule
 			$this->displayFlashMessagesIfIsset(); // PDF error might be set as flash error
 			$order = new Order((int)$params['id_order']);
 			$package = DpdPolandPackage::getInstanceByIdOrder((int)$order->id);
-			$parcels = DpdPolandParcel::getParcels($order, $package->id_package);
+			$parcels = DpdPolandParcel::getParcels($order, $package->id_package_ws);
 			$products = DpdPolandParcelProduct::getShippedProducts($order, DpdPolandParcelProduct::getProductDetailsByParcels($parcels));
 
 			$customer = new Customer((int)$order->id_customer);
