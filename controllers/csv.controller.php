@@ -121,7 +121,7 @@ class DpdPolandCSVController extends DpdPolandController
 		exit;
 	}
 
-	private function validateCSVData($csv_data)
+	public function validateCSVData($csv_data)
 	{
 		$errors = array();
 
@@ -401,7 +401,7 @@ $errors[] = $this->l('COD cost (PLN): COD is available only in Poland. Leave emp
 		return true;
 	}
 
-	private function readCSVData()
+	public function readCSVData()
 	{
 		if (!$this->isUploadedCsvValid(DpdPolandCSV::CSV_FILE))
 			return false;
@@ -430,7 +430,7 @@ $errors[] = $this->l('COD cost (PLN): COD is available only in Poland. Leave emp
 		return $csv_data;
 	}
 
-	private function saveCSVData($csv_data)
+	public function saveCSVData($csv_data)
 	{
 		if (!DpdPolandCSV::deleteAllData())
 			return false;
