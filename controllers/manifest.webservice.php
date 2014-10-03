@@ -25,12 +25,14 @@ class DpdPolandManifestWS extends DpdPolandWS
 {
 	public function generate(DpdPolandManifest $manifest, $output_doc_format, $output_doc_page_format, $policy)
 	{
+		$package = $manifest->getPackageInstance();
 		$packages = $manifest->getPackages();
 		$package_number = null;
 
 		foreach ($packages as $id_package_ws)
 		{
 			$current_package = new DpdPolandPackage((int)$id_package_ws);
+
 			if ($package_number === null)
 				$package_number = $current_package->payerNumber;
 			elseif ($package_number !== $current_package->payerNumber)
@@ -61,7 +63,7 @@ class DpdPolandManifestWS extends DpdPolandWS
 			if (!$manifest->id_manifest_ws)
 				$manifest->id_manifest_ws = (int)$result['documentId'];
 
-			if (!$manifest->save())
+			if (!$manifest->getPackageIdWsByManifestIdWs($manifest->id_manifest_ws) && !$manifest->save())
 				return false;
 
 			return $result['documentData'];
@@ -78,9 +80,11 @@ class DpdPolandManifestWS extends DpdPolandWS
 		foreach ($package_ids as $id_package_ws)
 		{
 			$package = new DpdPolandPackage((int)$id_package_ws);
+
 			if (!$session_type || $session_type == $package->getSessionType())
 			{
 				$session_type = $package->getSessionType();
+
 				if ($package_number === null)
 					$package_number = $package->payerNumber;
 				elseif ($package_number !== $package->payerNumber)

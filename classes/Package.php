@@ -216,4 +216,12 @@ class DpdPolandPackage extends DpdPolandObjectModel
 
 		return $this->webservice->generateLabelsForMultiplePackages($package_ids, $outputDocFormat, $outputDocPageFormat, $policy);
 	}
+
+	public function getSenderAddress($package_number)
+	{
+		if (!$this->webservice)
+			$this->webservice = new DpdPolandPackageWS;
+
+		return $this->webservice->getSenderAddress($package_number);
+	}
 }

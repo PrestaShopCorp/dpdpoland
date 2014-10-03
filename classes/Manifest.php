@@ -49,7 +49,7 @@ class DpdPolandManifest extends DpdPolandObjectModel
 		)
 	);
 
-	private function getPackages()
+	public function getPackages()
 	{
 		$packages_ids = array();
 
@@ -123,11 +123,28 @@ class DpdPolandManifest extends DpdPolandObjectModel
 
 	public static function getManifestIdByPackageId($id_package_ws)
 	{
-		return DB::getInstance()->getValue('
+		return Db::getInstance()->getValue('
 			SELECT `id_manifest_ws`
 			FROM `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'`
 			WHERE `id_package_ws` = "'.(int)$id_package_ws.'"
 		');
+	}
+
+	public function getPackageIdWsByManifestIdWs($id_manifest_ws)
+	{
+		return Db::getInstance()->getValue('
+			SELECT `id_package_ws`
+			FROM `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'`
+			WHERE `id_manifest_ws` = "'.(int)$id_manifest_ws.'"
+		');
+	}
+
+	public function getPackageInstance()
+	{
+		if (!$this->id_package_ws)
+			$this->id_package_ws = $this->getPackageIdWsByManifestIdWs($this->id_manifest_ws);
+
+		return new DpdPolandPackage($this->id_package_ws);
 	}
 
 	public function generate($output_doc_format = 'PDF', $output_doc_page_format = 'LBL_PRINTER', $policy = 'STOP_ON_FIRST_ERROR')

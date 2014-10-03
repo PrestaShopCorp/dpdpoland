@@ -146,7 +146,7 @@ class DpdPoland extends CarrierModule
 
 		$sql = '
 			CREATE TABLE `'._DB_PREFIX_._DPDPOLAND_MANIFEST_DB_.'` (
-			  `id_manifest` int(11) NOT NULL,
+			  `id_manifest` int(11) NOT NULL AUTO_INCREMENT,
 			  `id_manifest_ws` int(11) NOT NULL,
 			  `id_package_ws` int(11) NOT NULL,
 			  `date_add` datetime NOT NULL,
