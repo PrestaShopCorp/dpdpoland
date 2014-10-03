@@ -55,7 +55,7 @@ class DpdPolandPackage extends DpdPolandObjectModel
 
 	public $date_upd;
 
-	private $webservice; // package webservices instance
+	private $webservice; /* package webservices instance */
 
 	public static $definition = array(
 		'table' => _DPDPOLAND_PACKAGE_DB_,

@@ -23,9 +23,9 @@ if (!defined('_PS_VERSION_'))
 
 class DpdPolandManifest extends DpdPolandObjectModel
 {
-	public $id_manifest; // incremental ID for ObjectModel
+	public $id_manifest; /* incremental ID for ObjectModel */
 
-	public $id_manifest_ws; // manifest ID retrieved via webservices
+	public $id_manifest_ws; /* manifest ID retrieved via webservices */
 
 	public $id_package_ws;
 
@@ -33,7 +33,7 @@ class DpdPolandManifest extends DpdPolandObjectModel
 
 	public $date_upd;
 
-	private $webservice; // manifest webservices instance
+	private $webservice; /* manifest webservices instance */
 
 	public static $definition = array(
 		'table' => _DPDPOLAND_MANIFEST_DB_,
