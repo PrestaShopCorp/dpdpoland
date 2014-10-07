@@ -26,13 +26,15 @@
             <i class="icon-cogs"></i>
             {l s='About' mod='dpdpoland'}
         </div>
-        <p>{l s='As leading provider of standard and express shipping services in Poland, DPD does not only operate a highly efficient transport network with over 500 depots in more than 40 countries, DPD also develops individual solutions so that you have quick access to all the world\'s major business regions.' mod='dpdpoland'}</p>
-		<p>{l s='DPD offers the right solutions for every possible shipping requirement.' mod='dpdpoland'} </p>
+        <p>{l s='As leading provider of standard and express shipping services in Poland, DPD does not only operate a highly efficient transport network with over 500 depots in more than 40 countries, DPD also develops individual solutions so that you have quick access to all the world\'s major business regions.' mod='dpdpoland'}</p>
+		<p>{l s='DPD offers the right solutions for every possible shipping requirement.' mod='dpdpoland'}</p>
 		<ul>
-			<li>{l s='From the domestic standard parcel, all the way to time-definite delivery the following day, DPD will bring your shipment quickly and reliably to your customer.' mod='dpdpoland'}</li>
-			<li>{l s='International delivery? Trust the DPD international service. You can reach many countries around the world quickly and reliably!' mod='dpdpoland'}</li>
-			<li>{l s='Maybe C.O.D.? In our domestic service you can use our cash-on-delivery option. We will only deliver your parcel in return for immediate payment. We collect the payment before handing over the parcel, and send it securely to you on the receiver’s behalf.' mod='dpdpoland'}</li>
+			<li><b>{l s='From the domestic standard parcel,' mod='dpdpoland'}</b>&nbsp;{l s='all the way to time-definite delivery the following day, DPD will bring your shipment quickly and reliably to your customer.' mod='dpdpoland'}</li>
+			<li><b>{l s='International delivery?' mod='dpdpoland'}</b>&nbsp;{l s='Trust the DPD international service. You can reach many countries around the world quickly and reliably!' mod='dpdpoland'}</li>
+			<li><b>{l s='Maybe C.O.D.?' mod='dpdpoland'}</b>&nbsp;{l s='In our domestic service you can use our cash-on-delivery option. We will only deliver your parcel in return for immediate payment. We collect the payment before handing over the parcel, and send it securely to you on the receiver’s behalf.' mod='dpdpoland'}</li>
 		</ul>
+		<p><a href="{$smarty.const._DPDPOLAND_PRICES_ZIP_URL_|escape:'htmlall':'UTF-8'}">{l s='Check out our prices!' mod='dpdpoland'}</a></p>
+		<p>{l s='To send your parcels via DPD, firstly please' mod='dpdpoland'} <a href="mailto: prestashop@dpd.com.pl">{l s='contact' mod='dpdpoland'}</a> {l s='and then configure your module.' mod='dpdpoland'}</p>
     </div>
     <div id="credentials" class="panel">
         <div class="panel-heading">
