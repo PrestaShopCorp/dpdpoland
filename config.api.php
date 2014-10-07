@@ -124,6 +124,9 @@ if (!defined('_DPDPOLAND_TRACKING_URL_'))
 	define('_DPDPOLAND_TRACKING_URL_',
 		'http://www.dpd.com.pl/tracking.asp?p1=@&przycisk.x=14&przycisk.y=6&przycisk=Wyszukaj&przycisk=Wyszukaj&ID_kat=3&ID=33&Mark=18');
 
+if (!defined('_DPDPOLAND_PRICES_ZIP_URL_'))
+	define('_DPDPOLAND_PRICES_ZIP_URL_', 'http://www.dpd.com.pl/EN/download/Cennik_uslug_krajowych_DPD_Polska_01_07_2013.zip');
+
 if (!defined('_DPDPOLAND_REFERENCE3_'))
 	define('_DPDPOLAND_REFERENCE3_', 'PSMODUL#');
 
