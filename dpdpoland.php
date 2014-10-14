@@ -311,6 +311,8 @@ class DpdPoland extends CarrierModule
 
 	public function getContent()
 	{
+		$this->html .= $this->getContentHeader();
+
 		if (!$this->soapClientExists())
 			return $this->adminDisplayWarning($this->l('SoapClient class is missing'));
 
@@ -609,6 +611,16 @@ class DpdPoland extends CarrierModule
 		}
 
 		return $this->html;
+	}
+
+	private function getContentHeader()
+	{
+		$this->context->smarty->assign(array(
+			'module_display_name' => $this->displayName,
+			'ps_16' => version_compare(_PS_VERSION_, '1.6', '>=')
+		));
+
+		return $this->context->smarty->fetch(_DPDPOLAND_TPL_DIR_.'admin/content_header.tpl');
 	}
 
 	private function displayDebugInfo()
