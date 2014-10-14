@@ -337,7 +337,13 @@ class DpdPoland extends CarrierModule
 		$country_currency_error_message_text = $this->l('PL country and PLN currency must be installed; CURL must be enabled');
 		$configuration_error_message_text = $this->l('Module is not configured yet. Please check required settings');
 
-		switch (Tools::getValue('menu'))
+		$current_page = Tools::getValue('menu');
+		$required_configuration = DpdPolandConfiguration::checkRequiredConfiguration();
+
+		if (!$current_page && !$required_configuration)
+			$current_page = 'configuration';
+
+		switch ($current_page)
 		{
 			case 'arrange_pickup':
 				$this->addDateTimePickerPlugins();
@@ -377,7 +383,7 @@ class DpdPoland extends CarrierModule
 				if (!$this->checkModuleAvailability())
 					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
-				if (!DpdPolandConfiguration::checkRequiredConfiguration())
+				if (!$required_configuration)
 					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				$this->html .= $controller->getPage();
@@ -404,7 +410,7 @@ class DpdPoland extends CarrierModule
 				if (!$this->checkModuleAvailability())
 					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
-				if (!DpdPolandConfiguration::checkRequiredConfiguration())
+				if (!$required_configuration)
 					$this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<'))
@@ -449,7 +455,7 @@ class DpdPoland extends CarrierModule
 				if (!$this->checkModuleAvailability())
 					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
-				if (!DpdPolandConfiguration::checkRequiredConfiguration())
+				if (!$required_configuration)
 					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
@@ -473,7 +479,7 @@ class DpdPoland extends CarrierModule
 				if (!$this->checkModuleAvailability())
 					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
-				if (!DpdPolandConfiguration::checkRequiredConfiguration())
+				if (!$required_configuration)
 					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
@@ -502,7 +508,7 @@ class DpdPoland extends CarrierModule
 				if (!$this->checkModuleAvailability())
 					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
-				if (!DpdPolandConfiguration::checkRequiredConfiguration())
+				if (!$required_configuration)
 					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
@@ -524,7 +530,7 @@ class DpdPoland extends CarrierModule
 				if (!$this->checkModuleAvailability())
 					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
-				if (!DpdPolandConfiguration::checkRequiredConfiguration())
+				if (!$required_configuration)
 					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
@@ -575,7 +581,7 @@ class DpdPoland extends CarrierModule
 				if (!$this->checkModuleAvailability())
 					return $this->html .= $this->displayErrors(array($country_currency_error_message_text));
 
-				if (!DpdPolandConfiguration::checkRequiredConfiguration())
+				if (!$required_configuration)
 					return $this->html .= $this->displayErrors(array($configuration_error_message_text));
 
 				if (!version_compare(_PS_VERSION_, '1.5', '<') && Shop::getContext() != Shop::CONTEXT_SHOP)
@@ -1064,7 +1070,16 @@ class DpdPoland extends CarrierModule
 			),
 		);
 
-		$current_page = Tools::getValue('menu', 'packages_list');
+		$current_page = Tools::getValue('menu');
+		$required_configuration = DpdPolandConfiguration::checkRequiredConfiguration();
+
+		if (!$current_page)
+		{
+			if (!$required_configuration)
+				$current_page = 'configuration';
+			else
+				$current_page = 'packages_list';
+		}
 
 		if (in_array($current_page, array(
 			'arrange_pickup',
