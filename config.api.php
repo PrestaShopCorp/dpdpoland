@@ -130,6 +130,9 @@ if (!defined('_DPDPOLAND_PRICES_ZIP_URL_'))
 if (!defined('_DPDPOLAND_CONTENT_HEADER_URL_'))
 	define('_DPDPOLAND_CONTENT_HEADER_URL_', 'http://www.dpd.com.pl');
 
+if (!defined('_DPDPOLAND_SUPPORT_URL_'))
+	define('_DPDPOLAND_SUPPORT_URL_', 'https://addons.prestashop.com/en/write-to-developper?id_product=17924');
+
 if (!defined('_DPDPOLAND_REFERENCE3_'))
 	define('_DPDPOLAND_REFERENCE3_', 'PSMODUL#');
 
