@@ -64,7 +64,7 @@ if (!defined('_DPDPOLAND_IMG_DIR_'))
 /*  */
 
 if (!defined('_DPDPOLAND_DEBUG_MODE_'))
-	define('_DPDPOLAND_DEBUG_MODE_', true);
+	define('_DPDPOLAND_DEBUG_MODE_', false);
 
 if (!defined('_DPDPOLAND_PRICE_RULE_DB_'))
 	define('_DPDPOLAND_PRICE_RULE_DB_', 'dpdpoland_price_rule');
