@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>dpdpoland</name>
+	<displayName><![CDATA[DPD Polska Sp. z o.o.]]></displayName>
+	<version><![CDATA[0.8]]></version>
+	<description><![CDATA[DPD Polska Sp. z o.o. shipping module]]></description>
+	<author><![CDATA[DPD Polska Sp. z o.o.]]></author>
+	<tab><![CDATA[shipping_logistics]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>
