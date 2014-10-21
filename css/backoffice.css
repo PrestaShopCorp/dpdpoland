@@ -233,3 +233,15 @@ td.no-border
 	list-style-type: disc;
 	padding-left: 40px;
 }
+
+#content_header img
+{
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 8px;
+}
+
+#content_header p.description
+{
+	float: left;
+}

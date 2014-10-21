@@ -24,4 +24,6 @@
 	<br /><br />
 	<img src="{$smarty.const._DPDPOLAND_IMG_URI_|escape:'htmlall':'UTF-8'}pdf.gif" />
 	<a href="{$module_link|escape:'htmlall':'UTF-8'}&menu=help&print_pdf&polish">{l s='User guide in Polish' mod='dpdpoland'}</a>
+	<br /><br />
+	<a target="_blank" href="{$smarty.const._DPDPOLAND_SUPPORT_URL_|escape:'htmlall':'UTF-8'}">{l s='If you have any questions, please contact our support team.' mod='dpdpoland'}</a>
 </div>
