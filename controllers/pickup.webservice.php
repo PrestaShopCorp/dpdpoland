@@ -102,6 +102,7 @@ class DpdPolandPickup extends DpdPolandWS
 		if (isset($result['orderNumber']))
 		{
 			$this->id_pickup = (int)$result['orderNumber'];
+			Configuration::updateValue('DPDPOLAND_CONFIGURATION_OK', true);
 			return true;
 		}
 		self::$errors[] = $this->l('Order number is undefined');
