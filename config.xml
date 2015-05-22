@@ -2,7 +2,7 @@
 <module>
 	<name>dpdpoland</name>
 	<displayName><![CDATA[DPD Polska Sp. z o.o.]]></displayName>
-	<version><![CDATA[0.8.2]]></version>
+	<version><![CDATA[0.8.3]]></version>
 	<description><![CDATA[DPD Polska Sp. z o.o. shipping module]]></description>
 	<author><![CDATA[DPD Polska Sp. z o.o.]]></author>
 	<tab><![CDATA[shipping_logistics]]></tab>
