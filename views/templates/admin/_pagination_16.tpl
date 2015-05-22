@@ -33,7 +33,7 @@
 				{/foreach}
 			</ul>
 			/ {$list_total|intval} {l s='result(s)' mod='dpdpoland'}
-			<input type="hidden" value="{$selected_pagination|intval}" name="country_pagination" id="pagination-items-page">
+			<input type="hidden" value="{$selected_pagination|intval}" name="pagination" id="pagination-items-page">
 		</span>
 		<script type="text/javascript">
 			$('.pagination-items-page').on('click',function(e){
