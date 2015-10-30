@@ -71,7 +71,7 @@ class DpdPoland extends CarrierModule
 	{
 		$this->name = 'dpdpoland';
 		$this->tab = 'shipping_logistics';
-		$this->version = '0.8.3';
+		$this->version = '0.8.4';
 		$this->author = 'DPD Polska Sp. z o.o.';
 
 		parent::__construct();
