@@ -699,6 +699,15 @@ class DpdPoland extends CarrierModule
 		}
 
 		$address_delivery = new Address((int)Tools::getValue('dpdpoland_id_address_delivery'));
+		$address_validation_errors = $address_delivery->validateFields(false, true);
+
+		if ($address_validation_errors !== true)
+		{
+			self::$errors[] = $this->l('Client address is not valid:').' '.$address_validation_errors.'. '.
+				$this->l('Please update your client address with required fields.');
+			return false;
+		}
+
 		$address_delivery->id = 0;
 		$address_delivery->deleted = 1;
 
@@ -724,10 +733,21 @@ class DpdPoland extends CarrierModule
 		$address_sender->phone = $configuration->phone;
 		$address_sender->alias = $this->l('Sender address');
 		$address_sender->deleted = 1;
+		$address_sender->vat_number = $address_delivery->vat_number;
+		$address_sender->phone_mobile = $address_delivery->phone_mobile;
+		$address_sender->dni = $address_delivery->dni;
+
+		$address_validation_errors = $address_sender->validateFields(false, true);
+
+		if ($address_validation_errors !== true)
+		{
+			self::$errors[] = $this->l('Sender address is not valid').' '.$address_validation_errors;
+			return false;
+		}
 
 		if (!$address_sender->save())
 		{
-			self::$errors[] = $this->l('Could not save sender address');
+			self::$errors[] = $this->l('Could savesave sender address');
 			return false;
 		}
 
