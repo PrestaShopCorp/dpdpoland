@@ -60,7 +60,7 @@ class DpdPolandPackageWS extends DpdPolandWS
 					$errors = $this->getErrorsByKey($value, $error_key, $errors);
 				elseif ($key == $error_key)
 					$errors[] = $value;
-		
+
 		return $errors;
 	}
 
@@ -83,6 +83,8 @@ class DpdPolandPackageWS extends DpdPolandWS
 			{
 				if (isset($result['Packages']['InvalidFields']))
 					$errors = $result['Packages']['InvalidFields'];
+				elseif (isset($result['Packages']['Package']['ValidationDetails']))
+					$errors = $result['Packages']['Package']['ValidationDetails'];
 				elseif (isset($result['faultcode']) && isset($result['faultstring']))
 					$errors = $result['faultcode'].' : '.$result['faultstring'];
 				else
@@ -92,7 +94,7 @@ class DpdPolandPackageWS extends DpdPolandWS
 					if ($error_ids = $this->getErrorsByKey($result, 'ErrorId'))
 					{
 						$language = new DpdPolandLanguage();
-						
+
 						foreach ($error_ids as $id_error)
 							$errors[] = $language->getTranslation($id_error);
 					}
@@ -113,7 +115,12 @@ class DpdPolandPackageWS extends DpdPolandWS
 					$errors = (array_values($errors) === $errors) ? $errors : array($errors); // array must be multidimentional
 
 					foreach ($errors as $error)
-						self::$errors[] = $error['info'];
+					{
+						if (isset($error['ValidationInfo']['Info']))
+							self::$errors[] = $error['ValidationInfo']['Info'];
+						elseif (isset($error['info']))
+							self::$errors[] = $error['info'];
+					}
 				}
 				else
 					self::$errors[] = $errors;
