@@ -71,7 +71,7 @@ class DpdPoland extends CarrierModule
 	{
 		$this->name = 'dpdpoland';
 		$this->tab = 'shipping_logistics';
-		$this->version = '0.8.4';
+		$this->version = '0.8.5';
 		$this->author = 'DPD Polska Sp. z o.o.';
 
 		parent::__construct();
@@ -108,8 +108,8 @@ class DpdPoland extends CarrierModule
 				`date_add` datetime DEFAULT NULL,
 				`date_upd` datetime DEFAULT NULL,
 				`iso_country` varchar(255) NOT NULL,
-				`weight_from` varchar(255) NOT NULL,
-				`weight_to` varchar(255) NOT NULL,
+				`weight_from` float NOT NULL,
+				`weight_to` float NOT NULL,
 				`parcel_price` float NOT NULL,
 				`cod_price` varchar(255) NOT NULL,
 				`id_carrier` varchar(11) NOT NULL,
